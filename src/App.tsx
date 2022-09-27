@@ -1,20 +1,29 @@
 import React from 'react';
 import './assets/css/dstore-style.css';
 import IneoPageHeader from "./pageElements/ineoPageHeader";
-import DsStoryBlockRoll from "./pageElements/dsStoryBlockRoll";
-import DsEditor from "./pageElements/dsEditor";
+import DsStory from "./pageElements/dsStory";
+//import DsEditor from "./pageElements/dsEditor";
+
+
+
+
+
+
 
 
 function App() {
+
+
+
+
   return (
       <div>
       <IneoPageHeader />
-      <DsStoryBlockRoll />
-
-      <DsEditor />
-
+      <DsStory />
       </div>
   );
 }
 
 export default App;
+
+//<DsEditor />
