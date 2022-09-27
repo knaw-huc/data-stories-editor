@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 
-function StoryBlock() {
+
+// interface props {
+//   //typeOfData: string;
+//   content: string;
+// }
+
+function StoryBlock( {children, contentType}: {children: ReactNode, contentType: string} ): ReactElement {
     return (
 
       <div className="dsBlock dsBlock__layout dsBlock__margin   ">
@@ -15,14 +21,15 @@ function StoryBlock() {
             </button>
           </div>
           <div className="dsBlock__content dsBlock__right">
-
-          <h1>The 1918-19 flu epidemic in The Netherlands</h1>
-          <p>By <em>Thomas de Groot</em> and <em>Wouter Beek</em> <br/>
-          <small><a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a></small></p>
+          {children}
         </div>
       </div>
 
     )
 }
+
+
+
+
 
 export default StoryBlock;
