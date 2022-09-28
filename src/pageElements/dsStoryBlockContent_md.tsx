@@ -31,3 +31,4 @@ function StoryBlockMD( {contentHead,contentBody }: {contentHead: string, content
 
 
 export default StoryBlockMD;
+//<ReactMarkdown>{contentBody}</ReactMarkdown>

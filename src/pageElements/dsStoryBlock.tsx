@@ -1,5 +1,6 @@
 import React, { ReactElement} from 'react';
 import StoryBlockMD from "./dsStoryBlockContent_md";
+import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 
@@ -14,13 +15,16 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
   let h2Title = '';
   let contentTxt= '';
 
-  const ifText = contentType == 'text';
+  const ifHeader = contentType === 'header';
+  const ifText = contentType === 'text';
 
   if (ifText) {
+
     const metadataBlock = contentFromXml.getElementsByTagName('ds:Metadata')[0];
     if(metadataBlock !== undefined) {
-      h2Title = metadataBlock.getElementsByTagName('dct:title')[0].innerHTML;
-      contentFromXml.getElementsByTagName('ds:Metadata')[0].remove();
+      h2Title = metadataBlock.getElementsByTagName('dct:title')[0].textContent;
+      metadataBlock.getElementsByTagName('dct:title')[0].textContent = '';
+
     }
 
     // remove ds:Cues
@@ -29,12 +33,12 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
     }
 
 
-    const contentBlock = contentFromXml.innerHTML;
+    const contentBlock = contentFromXml.textContent;
     if(contentBlock !== undefined) {
-      contentTxt = contentBlock.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'').trim();
+      contentTxt = contentBlock.replace(/(\<!--.*?\-->)/g,'').trim();
 
     }
-    console.log('***',contentTxt);
+    //console.log('***',contentTxt);
   }
 
 
@@ -53,10 +57,16 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
           <div className="dsBlock__content dsBlock__right">
 
 
+          {ifHeader ? (
+            <StoryBlockHeader contentBody={contentFromXml} />
+          ) : (
+            <div></div>
+          ) }
+
           {ifText ? (
             <StoryBlockMD contentHead={h2Title} contentBody={contentTxt} />
           ) : (
-            <div><em>... in progress {contentType}</em></div>
+            <div><em>*{contentType}*</em></div>
           ) }
 
 
