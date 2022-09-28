@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from "react";
 import DsStoryBlock from "./dsStoryBlock";
+import DsEditor from "./dsEditor";
 
 import axios from 'axios';
 const DOMParse = new DOMParser();
@@ -39,6 +40,7 @@ function Story() {
 
 
     return (
+      <>
 
         <div className="dataStoryBlocks">
 
@@ -66,6 +68,9 @@ function Story() {
           (<div className="">Loading...</div>)
          }
         </div>
+        
+        <DsEditor />
+        </>
 
 
 

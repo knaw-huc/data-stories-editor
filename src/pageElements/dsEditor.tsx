@@ -1,16 +1,26 @@
 import React from 'react';
+import {useState} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
 function DsEditor() {
+  const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
+
+ const changeStyle = () => {
+   console.log("you just clicked");
+
+   setStyle("panel_edit fixedBottom editorUp");
+ };
+
+
     return (
 
-      <div className="panel_edit fixedBottom" id="panel_edit">
+      <div className={style} id="panel_edit">
 
         <div className="edit_header">
           <div className="panel_edit_wrap panel_edit__split">
             <div><strong>Edit markdown block</strong></div>
-            <button type="button" name="button" id="panelHandleButton"  className="bt_icon">
+            <button type="button" onClick={changeStyle} className="bt_icon">
                 <img src={icon_arrowDown} alt="" />
             </button>
           </div>
