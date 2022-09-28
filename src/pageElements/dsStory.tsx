@@ -10,14 +10,7 @@ function Story() {
   console.log('story');
 
   const [storyBlocksData, setStoryBlocksData] = useState(Object);
-  // const [storyTitle, setStoryTitle] = useState(String);
-  // const [storyAuthors, setStoryAuthors] = useState([]);
-  // const [storyCopyright, setCopyright] = useState(String);
   const [loading, setLoading] = useState(true);
-  //let allBlocksHTML = [];
-
-
-
 
 
   axios
@@ -26,24 +19,11 @@ function Story() {
     )
     .then(response => {
       const xmlDoc = DOMParse.parseFromString(response.data, 'text/xml');
-
-
-      //const storyTitle = '<h1>'+xmlDoc.getElementsByTagName('dct:title')[0].innerHTML+'</h1>';
-
-
       const allBlocksHTML = xmlDoc.getElementsByTagName('ds:Block');
       const allBlocks = [].slice.call(allBlocksHTML);
 
-
       setStoryBlocksData(allBlocks);
-      //setStoryTitle(storyTitle);
-      //setStoryAuthors();
-      //setCopyright();
       setLoading(false);
-
-
-
-
 
     })
     .catch(err => console.log(err));
@@ -52,9 +32,6 @@ function Story() {
     return (
 
         <div className="dataStoryBlocks">
-
-
-
 
         {!loading ? (
           storyBlocksData.map((item, index) => {

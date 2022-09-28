@@ -3,20 +3,39 @@ import StoryBlockMD from "./dsStoryBlockContent_md";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 
+
+
 //const DOMParse = new DOMParser();
 
 
 
-function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {contentType: string, contentMime: string, contentFromXml: string, blockId: string} ): ReactElement {
+function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {contentType: string, contentMime: string, contentFromXml: HTMLElement, blockId: string} ): ReactElement {
 
-  // const xmlBlock = DOMParse.parseFromString(contentFromXml, 'text/xml');
-  // console.log(xmlBlock);
+  let h2Title = '';
+  let contentTxt= '';
+
   const ifText = contentType == 'text';
-  //const header = contentFromXml.getElementsByTagName('ds:Metadata') //.getElementsByTagName('dct:title').innerHTML;
-  console.log(contentFromXml);
+
+  if (ifText) {
+    const metadataBlock = contentFromXml.getElementsByTagName('ds:Metadata')[0];
+    if(metadataBlock !== undefined) {
+      h2Title = metadataBlock.getElementsByTagName('dct:title')[0].innerHTML;
+      contentFromXml.getElementsByTagName('ds:Metadata')[0].remove();
+    }
+
+    // remove ds:Cues
+    if(contentFromXml.getElementsByTagName('ds:Cues')[0] !== undefined) {
+      contentFromXml.getElementsByTagName('ds:Cues')[0].remove();
+    }
 
 
+    const contentBlock = contentFromXml.innerHTML;
+    if(contentBlock !== undefined) {
+      contentTxt = contentBlock.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'').trim();
 
+    }
+    console.log('***',contentTxt);
+  }
 
 
 
@@ -35,9 +54,9 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
 
 
           {ifText ? (
-            <StoryBlockMD contentHead="title" contentBody="body" />
+            <StoryBlockMD contentHead={h2Title} contentBody={contentTxt} />
           ) : (
-            <div></div>
+            <div><em>... in progress {contentType}</em></div>
           ) }
 
 
