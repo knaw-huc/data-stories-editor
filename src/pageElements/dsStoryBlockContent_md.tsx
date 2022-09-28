@@ -1,15 +1,17 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement} from 'react';
 
 
 
 
 
 
-function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {contentType: string, contentMime: string, contentFromXml: string, blockId: string} ): ReactElement {
+function StoryBlockMD( {contentHead,contentBody }: {contentHead: string, contentBody: string} ): ReactElement {
+
     return (
 
       <div className="" >
-
+      <h2>{contentHead}</h2>
+      {contentBody}
       </div>
 
     )
@@ -19,4 +21,4 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
 
 
 
-export default StoryBlock;
+export default StoryBlockMD;
