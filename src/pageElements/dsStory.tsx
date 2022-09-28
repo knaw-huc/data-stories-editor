@@ -44,12 +44,16 @@ async function fetch_data() {
 
         <div className="dataStoryBlocks">
 
-        <DsStoryBlock
-          blockId="h"
-          contentType="header"
-          contentMime="h"
-          contentFromXml={storyHeader}
-          ></ DsStoryBlock>
+        {!loading ? (
+          <DsStoryBlock
+            blockId="h"
+            contentType="header"
+            contentMime="h"
+            contentFromXml={storyHeader}
+            ></ DsStoryBlock>
+        ):(
+          <></>
+        )}
 
         {!loading ? (
           storyBlocksData.map((item, index) => {
@@ -69,7 +73,7 @@ async function fetch_data() {
           (<div className="">Loading...</div>)
          }
         </div>
-        
+
         <DsEditor />
         </>
 

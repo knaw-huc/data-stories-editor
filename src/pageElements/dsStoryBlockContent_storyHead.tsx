@@ -10,16 +10,18 @@ import React, { ReactElement, ReactNode } from 'react';
 
 
 function StoryBlockHeader( {contentBody }: {contentBody: HTMLElement} ): ReactElement {
-  //console.log('header',contentBody.getElementsByTagName('dct:title')[0].textContent)
+  console.log('header1',contentBody) //.getElementsByTagName('dct:title')[0].textContent
 
-  //const headerH1 = contentBody.getElementsByTagName('dct:title')[0].textContent;
+
+
+  const headerH1 = contentBody.getElementsByTagName('dct:title')[0].textContent;
 
 
 
     return (
 
       <div className="" >
-        <h1>Datastory title</h1>
+        <h1>{headerH1}</h1>
         <p><a href="">Author</a><br/><a href="">license</a></p>
       </div>
 
@@ -27,7 +29,5 @@ function StoryBlockHeader( {contentBody }: {contentBody: HTMLElement} ): ReactEl
 }
 
 
-
-
-
 export default StoryBlockHeader;
+//

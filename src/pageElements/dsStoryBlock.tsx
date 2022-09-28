@@ -64,13 +64,13 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
           {ifHeader ? (
             <StoryBlockHeader contentBody={contentFromXml} />
           ) : (
-            <div></div>
+            <></>
           ) }
 
           {ifText ? (
             <StoryBlockMD contentHead={h2Title} contentBody={contentTxt} />
           ) : (
-            <div><em>*{contentType}*</em></div>
+            <></>
           ) }
 
 
