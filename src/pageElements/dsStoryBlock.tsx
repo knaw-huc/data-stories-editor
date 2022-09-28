@@ -1,6 +1,7 @@
 import React, { ReactElement} from 'react';
 import StoryBlockMD from "./dsStoryBlockContent_md";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
+import StoryBlockNew from "./dsStoryBlockNewBlock";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 
@@ -44,6 +45,7 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
 
 
     return (
+      <>
 
       <div className="dsBlock dsBlock__layout dsBlock__margin" id={blockId}>
           <div className="dsBlock__handle revealBlock dsBlock__left">
@@ -73,6 +75,8 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
 
         </div>
       </div>
+      <StoryBlockNew />
+      </>
 
     )
 }
