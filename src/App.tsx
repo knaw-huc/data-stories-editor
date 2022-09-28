@@ -2,7 +2,6 @@ import React from 'react';
 import './assets/css/dstore-style.css';
 import IneoPageHeader from "./pageElements/ineoPageHeader";
 import DsStory from "./pageElements/dsStory";
-//import DsEditor from "./pageElements/dsEditor";
 
 
 
@@ -11,7 +10,8 @@ import DsStory from "./pageElements/dsStory";
 
 
 
-function App() {
+
+export default function App() {
 
 
 
@@ -23,7 +23,3 @@ function App() {
       </div>
   );
 }
-
-export default App;
-
-//<DsEditor />
