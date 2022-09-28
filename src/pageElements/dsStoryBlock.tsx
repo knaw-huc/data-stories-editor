@@ -24,7 +24,9 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
     const metadataBlock = contentFromXml.getElementsByTagName('ds:Metadata')[0];
     if(metadataBlock !== undefined) {
       h2Title = metadataBlock.getElementsByTagName('dct:title')[0].textContent;
+      console.log('h2Title',h2Title);
       metadataBlock.getElementsByTagName('dct:title')[0].textContent = '';
+
 
     }
 
@@ -39,7 +41,7 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
       contentTxt = contentBlock.replace(/(\<!--.*?\-->)/g,'').trim();
 
     }
-    //console.log('***',contentTxt);
+
   }
 
 
