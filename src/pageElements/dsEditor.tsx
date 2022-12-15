@@ -3,14 +3,14 @@ import {useState} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
-function DsEditor() {
-  const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
+function DsEditor({all, curr}: {all: object, curr:String} ) {
+  const [style, setStyle] = useState("panel_edit fixedBottom editorUp");
 
  const changeStyle = () => {
-   console.log("you just clicked");
-
    setStyle("panel_edit fixedBottom editorUp");
  };
+
+
 
 
     return (
@@ -39,9 +39,11 @@ function DsEditor() {
             <a href="/">Layout</a>
           </div>
           <div className="edit_workspace">
-      <label htmlFor="te">Text</label>
-      <textarea></textarea>
-      </div>
+            <label htmlFor="heading">Heading</label>
+            <input name="heading"/>
+            <label htmlFor="tb">Text block</label>
+            <textarea name="tb"></textarea>
+          </div>
 
         </div>
 

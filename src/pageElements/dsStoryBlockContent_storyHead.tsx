@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement} from 'react';
 
 // header
 // let headerMD = '##yo \n _123123123_ \n [HSN Occupations](https://iisg.amsterdam/en/hsn/data/occupations)'
@@ -9,20 +9,34 @@ import React, { ReactElement, ReactNode } from 'react';
 
 
 
-function StoryBlockHeader( {contentBody }: {contentBody: HTMLElement} ): ReactElement {
-  console.log('header1',contentBody) //.getElementsByTagName('dct:title')[0].textContent
+function StoryBlockHeader( {contentHeader }: {contentHeader: Object} ): ReactElement {
 
+  let storyTitle, storyAuthors, storyLicense;
 
-
-  const headerH1 = contentBody.getElementsByTagName('dct:title')[0].textContent;
-
+  storyTitle = contentHeader['dct:title']._text;
+  storyAuthors = contentHeader['dct:creator'];
+  storyLicense = contentHeader['dct:license']._text;
+  //console.log('storyAuthors', storyAuthors)
 
 
     return (
 
       <div className="" >
-        <h1>{headerH1}</h1>
-        <p><a href="">Author</a><br/><a href="">license</a></p>
+        <h1>{storyTitle}</h1>
+        <p>
+        Created by {storyAuthors.map((item, i, row) => {
+            let comma = ', ';
+            if (i + 1 === row.length) {
+              comma = '';
+            }
+              return (
+                <><em>{item._text}</em>{comma}</>
+              )
+            })
+
+         }
+        <br/>
+        <small>License: <a href={storyLicense}>{storyLicense}</a></small></p>
       </div>
 
     )

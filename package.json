@@ -11,13 +11,17 @@
     "@types/node": "^16.11.41",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
+    "assert": "^2.0.0",
     "axios": "^0.27.2",
+    "buffer": "^6.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.3",
     "react-scripts": "5.0.1",
+    "react-xml-parser": "^1.1.8",
     "typescript": "^4.7.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xml-js": "^1.6.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,6 +34,9 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "browser": {
+    "buffer": false
   },
   "browserslist": {
     "production": [

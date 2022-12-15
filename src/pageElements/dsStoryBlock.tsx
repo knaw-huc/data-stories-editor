@@ -1,5 +1,6 @@
 import React, { ReactElement} from 'react';
 import StoryBlockMD from "./dsStoryBlockContent_md";
+import StoryBlockTable from "./dsStoryBlockContent_table";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
 import StoryBlockNew from "./dsStoryBlockNewBlock";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
@@ -7,42 +8,29 @@ import icon_delete from '../assets/img/icons/icon-delete.svg';
 
 
 
-//const DOMParse = new DOMParser();
 
-
-
-function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {contentType: string, contentMime: string, contentFromXml: HTMLElement, blockId: string} ): ReactElement {
-
-  let h2Title = '';
-  let contentTxt= '';
+function StoryBlock( {content, contentType, all}: {content: object, contentType: String, all: object} ): ReactElement {
+  console.log('contenttype',content)
 
   const ifHeader = contentType === 'header';
   const ifText = contentType === 'text';
+  const ifQuery = contentType === 'query';
+
+  let h2Title = '';
+  let contentTxt =''
+  let blockId = ''
 
   if (ifText) {
+    blockId = content['_attributes']["xml:id"]  //
 
-    const metadataBlock = contentFromXml.getElementsByTagName('ds:Metadata')[0];
-    if(metadataBlock !== undefined) {
-      h2Title = metadataBlock.getElementsByTagName('dct:title')[0].textContent;
-      console.log('h2Title',h2Title);
-      metadataBlock.getElementsByTagName('dct:title')[0].textContent = '';
-
-
+    if (content['ds:Metadata'] !== undefined) {
+      h2Title = content['ds:Metadata']['dct:title']._text
     }
-
-    // remove ds:Cues
-    if(contentFromXml.getElementsByTagName('ds:Cues')[0] !== undefined) {
-      contentFromXml.getElementsByTagName('ds:Cues')[0].remove();
-    }
-
-
-    const contentBlock = contentFromXml.textContent;
-    if(contentBlock !== undefined) {
-      contentTxt = contentBlock.replace(/(\<!--.*?\-->)/g,'').trim();
-
-    }
-
+    contentTxt = content['_text'];
   }
+
+
+
 
 
 
@@ -61,17 +49,23 @@ function StoryBlock( {contentType, contentMime, contentFromXml, blockId}: {conte
           <div className="dsBlock__content dsBlock__right">
 
 
-          {ifHeader ? (
-            <StoryBlockHeader contentBody={contentFromXml} />
-          ) : (
-            <></>
-          ) }
+            {ifHeader ? (
+              <StoryBlockHeader contentHeader={content} />
+            ) : (
+              <></>
+            ) }
 
-          {ifText ? (
-            <StoryBlockMD contentHead={h2Title} contentBody={contentTxt} />
-          ) : (
-            <></>
-          ) }
+            {ifText ? (
+              <StoryBlockMD contentHead={h2Title} contentBody={contentTxt} />
+            ) : (
+              <></>
+            ) }
+
+            {ifQuery ? (
+              <StoryBlockTable />
+            ) : (
+              <></>
+            ) }
 
 
 
