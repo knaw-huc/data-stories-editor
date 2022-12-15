@@ -3,8 +3,10 @@ import {useState} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
-function DsEditor({all, curr}: {all: object, curr:String} ) {
+function DsEditor({all, curr, dataStoryData, setDataStoryData}: {all: object, curr:String, dataStoryData: object, setDataStoryData: Function} ) {
   const [style, setStyle] = useState("panel_edit fixedBottom editorUp");
+
+
 
  const changeStyle = () => {
    setStyle("panel_edit fixedBottom editorUp");
@@ -12,6 +14,45 @@ function DsEditor({all, curr}: {all: object, curr:String} ) {
 
 
 
+ if (curr!= '') {
+   let headingFieldContent = ''
+   let textFieldContent = ''
+
+   const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
+   //console.log('editor1', curr)
+   //console.log('editor2',findBlockById(curr))
+
+   if (allBlocks[findBlockById(curr)]['ds:Metadata'] !== undefined) {
+     headingFieldContent = allBlocks[findBlockById(curr)]['ds:Metadata']['dct:title']._text
+     //console.log('editor3', headingFieldContent)
+   }
+
+   if (allBlocks[findBlockById(curr)] !== undefined) {
+     textFieldContent = allBlocks[findBlockById(curr)]._text
+     //console.log('editor3', textFieldContent)
+   }
+
+   document.getElementById('headingField').innerHTML = headingFieldContent
+   document.getElementById('textField').innerHTML = textFieldContent
+ }
+
+function findBlockById(id) {
+const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
+
+  var out;
+  for (var i = 0; i < allBlocks.length; i++){
+    if (allBlocks[i]['_attributes']["xml:id"] == id){
+      out = i;
+    }
+}
+return out;
+}
+
+
+
+const updateBlock = () => {
+  console.log('update')
+};
 
     return (
 
@@ -40,9 +81,15 @@ function DsEditor({all, curr}: {all: object, curr:String} ) {
           </div>
           <div className="edit_workspace">
             <label htmlFor="heading">Heading</label>
-            <input name="heading"/>
+            <textarea
+            name="heading"
+            id="headingField"
+            className="smallEditField"
+
+            ></textarea>
             <label htmlFor="tb">Text block</label>
-            <textarea name="tb"></textarea>
+            <textarea name="tb" id="textField"></textarea>
+            <button onClick={updateBlock}>Update</button>
           </div>
 
         </div>

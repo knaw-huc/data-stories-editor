@@ -34,7 +34,7 @@ function Story() {
 
 
 if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
-  console.log('empty')
+
   fetch_data();
 } else{
   //setDataElements(dataStoryData);
@@ -66,7 +66,7 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
   function convertXml(xmlString) {
       return new Promise((resolve, reject) => {
         let dataStoryDataRaw = convert.xml2js(xmlString, {compact: true})
-        console.log('convertXml',dataStoryDataRaw)
+        //console.log('convertXml',dataStoryDataRaw)
             resolve(dataStoryDataRaw);
       })
   }
@@ -74,19 +74,19 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
 
 function checkDataStoryData(data) {
   return new Promise((resolve, reject) => {
-    console.log('checkDataStoryData',data)
+    //console.log('checkDataStoryData',data)
     setDataStoryData(data)
         resolve(data);
       })
 }
 
   function setDataElements(data) {
-    console.log('setDataElements')
+    //console.log('setDataElements')
     setStoryHeader(data['ds:DataStory']['ds:Metadata']);
 
     const allBlocks = data['ds:DataStory']['ds:Story']['ds:Block'];
 
-    console.log('Storyblocks',allBlocks[0]._attributes.mime)
+    //console.log('Storyblocks',allBlocks[0]._attributes.mime)
     setStoryBlocksData(allBlocks);
 
 
@@ -95,10 +95,10 @@ function checkDataStoryData(data) {
 
 
     useEffect(() => {
-      console.log('useEffect')
-      console.log('useEffect data', dataStoryData)
+      //console.log('useEffect')
+      console.log('useEffect currentEditBlock', currentEditBlock)
 
-    }, [loading]);
+    }, [loading, currentEditBlock]);
 
 
     return (
@@ -113,6 +113,7 @@ function checkDataStoryData(data) {
               content={storyHeader}
               contentType="header"
               all={dataStoryData}
+              setCurrentEditBlock={setCurrentEditBlock}
               ></ DsStoryBlock>
 
         ):
@@ -127,6 +128,7 @@ function checkDataStoryData(data) {
                  content={item}
                  contentType={item._attributes.type}
                  all={dataStoryData}
+                 setCurrentEditBlock={setCurrentEditBlock}
                    ></ DsStoryBlock>
 
                )
@@ -142,6 +144,8 @@ function checkDataStoryData(data) {
         <DsEditor
         all={dataStoryData}
         curr={currentEditBlock}
+        dataStoryData={dataStoryData}
+        setDataStoryData={setDataStoryData}
         />
         </>
 
