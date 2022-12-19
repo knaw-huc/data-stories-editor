@@ -40,7 +40,7 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
     return (
       <>
 
-      <div className="dsBlock dsBlock__layout dsBlock__margin" id={blockId}>
+      <div className="dsBlock dsBlock__layout dsBlock__margin" >
           <div className="dsBlock__handle revealBlock dsBlock__left">
             <button type="button" name="button" className="bt_icon block_event" onClick={changeCurEdit} >
               <img src={icon_edit} alt="" />
@@ -49,7 +49,7 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
               <img src={icon_delete} alt="" />
             </button>
           </div>
-          <div className="dsBlock__content dsBlock__right">
+          <div className="dsBlock__content dsBlock__right" id={blockId}>
 
 
             {ifHeader ? (

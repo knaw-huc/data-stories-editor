@@ -4,12 +4,23 @@ import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
 function DsEditor({all, curr, dataStoryData, setDataStoryData}: {all: object, curr:String, dataStoryData: object, setDataStoryData: Function} ) {
-  const [style, setStyle] = useState("panel_edit fixedBottom editorUp");
+  const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
+  const [editorUp, setEditorUp] = useState(true);
+
+  const [fieldText, setFieldText] = useState('');
 
 
 
  const changeStyle = () => {
-   setStyle("panel_edit fixedBottom editorUp");
+   if (editorUp) {
+     setStyle("panel_edit fixedBottom editorUp");
+     setEditorUp(false);
+   } else {
+     setStyle("panel_edit fixedBottom editorDown");
+     setEditorUp(true);
+   }
+
+   //setStyle("panel_edit fixedBottom editorUp");
  };
 
 
@@ -30,10 +41,13 @@ function DsEditor({all, curr, dataStoryData, setDataStoryData}: {all: object, cu
    if (allBlocks[findBlockById(curr)] !== undefined) {
      textFieldContent = allBlocks[findBlockById(curr)]._text
      //console.log('editor3', textFieldContent)
+
    }
 
    document.getElementById('headingField').innerHTML = headingFieldContent
    document.getElementById('textField').innerHTML = textFieldContent
+   //setFieldText(textFieldContent)
+
  }
 
 function findBlockById(id) {
@@ -51,8 +65,15 @@ return out;
 
 
 const updateBlock = () => {
-  console.log('update')
+  console.log('update', fieldText)
 };
+
+
+
+// const handleFieldTextChange = event => {
+//     setFieldText(event.target.value);
+//     console.log(event.target.value);
+//   };
 
     return (
 
@@ -80,15 +101,22 @@ const updateBlock = () => {
             <a href="/">Layout</a>
           </div>
           <div className="edit_workspace">
+
             <label htmlFor="heading">Heading</label>
             <textarea
             name="heading"
             id="headingField"
             className="smallEditField"
 
+
             ></textarea>
             <label htmlFor="tb">Text block</label>
-            <textarea name="tb" id="textField"></textarea>
+            <textarea
+              name="tb"
+              id="textField"
+
+
+            ></textarea>
             <button onClick={updateBlock}>Update</button>
           </div>
 

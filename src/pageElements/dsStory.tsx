@@ -6,6 +6,7 @@ import DsEditor from "./dsEditor";
 import axios from 'axios';
 import convert from 'xml-js';
 
+//window.name = "John";
 
 
 // export interface dataStoryRoot {
