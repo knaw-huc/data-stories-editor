@@ -1,4 +1,5 @@
 import React, { ReactElement} from 'react';
+import {useEffect} from "react";
 import StoryBlockMD from "./dsStoryBlockContent_md";
 import StoryBlockTable from "./dsStoryBlockContent_table";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
@@ -29,12 +30,15 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
     contentTxt = content['_text'];
   }
 
-  const changeCurEdit = () => {
-    console.log('edit')
-    setCurrentEditBlock(blockId)
-  };
+
+  function changeCurEdit() {
+    console.log('changeCurEdit()')
+    setCurrentEditBlock({block_id: blockId})
+  }
 
 
+  useEffect(() => {
+  }, []);
 
 
     return (

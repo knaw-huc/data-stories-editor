@@ -1,13 +1,21 @@
 import React from 'react';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
-function DsEditor({all, curr, dataStoryData, setDataStoryData}: {all: object, curr:String, dataStoryData: object, setDataStoryData: Function} ) {
+function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all: object, currentEditBlock:object, dataStoryData: object, setDataStoryData: Function} ) {
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [editorUp, setEditorUp] = useState(true);
 
-  const [fieldText, setFieldText] = useState('');
+
+  const [textFieldHeader, setTextFieldHeader] = useState<string>("");
+  const [textFieldContent, setTextFieldContent] = useState<string>("");
+
+  const [refresh, setRefresh] = useState(true);
+
+  function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
+      setTextFieldContent(e.currentTarget.value);
+  }
 
 
 
@@ -25,30 +33,28 @@ function DsEditor({all, curr, dataStoryData, setDataStoryData}: {all: object, cu
 
 
 
- if (curr!= '') {
-   let headingFieldContent = ''
-   let textFieldContent = ''
+ console.log('currentEditBlock', currentEditBlock['block_id'])
 
-   const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
-   //console.log('editor1', curr)
-   //console.log('editor2',findBlockById(curr))
+  if (currentEditBlock['block_id'] != '') {
+    let headingFieldContent = ''
+    let textFieldContentImp = ''
 
-   if (allBlocks[findBlockById(curr)]['ds:Metadata'] !== undefined) {
-     headingFieldContent = allBlocks[findBlockById(curr)]['ds:Metadata']['dct:title']._text
-     //console.log('editor3', headingFieldContent)
-   }
+    const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 
-   if (allBlocks[findBlockById(curr)] !== undefined) {
-     textFieldContent = allBlocks[findBlockById(curr)]._text
-     //console.log('editor3', textFieldContent)
+    // get header data
+    if (allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata'] !== undefined) {
+      headingFieldContent = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
+    }
 
-   }
+    // get content data
+    if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
+      textFieldContentImp = allBlocks[findBlockById(currentEditBlock['block_id'])]._text
+    }
 
-   document.getElementById('headingField').innerHTML = headingFieldContent
-   document.getElementById('textField').innerHTML = textFieldContent
-   //setFieldText(textFieldContent)
+    console.log('update by set block id',textFieldContentImp)
+    //setTextFieldContent(textFieldContentImp)
 
- }
+  }
 
 function findBlockById(id) {
 const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
@@ -65,15 +71,17 @@ return out;
 
 
 const updateBlock = () => {
-  console.log('update', fieldText)
+  console.log('update', textFieldContent)
+  //setRefresh(!refresh);
 };
 
 
+useEffect(() => {
+    console.log('useEffect', textFieldContent)
+}, [refresh]);
 
-// const handleFieldTextChange = event => {
-//     setFieldText(event.target.value);
-//     console.log(event.target.value);
-//   };
+
+
 
     return (
 
@@ -114,6 +122,8 @@ const updateBlock = () => {
             <textarea
               name="tb"
               id="textField"
+              value={textFieldContent}
+              onChange={handleFieldTextChange}
 
 
             ></textarea>
@@ -130,11 +140,3 @@ const updateBlock = () => {
 }
 
 export default DsEditor;
-
-// This datastory uses Dutch death certificates from 1910-20 to map the temporal, spatial and social distribution of the 'Spanish' flu epidemic that hit The Netherlands in 1918-19.
-//
-// ## I. The dataset
-//
-// Thanks to the indexation efforts of archives and the LINKS project, large parts of the Dutch civil registry ('Burgerlijke Stand') are now becoming available for historians. The death certificates used here are retrieved from openarch.nl (available here). From the individual death certificates files per archive, one combined dataset was created. One challenge of working with these certificates is that that the same certificate may have been indexed by more than one archive.
-//
-// The table below demonstrates the success of the standardization efforts, presented as Linked Data.
