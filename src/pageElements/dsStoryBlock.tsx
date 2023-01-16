@@ -32,7 +32,7 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
 
 
   function changeCurEdit() {
-    console.log('changeCurEdit()')
+    console.log('changeCurEdit()', blockId)
     setCurrentEditBlock({block_id: blockId})
   }
 

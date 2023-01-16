@@ -33,7 +33,7 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all
 
 
 
- console.log('currentEditBlock', currentEditBlock['block_id'])
+ //console.log('currentEditBlock', currentEditBlock['block_id'])
 
   if (currentEditBlock['block_id'] != '') {
     let headingFieldContent = ''
@@ -52,7 +52,7 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all
     }
 
     console.log('update by set block id',textFieldContentImp)
-    //setTextFieldContent(textFieldContentImp)
+    setTextFieldContent(textFieldContentImp)
 
   }
 
@@ -78,7 +78,7 @@ const updateBlock = () => {
 
 useEffect(() => {
     console.log('useEffect', textFieldContent)
-}, [refresh]);
+}, []);
 
 
 
