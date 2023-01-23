@@ -6,6 +6,7 @@ import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all: object, currentEditBlock:object, dataStoryData: object, setDataStoryData: Function} ) {
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [editorUp, setEditorUp] = useState(true);
+  const [editorSection, setEditorSection] = useState('content');
 
 
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
@@ -76,8 +77,25 @@ const updateBlock = () => {
 };
 
 
-const editerBlockSubContent = () => {
-  console.log('editerBlockSub')
+const editerBlockSubContent = (sub) => {
+  console.log('editerBlockSub', sub)
+  document.getElementById('sub_content').style.display='none';
+  document.getElementById('sub_metadata').style.display='none';
+  document.getElementById('sub_notes').style.display='none';
+  document.getElementById('sub_provenance').style.display='none';
+
+  if (sub === 'content') {
+    document.getElementById('sub_content').style.display = 'block';
+  }
+  if (sub === 'metadata') {
+    document.getElementById('sub_metadata').style.display = 'block';
+  }
+  if (sub === 'notes') {
+    document.getElementById('sub_notes').style.display = 'block';
+  }
+  if (sub === 'provenance') {
+    document.getElementById('sub_provenance').style.display = 'block';
+  }
 }
 
 
@@ -107,10 +125,10 @@ useEffect(() => {
         <div className="edit_body">
           <div className="edit_segments">
 
-            <a href="#" onClick={editerBlockSubContent}>Content</a>
-            <a href="">Metadata</a>
-            <a href="">Notes and Comments</a>
-            <a href="">Provenance</a>
+            <a href="#" onClick={() => editerBlockSubContent('content')}>Content</a>
+            <a href="#" onClick={() => editerBlockSubContent('metadata')}>Metadata</a>
+            <a href="#" onClick={() => editerBlockSubContent('notes')}>Notes and Comments</a>
+            <a href="#" onClick={() => editerBlockSubContent('provenance')}>Provenance</a>
             
           </div>
           <div className="edit_workspace">
@@ -155,7 +173,7 @@ useEffect(() => {
             ></textarea></label>
             </div>
 
-            <div id='sub_Provenance'>
+            <div id='sub_provenance'>
             <label htmlFor="tb">Provenance
             <textarea
               name="tb"

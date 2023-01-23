@@ -72,7 +72,7 @@ function checkDataStoryData(data) {
 
     useEffect(() => {
       console.log('useEffect story currentEditBlock', currentEditBlock)
-    }, [loading,dataStoryData]); //, currentEditBlock
+    }, [loading,dataStoryData]); 
 
 
     return (

@@ -1,6 +1,5 @@
-import { log } from 'console';
-import React, { ReactElement, ReactNode } from 'react';
-import {useState} from "react";
+import React, { ReactElement } from 'react';
+import {useState, useEffect} from "react";
 import icon_plus from '../assets/img/icons/icon-+.svg';
 
 
@@ -79,7 +78,8 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
 
 
 
-
+  useEffect(() => {
+  }, [dataStoryData]);
 
 
 
