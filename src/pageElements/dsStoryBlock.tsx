@@ -10,7 +10,12 @@ import icon_delete from '../assets/img/icons/icon-delete.svg';
 
 
 
-function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content: object, contentType: String, all: object, setCurrentEditBlock: Function} ): ReactElement {
+function StoryBlock( {content, contentType, dataStoryData, setCurrentEditBlock, setDataStoryData}: {
+  content: object, 
+  contentType: String, 
+  dataStoryData: object, 
+  setCurrentEditBlock: Function,
+  setDataStoryData: Function} ): ReactElement {
   //console.log('contenttype',content)
 
   const ifHeader = contentType === 'header';
@@ -20,6 +25,11 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
   let h2Title = '';
   let contentTxt =''
   let blockId = ''
+
+
+  if (ifHeader) {
+    blockId = 'pageHeader'  //
+  }
 
   if (ifText) {
     blockId = content['_attributes']["xml:id"]  //
@@ -42,7 +52,7 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
 
 
   useEffect(() => {
-  }, []);
+  }, [dataStoryData]);
 
 
     return (
@@ -84,6 +94,8 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
       </div>
       <StoryBlockNew 
         prevId={blockId}
+        dataStoryData={dataStoryData}
+        setDataStoryData={setDataStoryData}
         />
       </>
 
