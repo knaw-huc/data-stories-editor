@@ -14,7 +14,7 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all
   const [refresh, setRefresh] = useState(true);
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-      setTextFieldContent(e.currentTarget.value);
+      //setTextFieldContent(e.currentTarget.value);
   }
 
 
@@ -76,6 +76,11 @@ const updateBlock = () => {
 };
 
 
+const editerBlockSubContent = () => {
+  console.log('editerBlockSub')
+}
+
+
 useEffect(() => {
     console.log('useEffect', textFieldContent)
 }, []);
@@ -102,23 +107,25 @@ useEffect(() => {
         <div className="edit_body">
           <div className="edit_segments">
 
-            <a href="/">Text</a>
-            <a href="/">Metadata</a>
-            <a href="/">Notes and Comments</a>
-            <a href="/">Provenance</a>
-            <a href="/">Layout</a>
+            <a href="#" onClick={editerBlockSubContent}>Content</a>
+            <a href="">Metadata</a>
+            <a href="">Notes and Comments</a>
+            <a href="">Provenance</a>
+            
           </div>
           <div className="edit_workspace">
+            <div id='sub_content'>
 
-            <label htmlFor="heading">Heading</label>
+            <label htmlFor="heading">Heading
             <textarea
             name="heading"
             id="headingField"
             className="smallEditField"
-
-
             ></textarea>
-            <label htmlFor="tb">Text block</label>
+            </label>
+
+
+            <label htmlFor="tb">Markdown text
             <textarea
               name="tb"
               id="textField"
@@ -126,7 +133,39 @@ useEffect(() => {
               onChange={handleFieldTextChange}
 
 
+            ></textarea></label>
+            </div>
+
+            <div id='sub_metadata'>
+            <label htmlFor="tb">Metadata title
+            <textarea
+              name="tb"
+              id="textField"
+              className="smallEditField"
+            ></textarea></label>
+            </div>
+
+
+            <div id='sub_notes'>
+            <label htmlFor="tb">Notes
+            <textarea
+              name="tb"
+              id="textField"
+              
+            ></textarea></label>
+            </div>
+
+            <div id='sub_Provenance'>
+            <label htmlFor="tb">Provenance
+            <textarea
+              name="tb"
+              id="textField"
+              className="smallEditField"
             ></textarea>
+            <button >Add provenance</button>
+            </label>
+            </div>
+
             <button onClick={updateBlock}>Update</button>
           </div>
 
@@ -140,3 +179,9 @@ useEffect(() => {
 }
 
 export default DsEditor;
+
+
+//<button>Content</button>
+//<button>Metadata</button>
+//<button>Notes and Comments</button>
+//<button>Provenance</button>

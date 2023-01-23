@@ -29,6 +29,10 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
     }
     contentTxt = content['_text'];
   }
+  
+  if (ifQuery) {
+    blockId = content['_attributes']["xml:id"]  //
+  }
 
 
   function changeCurEdit() {
@@ -78,7 +82,9 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
 
         </div>
       </div>
-      <StoryBlockNew />
+      <StoryBlockNew 
+        prevId={blockId}
+        />
       </>
 
     )
@@ -89,3 +95,4 @@ function StoryBlock( {content, contentType, all, setCurrentEditBlock}: {content:
 
 
 export default StoryBlock;
+//prevId={blockId}
