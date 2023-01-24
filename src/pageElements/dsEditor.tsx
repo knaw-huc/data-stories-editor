@@ -3,20 +3,21 @@ import {useState, useEffect} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
-function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, editorStatus}: {
-  all: object, 
+function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus}: {
+
   currentEditBlock:object, 
   dataStoryData: object, 
   setDataStoryData: Function,
   setEditorStatus: Function,
+  setCurrentEditBlock: Function,
   editorStatus: boolean} ) {
 
   //console.log(dataStoryData);
   
   
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
-  const [editorUp, setEditorUp] = useState(true);
-  const [editorSection, setEditorSection] = useState('content');
+  //const [editorUp, setEditorUp] = useState(true);
+  //const [editorSection, setEditorSection] = useState('content');
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
   const [textFieldContent, setTextFieldContent] = useState<string>("");
   const [refresh, setRefresh] = useState(true);
@@ -93,14 +94,11 @@ return out;
 
 
 const updateBlock = () => {
-  //console.log('update', textFieldContent)
-  // headingFieldContent
-  // textFieldContent
+  console.log('update json');
+  
 
   const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
 
-
-    
     if (obj['_attributes']["xml:id"] === currentEditBlock["block_id"]) {
       return {...obj, "_text": textFieldContent};
     }
@@ -109,9 +107,10 @@ const updateBlock = () => {
 
   let newDatastory = dataStoryData;
   newDatastory['ds:DataStory']['ds:Story']['ds:Block'] =  newState;
-  //console.log(newDatastory);
 
   setDataStoryData(newDatastory);
+  //setCurrentEditBlock({currentEditBlock})
+  setEditorStatus(true)
   
 };
 
@@ -139,12 +138,12 @@ const editerBlockSubContent = (sub) => {
 
 
 useEffect(() => {
-    console.log('useEffect block', textFieldContent)
+    //console.log('useEffect block', textFieldContent)
     setFields()
     changeStyle()
     editerBlockSubContent('content')
     
-}, [dataStoryData,currentEditBlock, refresh]);
+}, [dataStoryData,currentEditBlock]);
 
 
 

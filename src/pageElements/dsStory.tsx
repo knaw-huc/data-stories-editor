@@ -13,7 +13,6 @@ function Story() {
   console.log('story');
   
   const [storyHeader, setStoryHeader] = useState(Object);
-  const [storyBlocksData, setStoryBlocksData] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
   const [editorStatus, setEditorStatus] = useState(false);
@@ -65,9 +64,6 @@ function checkDataStoryData(data) {
 
   function setDataElements(data) {
     setStoryHeader(data['ds:DataStory']['ds:Metadata']);
-    const allBlocks = data['ds:DataStory']['ds:Story']['ds:Block'];
-    setStoryBlocksData(allBlocks);
-
 
   }
 
@@ -75,7 +71,7 @@ function checkDataStoryData(data) {
 
     useEffect(() => {
       console.log('useEffect story currentEditBlock', currentEditBlock)
-    }, [ dataStoryData, currentEditBlock]); 
+    }, [dataStoryData, currentEditBlock]); 
 
 
     return (
@@ -98,11 +94,11 @@ function checkDataStoryData(data) {
               ></ DsStoryBlock>
 
         ):
-          (<div className="">Loading header</div>)
+          (<div className="dsBlock"></div>)
          }
 
          {!loading ? (
-           storyBlocksData.map((item, index) => {
+           dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map((item, index) => {
                return (
 
                  <DsStoryBlock
@@ -119,7 +115,7 @@ function checkDataStoryData(data) {
                )
              })
          ):
-           (<div className="">Loading storyblocks</div>)
+           (<div className="dsBlock">Loading storyblocks</div>)
           }
 
 
@@ -127,8 +123,8 @@ function checkDataStoryData(data) {
         </div>
 
         <DsEditor
-        all={dataStoryData}
         currentEditBlock={currentEditBlock}
+        setCurrentEditBlock={setCurrentEditBlock}
         dataStoryData={dataStoryData}
         setDataStoryData={setDataStoryData}
         setEditorStatus={setEditorStatus}

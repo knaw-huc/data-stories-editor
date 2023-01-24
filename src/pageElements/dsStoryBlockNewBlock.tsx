@@ -5,17 +5,20 @@ import icon_plus from '../assets/img/icons/icon-+.svg';
 
 
 
-function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
+function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStoryData}: {
   prevId: String, 
   dataStoryData: object,
+  setCurrentEditBlock: Function,
   setDataStoryData: Function}): ReactElement {
 
   const [blockHeight, setBlockHeight] = useState({height: "0px"});
   const [refresh, setRefresh] = useState(true);
 
+  const newId = uniqueGenerator()
+
   const newEntry = {
     "_attributes": {
-      "xml:id": uniqueGenerator(),
+      "xml:id": newId,
       "type": "text",
       "mime": "text/markdown"
     },
@@ -66,6 +69,7 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
     setDataStoryData(dataStoryData)
     closeNewBlock()
     setRefresh(!refresh);
+    setCurrentEditBlock({block_id: newId})
   }
 
   function uniqueGenerator() {
@@ -80,6 +84,7 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
 
   useEffect(() => {
     //setRefresh(!refresh);
+    
   }, [dataStoryData, refresh]);
 
 

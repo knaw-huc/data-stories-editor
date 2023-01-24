@@ -20,7 +20,6 @@ function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, set
   setDataStoryData: Function,
   setEditorStatus: Function,
   editorStatus: boolean} ): ReactElement {
-  //console.log('contenttype',content)
 
 console.log('story block');
 
@@ -53,7 +52,7 @@ console.log('story block');
 
 
   function changeCurEdit() {
-    console.log('changeCurEdit()', blockId)
+
     setCurrentEditBlock({block_id: blockId})
     setEditorStatus(true)
   }
@@ -104,6 +103,7 @@ console.log('story block');
         prevId={blockId}
         dataStoryData={dataStoryData}
         setDataStoryData={setDataStoryData}
+        setCurrentEditBlock={setCurrentEditBlock}
         />
       </>
 
