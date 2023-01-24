@@ -11,13 +11,15 @@ import icon_delete from '../assets/img/icons/icon-delete.svg';
 
 
 
-function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, setCurrentEditBlock, setDataStoryData}: {
+function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, setCurrentEditBlock, setDataStoryData, setEditorStatus, editorStatus}: {
   content: object, 
   contentType: String, 
   dataStoryData: object, 
   currentEditBlock: object,
   setCurrentEditBlock: Function,
-  setDataStoryData: Function} ): ReactElement {
+  setDataStoryData: Function,
+  setEditorStatus: Function,
+  editorStatus: boolean} ): ReactElement {
   //console.log('contenttype',content)
 
 console.log('story block');
@@ -53,6 +55,7 @@ console.log('story block');
   function changeCurEdit() {
     console.log('changeCurEdit()', blockId)
     setCurrentEditBlock({block_id: blockId})
+    setEditorStatus(true)
   }
 
 

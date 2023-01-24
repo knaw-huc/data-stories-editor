@@ -3,8 +3,14 @@ import {useState, useEffect} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
-function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all: object, currentEditBlock:object, dataStoryData: object, setDataStoryData: Function} ) {
-  console.log('comp editor');
+function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, editorStatus}: {
+  all: object, 
+  currentEditBlock:object, 
+  dataStoryData: object, 
+  setDataStoryData: Function,
+  setEditorStatus: Function,
+  editorStatus: boolean} ) {
+
   
   
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
@@ -20,19 +26,21 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all
 
 
 // edit panel up and down
+console.log('editorStatus',editorStatus);
+
  const changeStyle = () => {
-   if (editorUp) {
+   if (editorStatus) {
      setStyle("panel_edit fixedBottom editorUp");
-     setEditorUp(false);
+     setEditorStatus(false);
    } else {
      setStyle("panel_edit fixedBottom editorDown");
-     setEditorUp(true);
+     setEditorStatus(true);
    }
 
 
  };
 
-
+ 
 
 
 
@@ -55,8 +63,10 @@ function setFields() {
       textFieldContentImp = allBlocks[findBlockById(currentEditBlock['block_id'])]._text
     }
 
-    console.log('update by set block id',textFieldContentImp)
+    //console.log('update by set block id',textFieldContentImp)
     setTextFieldContent(textFieldContentImp)
+
+    
 
   }
 }
@@ -79,7 +89,7 @@ return out;
 
 const updateBlock = () => {
   console.log('update', textFieldContent)
-  //setRefresh(!refresh);
+  
 };
 
 // submenu interface
@@ -108,7 +118,10 @@ const editerBlockSubContent = (sub) => {
 useEffect(() => {
     console.log('useEffect block', textFieldContent)
     setFields()
-}, [dataStoryData]);
+    changeStyle()
+    editerBlockSubContent('content')
+    
+}, [dataStoryData,currentEditBlock, refresh]);
 
 
 

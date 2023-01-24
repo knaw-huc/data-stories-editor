@@ -11,17 +11,18 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
   setDataStoryData: Function}): ReactElement {
 
   const [blockHeight, setBlockHeight] = useState({height: "0px"});
+  const [refresh, setRefresh] = useState(true);
 
   const newEntry = {
     "_attributes": {
-      "xml:id": "new",
+      "xml:id": uniqueGenerator(),
       "type": "text",
       "mime": "text/markdown"
     },
     "_comment": "",
     "ds:Metadata": {
       "dct:title": {
-        "_text": "New block"
+        "_text": "New text block"
       },
       "_comment": ""
     },
@@ -60,21 +61,26 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
 
     });
 
-    console.log('foundedIndex', foundedIndex)
+
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, newEntry)
     setDataStoryData(dataStoryData)
-    console.log('new dataStoryData', dataStoryData)
     closeNewBlock()
-
+    setRefresh(!refresh);
   }
 
-
+  function uniqueGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4());
+}
 
 
 
 
   useEffect(() => {
-  }, [dataStoryData]);
+    //setRefresh(!refresh);
+  }, [dataStoryData, refresh]);
 
 
 

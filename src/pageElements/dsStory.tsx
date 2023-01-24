@@ -14,6 +14,7 @@ function Story() {
   const [storyBlocksData, setStoryBlocksData] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
+  const [editorStatus, setEditorStatus] = useState(false);
 
   const [dataStoryData, setDataStoryData] = useState({
     "_declaration": {},
@@ -90,6 +91,8 @@ function checkDataStoryData(data) {
               currentEditBlock={currentEditBlock}
               setCurrentEditBlock={setCurrentEditBlock}
               setDataStoryData = {setDataStoryData}
+              setEditorStatus={setEditorStatus}
+              editorStatus={editorStatus}
               ></ DsStoryBlock>
 
         ):
@@ -107,6 +110,8 @@ function checkDataStoryData(data) {
                  currentEditBlock={currentEditBlock}
                  setCurrentEditBlock={setCurrentEditBlock}
                  setDataStoryData = {setDataStoryData}
+                 setEditorStatus={setEditorStatus}
+                 editorStatus={editorStatus}
                    ></ DsStoryBlock>
 
                )
@@ -124,6 +129,8 @@ function checkDataStoryData(data) {
         currentEditBlock={currentEditBlock}
         dataStoryData={dataStoryData}
         setDataStoryData={setDataStoryData}
+        setEditorStatus={setEditorStatus}
+        editorStatus={editorStatus}
         />
         </>
 
