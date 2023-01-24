@@ -4,22 +4,22 @@ import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 
 
 function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all: object, currentEditBlock:object, dataStoryData: object, setDataStoryData: Function} ) {
+  console.log('comp editor');
+  
+  
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [editorUp, setEditorUp] = useState(true);
   const [editorSection, setEditorSection] = useState('content');
-
-
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
   const [textFieldContent, setTextFieldContent] = useState<string>("");
-
   const [refresh, setRefresh] = useState(true);
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-      //setTextFieldContent(e.currentTarget.value);
+      setTextFieldContent(e.currentTarget.value);
   }
 
 
-
+// edit panel up and down
  const changeStyle = () => {
    if (editorUp) {
      setStyle("panel_edit fixedBottom editorUp");
@@ -29,13 +29,16 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all
      setEditorUp(true);
    }
 
-   //setStyle("panel_edit fixedBottom editorUp");
+
  };
 
 
 
- //console.log('currentEditBlock', currentEditBlock['block_id'])
 
+
+
+// if has block id get data from datastory
+function setFields() {
   if (currentEditBlock['block_id'] != '') {
     let headingFieldContent = ''
     let textFieldContentImp = ''
@@ -56,6 +59,9 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData}: {all
     setTextFieldContent(textFieldContentImp)
 
   }
+}
+
+
 
 function findBlockById(id) {
 const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
@@ -76,7 +82,7 @@ const updateBlock = () => {
   //setRefresh(!refresh);
 };
 
-
+// submenu interface
 const editerBlockSubContent = (sub) => {
   console.log('editerBlockSub', sub)
   document.getElementById('sub_content').style.display='none';
@@ -100,8 +106,9 @@ const editerBlockSubContent = (sub) => {
 
 
 useEffect(() => {
-    console.log('useEffect', textFieldContent)
-}, []);
+    console.log('useEffect block', textFieldContent)
+    setFields()
+}, [dataStoryData]);
 
 
 

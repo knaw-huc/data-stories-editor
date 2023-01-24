@@ -72,7 +72,7 @@ function checkDataStoryData(data) {
 
     useEffect(() => {
       console.log('useEffect story currentEditBlock', currentEditBlock)
-    }, [loading,dataStoryData]); 
+    }, [ dataStoryData, currentEditBlock]); 
 
 
     return (
@@ -87,6 +87,7 @@ function checkDataStoryData(data) {
               content={storyHeader}
               contentType="header"
               dataStoryData={dataStoryData}
+              currentEditBlock={currentEditBlock}
               setCurrentEditBlock={setCurrentEditBlock}
               setDataStoryData = {setDataStoryData}
               ></ DsStoryBlock>
@@ -103,6 +104,7 @@ function checkDataStoryData(data) {
                  content={item}
                  contentType={item._attributes.type}
                  dataStoryData={dataStoryData}
+                 currentEditBlock={currentEditBlock}
                  setCurrentEditBlock={setCurrentEditBlock}
                  setDataStoryData = {setDataStoryData}
                    ></ DsStoryBlock>

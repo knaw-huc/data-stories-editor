@@ -21,7 +21,7 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
     "_comment": "",
     "ds:Metadata": {
       "dct:title": {
-        "_text": "New Item"
+        "_text": "New block"
       },
       "_comment": ""
     },
@@ -34,7 +34,7 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
         "_text": "# I. {$ds-Block/dct:title}"
       }
     },
-    "_text": "This is a new block."
+    "_text": "This is a new markdown block."
   }
 
 
@@ -55,13 +55,7 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].map((obj, index) => {
       if (obj["_attributes"]["xml:id"] === prevId) {
         console.log('index', index)
-
-        //dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(index, 0, newEntry)
-
-        //return {...obj, answer: e.currentTarget.value};
         foundedIndex = index
-
-        
       }
 
     });
@@ -70,6 +64,7 @@ function StoryBlockNew({prevId, dataStoryData, setDataStoryData}: {
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, newEntry)
     setDataStoryData(dataStoryData)
     console.log('new dataStoryData', dataStoryData)
+    closeNewBlock()
 
   }
 

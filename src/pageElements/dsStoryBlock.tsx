@@ -2,6 +2,7 @@ import React, { ReactElement} from 'react';
 import {useEffect} from "react";
 import StoryBlockMD from "./dsStoryBlockContent_md";
 import StoryBlockTable from "./dsStoryBlockContent_table";
+import StoryBlockYasgui from "./dsStoryBlockContent_yasgui";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
 import StoryBlockNew from "./dsStoryBlockNewBlock";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
@@ -10,13 +11,17 @@ import icon_delete from '../assets/img/icons/icon-delete.svg';
 
 
 
-function StoryBlock( {content, contentType, dataStoryData, setCurrentEditBlock, setDataStoryData}: {
+function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, setCurrentEditBlock, setDataStoryData}: {
   content: object, 
   contentType: String, 
   dataStoryData: object, 
+  currentEditBlock: object,
   setCurrentEditBlock: Function,
   setDataStoryData: Function} ): ReactElement {
   //console.log('contenttype',content)
+
+console.log('story block');
+
 
   const ifHeader = contentType === 'header';
   const ifText = contentType === 'text';
@@ -52,7 +57,7 @@ function StoryBlock( {content, contentType, dataStoryData, setCurrentEditBlock, 
 
 
   useEffect(() => {
-  }, [dataStoryData]);
+  }, [dataStoryData,currentEditBlock]);
 
 
     return (
