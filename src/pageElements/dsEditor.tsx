@@ -23,6 +23,9 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData, setEd
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
       setTextFieldContent(e.currentTarget.value);
   }
+  function handleFieldHeaderChange(e: React.FormEvent<HTMLTextAreaElement>): void {
+    setTextFieldHeader(e.currentTarget.value);
+}
 
 
 // edit panel up and down
@@ -65,6 +68,7 @@ function setFields() {
 
     //console.log('update by set block id',textFieldContentImp)
     setTextFieldContent(textFieldContentImp)
+    setTextFieldHeader(headingFieldContent)
 
     
 
@@ -159,6 +163,8 @@ useEffect(() => {
             name="heading"
             id="headingField"
             className="smallEditField"
+            value={textFieldHeader}
+            onChange={handleFieldHeaderChange}
             ></textarea>
             </label>
 
