@@ -11,6 +11,7 @@ function DsEditor({all, currentEditBlock, dataStoryData, setDataStoryData, setEd
   setEditorStatus: Function,
   editorStatus: boolean} ) {
 
+  //console.log(dataStoryData);
   
   
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
@@ -92,7 +93,25 @@ return out;
 
 
 const updateBlock = () => {
-  console.log('update', textFieldContent)
+  //console.log('update', textFieldContent)
+  // headingFieldContent
+  // textFieldContent
+
+  const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
+
+
+    
+    if (obj['_attributes']["xml:id"] === currentEditBlock["block_id"]) {
+      return {...obj, "_text": textFieldContent};
+    }
+    return obj;
+  });
+
+  let newDatastory = dataStoryData;
+  newDatastory['ds:DataStory']['ds:Story']['ds:Block'] =  newState;
+  //console.log(newDatastory);
+
+  setDataStoryData(newDatastory);
   
 };
 

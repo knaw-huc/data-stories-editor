@@ -10,6 +10,8 @@ import convert from 'xml-js';
 
 function Story() {
 
+  console.log('story');
+  
   const [storyHeader, setStoryHeader] = useState(Object);
   const [storyBlocksData, setStoryBlocksData] = useState(Object);
   const [loading, setLoading] = useState(true);
