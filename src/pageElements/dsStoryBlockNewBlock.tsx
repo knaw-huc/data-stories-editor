@@ -13,12 +13,39 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
 
   const [blockHeight, setBlockHeight] = useState({height: "0px"});
   const newId = uniqueGenerator()
+  const newType = uniqueGenerator()
+  const newMime = uniqueGenerator()
 
-  const newEntry = {
+  const newEntryMD = {
     "_attributes": {
       "xml:id": newId,
       "type": "text",
       "mime": "text/markdown"
+    },
+    "_comment": "",
+    "ds:Metadata": {
+      "dct:title": {
+        "_text": "New text block"
+      },
+      "_comment": ""
+    },
+    "ds:Cues": {
+      "_comment": [],
+      "ds:title-prologue": {
+        "_attributes": {
+          "type": "template"
+        },
+        "_text": "# I. {$ds-Block/dct:title}"
+      }
+    },
+    "_text": "This is a new markdown block."
+  }
+
+  const newEntryIm = {
+    "_attributes": {
+      "xml:id": newId,
+      "type": "media",
+      "mime": "image/*"
     },
     "_comment": "",
     "ds:Metadata": {
@@ -49,7 +76,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
   }
 
   function addNew(newType) {
-    let foundedIndex = 0;
+    let foundedIndex = -1;
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].map((obj, index) => {
       if (obj["_attributes"]["xml:id"] === prevId) {
         console.log('index', index)
@@ -59,7 +86,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     });
 
 
-    dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, newEntry)
+    dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, newEntryMD)
     setDataStoryData(dataStoryData)
     closeNewBlock()
     setCurrentEditBlock({block_id: newId})

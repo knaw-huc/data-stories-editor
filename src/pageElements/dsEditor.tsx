@@ -118,6 +118,8 @@ const editerBlockSubContent = (sub) => {
   document.getElementById('sub_notes').style.display='none';
   document.getElementById('sub_provenance').style.display='none';
 
+  document.getElementById('sub_image').style.display='none';
+
   if (sub === 'content') {
     document.getElementById('sub_content').style.display = 'block';
   }
@@ -129,6 +131,9 @@ const editerBlockSubContent = (sub) => {
   }
   if (sub === 'provenance') {
     document.getElementById('sub_provenance').style.display = 'block';
+  }
+  if (sub === 'image') {
+    document.getElementById('sub_image').style.display = 'block';
   }
 }
 
@@ -166,61 +171,87 @@ useEffect(() => {
             <a href="#" onClick={() => editerBlockSubContent('metadata')}>Metadata</a>
             <a href="#" onClick={() => editerBlockSubContent('notes')}>Notes and Comments</a>
             <a href="#" onClick={() => editerBlockSubContent('provenance')}>Provenance</a>
+            <a href="#" onClick={() => editerBlockSubContent('image')}>Image</a>
             
           </div>
           <div className="edit_workspace">
             <div id='sub_content'>
 
-            <label htmlFor="heading">Heading
-            <textarea
-            name="heading"
-            id="headingField"
-            className="smallEditField"
-            value={textFieldHeader}
-            onChange={handleFieldHeaderChange}
-            ></textarea>
-            </label>
+              <label htmlFor="heading">Heading
+              <textarea
+              name="heading"
+              id="headingField"
+              className="smallEditField"
+              value={textFieldHeader}
+              onChange={handleFieldHeaderChange}
+              ></textarea>
+              </label>
 
 
-            <label htmlFor="tb">Markdown text
-            <textarea
-              name="tb"
-              id="textField"
-              value={textFieldContent}
-              onChange={handleFieldTextChange}
+              <label htmlFor="tb">Markdown text
+              <textarea
+                name="tb"
+                id="textField"
+                value={textFieldContent}
+                onChange={handleFieldTextChange}
 
 
-            ></textarea></label>
+              ></textarea></label>
             </div>
 
             <div id='sub_metadata'>
-            <label htmlFor="tb">Metadata title
-            <textarea
-              name="tb"
-              id="textField"
-              className="smallEditField"
-            ></textarea></label>
+              <label htmlFor="tb">Metadata title
+              <textarea
+                name="tb"
+                id="textField"
+                className="smallEditField"
+              ></textarea></label>
             </div>
 
 
             <div id='sub_notes'>
-            <label htmlFor="tb">Notes
-            <textarea
-              name="tb"
-              id="textField"
-              
-            ></textarea></label>
+              <label htmlFor="tb">Notes
+              <textarea
+                name="tb"
+                id="textField"
+                
+              ></textarea></label>
             </div>
 
             <div id='sub_provenance'>
-            <label htmlFor="tb">Provenance
-            <textarea
-              name="tb"
-              id="textField"
-              className="smallEditField"
-            ></textarea>
-            <button >Add provenance</button>
-            </label>
+              <label htmlFor="tb">Provenance
+              <textarea
+                name="tb"
+                id="textField"
+                className="smallEditField"
+              ></textarea>
+              <button >Add provenance</button>
+              </label>
+            </div>
+
+            <div id='sub_image'>
+              <label htmlFor="tb">Image URL
+              <textarea
+                name="image_url"
+                className="smallEditField"
+              ></textarea>
+              </label>
+
+              <label htmlFor="tb">Image caption
+              <textarea
+                name="image_caption"
+                className="smallEditField"
+              ></textarea>
+              </label>
+
+              <label htmlFor="tb">Image Alt text
+              <textarea
+                name="image_alt"
+                className="smallEditField"
+              ></textarea>
+              </label>
+
+
             </div>
 
             <button onClick={updateBlock}>Update</button>
