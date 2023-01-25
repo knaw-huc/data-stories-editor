@@ -92,6 +92,8 @@ return out;
 }
 
 
+    
+
 
 const updateBlock = () => {
   console.log('update json');
@@ -99,11 +101,13 @@ const updateBlock = () => {
 
   const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
 
-    if (obj['_attributes']["xml:id"] === currentEditBlock["block_id"]) {
-      return {...obj, "_text": textFieldContent};
+    if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
+      return {...obj, "_text": textFieldContent, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
     }
     return obj;
-  });
+  })
+
+// , ['ds:Metadata']['dct:title']['_text']: textFieldHeader
 
   let newDatastory = dataStoryData;
   newDatastory['ds:DataStory']['ds:Story']['ds:Block'] =  newState;
@@ -154,7 +158,7 @@ useEffect(() => {
 
         <div className="edit_header">
           <div className="panel_edit_wrap panel_edit__split">
-            <div><strong>Edit markdown block</strong></div>
+            <div><strong>Editor</strong></div>
             <button type="button" onClick={changeStyle} className="bt_icon">
                 <img src={icon_arrowDown} alt="" />
             </button>

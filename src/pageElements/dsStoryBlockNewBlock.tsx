@@ -43,7 +43,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
 
 
   function openNewBlock() {
-    setBlockHeight({height: "200px"})
+    setBlockHeight({height: "150px"})
   }
 
   function closeNewBlock() {
