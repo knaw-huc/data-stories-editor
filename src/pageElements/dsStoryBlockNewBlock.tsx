@@ -12,8 +12,6 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
   setDataStoryData: Function}): ReactElement {
 
   const [blockHeight, setBlockHeight] = useState({height: "0px"});
-  const [refresh, setRefresh] = useState(true);
-
   const newId = uniqueGenerator()
 
   const newEntry = {
@@ -51,11 +49,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
   }
 
   function addNew(newType) {
-
     let foundedIndex = 0;
-
-    console.log('Add new', dataStoryData)
-
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].map((obj, index) => {
       if (obj["_attributes"]["xml:id"] === prevId) {
         console.log('index', index)
@@ -68,7 +62,6 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, newEntry)
     setDataStoryData(dataStoryData)
     closeNewBlock()
-    setRefresh(!refresh);
     setCurrentEditBlock({block_id: newId})
   }
 
@@ -83,9 +76,9 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
 
 
   useEffect(() => {
-    //setRefresh(!refresh);
+
     
-  }, [dataStoryData, refresh]);
+  }, [dataStoryData]);
 
 
 

@@ -5,15 +5,7 @@ import DsStory from "./pageElements/dsStory";
 
 
 
-
-
-
-
-
-
 export default function App() {
-
-
 
 
   return (

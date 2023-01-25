@@ -52,7 +52,6 @@ console.log('story block');
 
 
   function changeCurEdit() {
-
     setCurrentEditBlock({block_id: blockId})
     setEditorStatus(true)
   }
@@ -115,4 +114,3 @@ console.log('story block');
 
 
 export default StoryBlock;
-//prevId={blockId}

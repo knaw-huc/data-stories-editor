@@ -16,11 +16,9 @@ function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorS
   
   
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
-  //const [editorUp, setEditorUp] = useState(true);
-  //const [editorSection, setEditorSection] = useState('content');
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
   const [textFieldContent, setTextFieldContent] = useState<string>("");
-  const [refresh, setRefresh] = useState(true);
+
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
       setTextFieldContent(e.currentTarget.value);
@@ -96,24 +94,18 @@ return out;
 
 
 const updateBlock = () => {
-  console.log('update json');
   
-
   const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
-
     if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
       return {...obj, "_text": textFieldContent, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
     }
     return obj;
   })
 
-// , ['ds:Metadata']['dct:title']['_text']: textFieldHeader
-
   let newDatastory = dataStoryData;
   newDatastory['ds:DataStory']['ds:Story']['ds:Block'] =  newState;
 
   setDataStoryData(newDatastory);
-  //setCurrentEditBlock({currentEditBlock})
   setEditorStatus(true)
   
 };
@@ -142,7 +134,6 @@ const editerBlockSubContent = (sub) => {
 
 
 useEffect(() => {
-    //console.log('useEffect block', textFieldContent)
     setFields()
     changeStyle()
     editerBlockSubContent('content')
@@ -245,9 +236,3 @@ useEffect(() => {
 }
 
 export default DsEditor;
-
-
-//<button>Content</button>
-//<button>Metadata</button>
-//<button>Notes and Comments</button>
-//<button>Provenance</button>
