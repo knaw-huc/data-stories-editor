@@ -2,7 +2,7 @@ import React, { ReactElement} from 'react';
 import {useEffect} from "react";
 import StoryBlockMD from "./dsStoryBlockContent_md";
 import StoryBlockTable from "./dsStoryBlockContent_table";
-import StoryBlockYasgui from "./dsStoryBlockContent_yasgui";
+import StoryBlockImage from "./dsStoryBlockContent_image";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
 import StoryBlockNew from "./dsStoryBlockNewBlock";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
@@ -27,10 +27,12 @@ console.log('story block');
   const ifHeader = contentType === 'header';
   const ifText = contentType === 'text';
   const ifQuery = contentType === 'query';
+  const ifImage = contentType === 'media';
 
   let h2Title = '';
   let contentTxt =''
   let blockId = ''
+  let imgHref = ''
 
 
   if (ifHeader) {
@@ -48,6 +50,11 @@ console.log('story block');
   
   if (ifQuery) {
     blockId = content['_attributes']["xml:id"]  //
+  }
+
+  if (ifImage) {
+    blockId = content['_attributes']["xml:id"]  //
+    imgHref = content['_attributes']["href"]
   }
 
 
@@ -90,6 +97,14 @@ console.log('story block');
 
             {ifQuery ? (
               <StoryBlockTable />
+            ) : (
+              <></>
+            ) }
+            {ifImage ? (
+              <StoryBlockImage 
+              title="new image"
+              href={imgHref}
+              />
             ) : (
               <></>
             ) }

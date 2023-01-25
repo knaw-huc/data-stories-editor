@@ -45,25 +45,16 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     "_attributes": {
       "xml:id": newId,
       "type": "media",
-      "mime": "image/*"
+      "mime": "image/*",
+      "href": "/static/media/image-placeholder.5e59f68490166ba3ca46.png"
     },
     "_comment": "",
     "ds:Metadata": {
       "dct:title": {
-        "_text": "New text block"
+        "_text": "Caption / alt text here"
       },
       "_comment": ""
-    },
-    "ds:Cues": {
-      "_comment": [],
-      "ds:title-prologue": {
-        "_attributes": {
-          "type": "template"
-        },
-        "_text": "# I. {$ds-Block/dct:title}"
-      }
-    },
-    "_text": "This is a new markdown block."
+    }
   }
 
 
@@ -76,6 +67,14 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
   }
 
   function addNew(newType) {
+
+    let jsonTemplate = {}
+    jsonTemplate = newEntryMD;
+    if (newType === 'image') {
+      jsonTemplate = newEntryIm;
+    }
+
+
     let foundedIndex = -1;
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].map((obj, index) => {
       if (obj["_attributes"]["xml:id"] === prevId) {
@@ -86,7 +85,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     });
 
 
-    dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, newEntryMD)
+    dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].splice(foundedIndex+1, 0, jsonTemplate)
     setDataStoryData(dataStoryData)
     closeNewBlock()
     setCurrentEditBlock({block_id: newId})
