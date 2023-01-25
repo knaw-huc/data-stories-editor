@@ -55,6 +55,9 @@ console.log('story block');
   if (ifImage) {
     blockId = content['_attributes']["xml:id"]  //
     imgHref = content['_attributes']["href"]
+    if (content['ds:Metadata'] !== undefined) {
+      h2Title = content['ds:Metadata']['dct:title']._text
+    }
   }
 
 
@@ -102,7 +105,7 @@ console.log('story block');
             ) }
             {ifImage ? (
               <StoryBlockImage 
-              title="new image"
+              title={h2Title}
               href={imgHref}
               />
             ) : (

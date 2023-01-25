@@ -46,7 +46,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
       "xml:id": newId,
       "type": "media",
       "mime": "image/*",
-      "href": "/static/media/image-placeholder.5e59f68490166ba3ca46.png"
+      "href": "https://via.placeholder.com/900x360/d9dbe4/9098bd?text=image_placeholder"
     },
     "_comment": "",
     "ds:Metadata": {

@@ -18,6 +18,8 @@ function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorS
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
   const [textFieldContent, setTextFieldContent] = useState<string>("");
+  const [textFieldImgHref, setTextFieldImgHref] = useState<string>("");
+  const [textFieldImgCaption, setTextFieldImgCaption] = useState<string>("");
 
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
@@ -25,7 +27,13 @@ function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorS
   }
   function handleFieldHeaderChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     setTextFieldHeader(e.currentTarget.value);
-}
+  }
+  function handleFieldHrefChange(e: React.FormEvent<HTMLTextAreaElement>): void {
+    setTextFieldImgHref(e.currentTarget.value);
+  }
+  function handleFieldCaptionChange(e: React.FormEvent<HTMLTextAreaElement>): void {
+    setTextFieldImgCaption(e.currentTarget.value);
+  }
 
 
 // edit panel up and down
@@ -53,6 +61,8 @@ function setFields() {
   if (currentEditBlock['block_id'] != '') {
     let headingFieldContent = ''
     let textFieldContentImp = ''
+    let textFieldhrefImp = ''
+    let textFieldCaptionImg = ''
 
     const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 
@@ -66,9 +76,24 @@ function setFields() {
       textFieldContentImp = allBlocks[findBlockById(currentEditBlock['block_id'])]._text
     }
 
+    if (allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['mime'] === 'image/*') {
+      // get href data
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {      
+        textFieldhrefImp = allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['href']
+      }
+
+      // get caption data
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {      
+        textFieldCaptionImg = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
+      }
+    }
+  
+
     //console.log('update by set block id',textFieldContentImp)
     setTextFieldContent(textFieldContentImp)
     setTextFieldHeader(headingFieldContent)
+    setTextFieldImgHref(textFieldhrefImp)
+    setTextFieldImgCaption(textFieldCaptionImg)
 
     
 
@@ -97,7 +122,18 @@ const updateBlock = () => {
   
   const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
     if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
-      return {...obj, "_text": textFieldContent, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
+      console.log('****', obj['_attributes']['mime']);
+      
+      
+      let mutatedObj = {}
+      if (obj['_attributes']['mime'] === 'image/*') {
+        mutatedObj = {...obj, '_attributes': {'href':  textFieldImgHref, 'type': 'media', 'mime': 'image/*', 'xml:id':obj['_attributes']['xml:id']}, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
+      } else {
+        mutatedObj = {...obj, "_text": textFieldContent, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
+      }
+
+      return mutatedObj;
+      
     }
     return obj;
   })
@@ -107,6 +143,8 @@ const updateBlock = () => {
 
   setDataStoryData(newDatastory);
   setEditorStatus(true)
+  console.log(newDatastory);
+  
   
 };
 
@@ -230,24 +268,21 @@ useEffect(() => {
             </div>
 
             <div id='sub_image'>
-              <label htmlFor="tb">Image URL
+              <label htmlFor="tb">Image href
               <textarea
                 name="image_url"
                 className="smallEditField"
+                value={textFieldImgHref}
+                onChange={handleFieldHrefChange}
               ></textarea>
               </label>
 
-              <label htmlFor="tb">Image caption
+              <label htmlFor="tb">Image caption / Alt text
               <textarea
                 name="image_caption"
                 className="smallEditField"
-              ></textarea>
-              </label>
-
-              <label htmlFor="tb">Image Alt text
-              <textarea
-                name="image_alt"
-                className="smallEditField"
+                value={textFieldImgCaption}
+                onChange={handleFieldCaptionChange}
               ></textarea>
               </label>
 
