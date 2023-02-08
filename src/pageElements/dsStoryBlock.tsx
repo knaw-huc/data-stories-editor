@@ -21,7 +21,7 @@ function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, set
   setEditorStatus: Function,
   editorStatus: boolean} ): ReactElement {
 
-console.log('story block');
+
 
 
   const ifHeader = contentType === 'header';

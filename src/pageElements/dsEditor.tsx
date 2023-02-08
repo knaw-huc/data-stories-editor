@@ -1,7 +1,9 @@
 import React from 'react';
 import {useState, useEffect} from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
-
+import convert from 'xml-js';
+import { Buffer } from 'buffer';
+import { log } from 'console';
 
 function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus}: {
 
@@ -175,6 +177,34 @@ const editerBlockSubContent = (sub) => {
   }
 }
 
+function exportStory() {
+  //var options = {compact: true, spaces: 4};
+  //var result = convert.json2xml(JSON.stringify(dataStoryData), options);
+
+
+  loopThrough(dataStoryData)
+
+  function loopThrough(arr) {
+    console.log('11', arr["ds:DataStory"]["ds:Story"]["ds:Block"]);
+
+    if (typeof arr === 'object') {
+      console.log('= object');
+    }
+
+    if (Array.isArray(arr["ds:DataStory"]["ds:Story"]["ds:Block"])) {
+      console.log('= array', );
+      arr["ds:DataStory"]["ds:Story"]["ds:Block"].map((x, index) => {
+            //console.log('array item:',x);
+            loopThrough(x);
+          })
+
+    }
+
+
+    
+  }
+}                                                                                                                                                                                                                         
+                                                                                                                                                                 
 
 useEffect(() => {
     setFields()
@@ -193,9 +223,15 @@ useEffect(() => {
         <div className="edit_header">
           <div className="panel_edit_wrap panel_edit__split">
             <div><strong>Editor</strong></div>
+            <div
+            style={{display: 'flex', flexDirection: 'row'}}>
+            <button type="button" onClick={exportStory} className="">Export story</button>
             <button type="button" onClick={changeStyle} className="bt_icon">
                 <img src={icon_arrowDown} alt="" />
             </button>
+
+            </div>
+
           </div>
         </div>
 
