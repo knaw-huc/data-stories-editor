@@ -1,22 +1,23 @@
 import React from 'react';
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 import convert from 'xml-js';
 import { Buffer } from 'buffer';
 import { log } from 'console';
 
-function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus}: {
+function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus }: {
 
-  currentEditBlock:object, 
-  dataStoryData: object, 
+  currentEditBlock: object,
+  dataStoryData: object,
   setDataStoryData: Function,
   setEditorStatus: Function,
   setCurrentEditBlock: Function,
-  editorStatus: boolean} ) {
+  editorStatus: boolean
+}) {
 
   //console.log(dataStoryData);
-  
-  
+
+
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
   const [textFieldContent, setTextFieldContent] = useState<string>("");
@@ -25,7 +26,7 @@ function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorS
 
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-      setTextFieldContent(e.currentTarget.value);
+    setTextFieldContent(e.currentTarget.value);
   }
   function handleFieldHeaderChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     setTextFieldHeader(e.currentTarget.value);
@@ -38,233 +39,246 @@ function DsEditor({currentEditBlock, dataStoryData, setDataStoryData, setEditorS
   }
 
 
-// edit panel up and down
-console.log('editorStatus',editorStatus);
+  // edit panel up and down
+  console.log('editorStatus', editorStatus);
 
- const changeStyle = () => {
-   if (editorStatus) {
-     setStyle("panel_edit fixedBottom editorUp");
-     setEditorStatus(false);
-   } else {
-     setStyle("panel_edit fixedBottom editorDown");
-     setEditorStatus(true);
-   }
+  const changeStyle = () => {
+    if (editorStatus) {
+      setStyle("panel_edit fixedBottom editorUp");
+      setEditorStatus(false);
+    } else {
+      setStyle("panel_edit fixedBottom editorDown");
+      setEditorStatus(true);
+    }
 
 
- };
-
- 
+  };
 
 
 
 
-// if has block id get data from datastory
-function setFields() {
-  if (currentEditBlock['block_id'] != '') {
-    let headingFieldContent = ''
-    let textFieldContentImp = ''
-    let textFieldhrefImp = ''
-    let textFieldCaptionImg = ''
 
+
+  // if has block id get data from datastory
+  function setFields() {
+    if (currentEditBlock['block_id'] != '') {
+      let headingFieldContent = ''
+      let textFieldContentImp = ''
+      let textFieldhrefImp = ''
+      let textFieldCaptionImg = ''
+
+      const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
+
+      // get header data
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata'] !== undefined) {
+        headingFieldContent = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
+      }
+
+      // get content data
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
+        textFieldContentImp = allBlocks[findBlockById(currentEditBlock['block_id'])]._text
+      }
+
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['mime'] === 'image/*') {
+        // get href data
+        if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
+          textFieldhrefImp = allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['href']
+        }
+
+        // get caption data
+        if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
+          textFieldCaptionImg = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
+        }
+      }
+
+
+      //console.log('update by set block id',textFieldContentImp)
+      setTextFieldContent(textFieldContentImp)
+      setTextFieldHeader(headingFieldContent)
+      setTextFieldImgHref(textFieldhrefImp)
+      setTextFieldImgCaption(textFieldCaptionImg)
+
+
+
+    }
+  }
+
+
+
+  function findBlockById(id) {
     const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 
-    // get header data
-    if (allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata'] !== undefined) {
-      headingFieldContent = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
-    }
-
-    // get content data
-    if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
-      textFieldContentImp = allBlocks[findBlockById(currentEditBlock['block_id'])]._text
-    }
-
-    if (allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['mime'] === 'image/*') {
-      // get href data
-      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {      
-        textFieldhrefImp = allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['href']
-      }
-
-      // get caption data
-      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {      
-        textFieldCaptionImg = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
+    var out;
+    for (var i = 0; i < allBlocks.length; i++) {
+      if (allBlocks[i]['_attributes']["xml:id"] == id) {
+        out = i;
       }
     }
-  
-
-    //console.log('update by set block id',textFieldContentImp)
-    setTextFieldContent(textFieldContentImp)
-    setTextFieldHeader(headingFieldContent)
-    setTextFieldImgHref(textFieldhrefImp)
-    setTextFieldImgCaption(textFieldCaptionImg)
-
-    
-
+    return out;
   }
-}
 
 
 
-function findBlockById(id) {
-const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
-
-  var out;
-  for (var i = 0; i < allBlocks.length; i++){
-    if (allBlocks[i]['_attributes']["xml:id"] == id){
-      out = i;
-    }
-}
-return out;
-}
 
 
-    
+  const updateBlock = () => {
+
+    const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
+      if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
+        console.log('****', obj['_attributes']['mime']);
 
 
-const updateBlock = () => {
-  
-  const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
-    if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
-      console.log('****', obj['_attributes']['mime']);
-      
-      
-      let mutatedObj = {}
-      if (obj['_attributes']['mime'] === 'image/*') {
-        mutatedObj = {...obj, '_attributes': {'href':  textFieldImgHref, 'type': 'media', 'mime': 'image/*', 'xml:id':obj['_attributes']['xml:id']}, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
-      } else {
-        mutatedObj = {...obj, "_text": textFieldContent, 'ds:Metadata': {'dct:title': {'_text':textFieldHeader}} };
+        let mutatedObj = {}
+        if (obj['_attributes']['mime'] === 'image/*') {
+          mutatedObj = { ...obj, '_attributes': { 'href': textFieldImgHref, 'type': 'media', 'mime': 'image/*', 'xml:id': obj['_attributes']['xml:id'] }, 'ds:Metadata': { 'dct:title': { '_text': textFieldHeader } } };
+        } else {
+          mutatedObj = { ...obj, "_text": textFieldContent, 'ds:Metadata': { 'dct:title': { '_text': textFieldHeader } } };
+        }
+
+        return mutatedObj;
+
       }
+      return obj;
+    })
 
-      return mutatedObj;
-      
+    let newDatastory = dataStoryData;
+    newDatastory['ds:DataStory']['ds:Story']['ds:Block'] = newState;
+
+    setDataStoryData(newDatastory);
+    setEditorStatus(true)
+    console.log(newDatastory);
+
+
+  };
+
+  // submenu interface
+  const editerBlockSubContent = (sub) => {
+    console.log('editerBlockSub', sub)
+    document.getElementById('sub_content').style.display = 'none';
+    document.getElementById('sub_metadata').style.display = 'none';
+    document.getElementById('sub_notes').style.display = 'none';
+    document.getElementById('sub_provenance').style.display = 'none';
+
+    document.getElementById('sub_image').style.display = 'none';
+
+    if (sub === 'content') {
+      document.getElementById('sub_content').style.display = 'block';
     }
-    return obj;
-  })
-
-  let newDatastory = dataStoryData;
-  newDatastory['ds:DataStory']['ds:Story']['ds:Block'] =  newState;
-
-  setDataStoryData(newDatastory);
-  setEditorStatus(true)
-  console.log(newDatastory);
-  
-  
-};
-
-// submenu interface
-const editerBlockSubContent = (sub) => {
-  console.log('editerBlockSub', sub)
-  document.getElementById('sub_content').style.display='none';
-  document.getElementById('sub_metadata').style.display='none';
-  document.getElementById('sub_notes').style.display='none';
-  document.getElementById('sub_provenance').style.display='none';
-
-  document.getElementById('sub_image').style.display='none';
-
-  if (sub === 'content') {
-    document.getElementById('sub_content').style.display = 'block';
+    if (sub === 'metadata') {
+      document.getElementById('sub_metadata').style.display = 'block';
+    }
+    if (sub === 'notes') {
+      document.getElementById('sub_notes').style.display = 'block';
+    }
+    if (sub === 'provenance') {
+      document.getElementById('sub_provenance').style.display = 'block';
+    }
+    if (sub === 'image') {
+      document.getElementById('sub_image').style.display = 'block';
+    }
   }
-  if (sub === 'metadata') {
-    document.getElementById('sub_metadata').style.display = 'block';
-  }
-  if (sub === 'notes') {
-    document.getElementById('sub_notes').style.display = 'block';
-  }
-  if (sub === 'provenance') {
-    document.getElementById('sub_provenance').style.display = 'block';
-  }
-  if (sub === 'image') {
-    document.getElementById('sub_image').style.display = 'block';
-  }
-}
 
-function exportStory() {
+  function exportStory() {
+    const preXml = '<?xml version="1.0" encoding="UTF-8"?>\n<?xml-model href="schema/datastory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>\n'
+    console.log(preXml + loopThrough(dataStoryData, ''))
 
-  console.log("<xml>"+loopThrough(dataStoryData, '')+"</xml>")
+    function loopThrough(arr, objName) {
+      let out = '';
 
-  function loopThrough(arr, objName) {
-    let out = '';
+      if (typeof arr === 'object') {
+        Object.keys(arr).map(function (keyName, keyIndex) {
 
-    if (typeof arr === 'object') {
-      Object.keys(arr).map(function(keyName, keyIndex) {
 
-        
-        if (typeof arr[keyName] === 'object') {
-          // if not attribute
-          if (arr[keyName] !== '_attributes') {
-            let attrStr = '';
-            // if has attributes
-            if (arr[keyName]['_attributes'] !== undefined) {
-              attrStr = ''
-              Object.keys(arr[keyName]['_attributes']).map(function(keyName2) {
-                attrStr += keyName2+'="'+arr[keyName]['_attributes'][keyName2]+'" '
-              })
-              console.log('>>',arr[keyName]['_attributes'])
+          if (typeof arr[keyName] === 'object') {
+            // if not attribute ((keyName !== '_attributes') || (keyName !== '_declaration') || (keyName !== '_instruction'))
+            if ((keyName === '_attributes') || (keyName === '_declaration') || (keyName === '_instruction')) {
+            } else {
+              let attrStr = '';
+
+
+              // if is array
+              if (Array.isArray(arr[keyName])) {
+                arr[keyName].map((x, index) => {
+                  attrStr = get_attributes(x)
+                  out += '<' + keyName +  attrStr + '>' + loopThrough(x, '') + '</' + keyName + '>'
+                })
+
+              } else { // if is object with objects
+                let tagName = keyName
+                attrStr = get_attributes(arr[keyName])
+                if (objName !== '') {
+                  tagName = objName
+                }
+                out += '<' + tagName +  attrStr + '>' + loopThrough(arr[keyName], '') + '</' + tagName + '>'
+              }
+
             }
 
 
-            out += '<'+keyName+' '+attrStr+' >'+loopThrough(arr[keyName], '')+'</'+keyName+'>'
- 
-          }
-          
-          
-        } else {
-          console.log('other', keyName, ', val:', arr[keyName]);
-          if( keyName === '_text') {
-            out += arr[keyName]
           } else {
-            out += '<'+keyName+'>'+arr[keyName]+'</'+keyName+'>'
+            // if is object, with one value
+            if (keyName === '_text') {
+              out += arr[keyName]
+            } else  if(keyName === '_cdata'){
+              out += '<![CDATA['+arr[keyName]+']]>'
+            }else {
+              out += '<' + keyName + '>' + arr[keyName] + '</' + keyName + '>'
+            }
+
+
+
           }
-          
-          
-          
-        }
+        })
+      }
+
+      out = out.replaceAll('<_comment>', '<!-- ');
+      out = out.replaceAll('</_comment>', ' -->');
+
+      return out
+    }
+  }
+
+  function get_attributes(obj) {
+    let out = ''
+    if (obj['_attributes'] !== undefined) {
+      //attrStr = ''
+      Object.keys(obj['_attributes']).map(function (keyName2) {
+        out += ' '+keyName2 + '="' + obj['_attributes'][keyName2] + '"'
       })
     }
-
-    // if is array
-    if (Array.isArray(arr)) {
-      arr.map((x, index) => {
-            out += '<arrrrrrrrrrrrrrrrrr>'+loopThrough(x, '')+'</arrrrrrrrrrrrrrrrrr>'
-          })
-
-    }
-
-
-    return out
+    return out;
   }
-}                                                                                                                                                                                                                         
-                                                                                                                                                                 
 
-useEffect(() => {
+  useEffect(() => {
     setFields()
     changeStyle()
     editerBlockSubContent('content')
-    
-}, [dataStoryData,currentEditBlock]);
+
+  }, [dataStoryData, currentEditBlock]);
 
 
 
 
-    return (
+  return (
 
-      <div className={style} id="panel_edit">
+    <div className={style} id="panel_edit">
 
-        <div className="edit_header">
-          <div className="panel_edit_wrap panel_edit__split">
-            <div><strong>Editor</strong></div>
-            <div
-            style={{display: 'flex', flexDirection: 'row'}}>
+      <div className="edit_header">
+        <div className="panel_edit_wrap panel_edit__split">
+          <div><strong>Editor</strong></div>
+          <div
+            style={{ display: 'flex', flexDirection: 'row' }}>
             <button type="button" onClick={exportStory} className="">Export story</button>
             <button type="button" onClick={changeStyle} className="bt_icon">
-                <img src={icon_arrowDown} alt="" />
+              <img src={icon_arrowDown} alt="" />
             </button>
 
-            </div>
-
           </div>
-        </div>
 
-        <div className="panel_edit_inner panel_edit_wrap">
+        </div>
+      </div>
+
+      <div className="panel_edit_inner panel_edit_wrap">
 
 
         <div className="edit_body">
@@ -275,80 +289,80 @@ useEffect(() => {
             <a href="#" onClick={() => editerBlockSubContent('notes')}>Notes and Comments</a>
             <a href="#" onClick={() => editerBlockSubContent('provenance')}>Provenance</a>
             <a href="#" onClick={() => editerBlockSubContent('image')}>Image</a>
-            
+
           </div>
           <div className="edit_workspace">
             <div id='sub_content'>
 
               <label htmlFor="heading">Heading
-              <textarea
-              name="heading"
-              id="headingField"
-              className="smallEditField"
-              value={textFieldHeader}
-              onChange={handleFieldHeaderChange}
-              ></textarea>
+                <textarea
+                  name="heading"
+                  id="headingField"
+                  className="smallEditField"
+                  value={textFieldHeader}
+                  onChange={handleFieldHeaderChange}
+                ></textarea>
               </label>
 
 
               <label htmlFor="tb">Markdown text
-              <textarea
-                name="tb"
-                id="textField"
-                value={textFieldContent}
-                onChange={handleFieldTextChange}
+                <textarea
+                  name="tb"
+                  id="textField"
+                  value={textFieldContent}
+                  onChange={handleFieldTextChange}
 
 
-              ></textarea></label>
+                ></textarea></label>
             </div>
 
             <div id='sub_metadata'>
               <label htmlFor="tb">Metadata title
-              <textarea
-                name="tb"
-                id="textField"
-                className="smallEditField"
-              ></textarea></label>
+                <textarea
+                  name="tb"
+                  id="textField"
+                  className="smallEditField"
+                ></textarea></label>
             </div>
 
 
             <div id='sub_notes'>
               <label htmlFor="tb">Notes
-              <textarea
-                name="tb"
-                id="textField"
-                
-              ></textarea></label>
+                <textarea
+                  name="tb"
+                  id="textField"
+
+                ></textarea></label>
             </div>
 
             <div id='sub_provenance'>
               <label htmlFor="tb">Provenance
-              <textarea
-                name="tb"
-                id="textField"
-                className="smallEditField"
-              ></textarea>
-              <button >Add provenance</button>
+                <textarea
+                  name="tb"
+                  id="textField"
+                  className="smallEditField"
+                ></textarea>
+                <button >Add provenance</button>
               </label>
             </div>
 
             <div id='sub_image'>
               <label htmlFor="tb">Image href
-              <textarea
-                name="image_url"
-                className="smallEditField"
-                value={textFieldImgHref}
-                onChange={handleFieldHrefChange}
-              ></textarea>
+                <textarea
+                  name="image_url"
+                  className="smallEditField"
+                  value={textFieldImgHref}
+                  onChange={handleFieldHrefChange}
+                ></textarea>
               </label>
 
               <label htmlFor="tb">Image caption / Alt text
-              <textarea
-                name="image_caption"
-                className="smallEditField"
-                value={textFieldImgCaption}
-                onChange={handleFieldCaptionChange}
-              ></textarea>
+                <textarea
+                  name="image_caption"
+                  className="smallEditField"
+                  value={textFieldImgCaption}
+                  onChange={handleFieldCaptionChange}
+                ></textarea>
               </label>
 
 
@@ -360,10 +374,10 @@ useEffect(() => {
         </div>
 
 
-        </div>
       </div>
+    </div>
 
-    )
+  )
 }
 
 export default DsEditor;
