@@ -178,30 +178,59 @@ const editerBlockSubContent = (sub) => {
 }
 
 function exportStory() {
-  //var options = {compact: true, spaces: 4};
-  //var result = convert.json2xml(JSON.stringify(dataStoryData), options);
 
+  console.log("<xml>"+loopThrough(dataStoryData, '')+"</xml>")
 
-  loopThrough(dataStoryData)
-
-  function loopThrough(arr) {
-    console.log('11', arr["ds:DataStory"]["ds:Story"]["ds:Block"]);
+  function loopThrough(arr, objName) {
+    let out = '';
 
     if (typeof arr === 'object') {
-      console.log('= object');
+      Object.keys(arr).map(function(keyName, keyIndex) {
+
+        
+        if (typeof arr[keyName] === 'object') {
+          // if not attribute
+          if (arr[keyName] !== '_attributes') {
+            let attrStr = '';
+            // if has attributes
+            if (arr[keyName]['_attributes'] !== undefined) {
+              attrStr = ''
+              Object.keys(arr[keyName]['_attributes']).map(function(keyName2) {
+                attrStr += keyName2+'="'+arr[keyName]['_attributes'][keyName2]+'" '
+              })
+              console.log('>>',arr[keyName]['_attributes'])
+            }
+
+
+            out += '<'+keyName+' '+attrStr+' >'+loopThrough(arr[keyName], '')+'</'+keyName+'>'
+ 
+          }
+          
+          
+        } else {
+          console.log('other', keyName, ', val:', arr[keyName]);
+          if( keyName === '_text') {
+            out += arr[keyName]
+          } else {
+            out += '<'+keyName+'>'+arr[keyName]+'</'+keyName+'>'
+          }
+          
+          
+          
+        }
+      })
     }
 
-    if (Array.isArray(arr["ds:DataStory"]["ds:Story"]["ds:Block"])) {
-      console.log('= array', );
-      arr["ds:DataStory"]["ds:Story"]["ds:Block"].map((x, index) => {
-            //console.log('array item:',x);
-            loopThrough(x);
+    // if is array
+    if (Array.isArray(arr)) {
+      arr.map((x, index) => {
+            out += '<arrrrrrrrrrrrrrrrrr>'+loopThrough(x, '')+'</arrrrrrrrrrrrrrrrrr>'
           })
 
     }
 
 
-    
+    return out
   }
 }                                                                                                                                                                                                                         
                                                                                                                                                                  
