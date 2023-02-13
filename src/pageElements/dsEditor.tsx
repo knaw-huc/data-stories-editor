@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
-import convert from 'xml-js';
-import { Buffer } from 'buffer';
-import { log } from 'console';
+import icon_edit from '../assets/img/icons/icon-edit.svg';
+import icon_delete from '../assets/img/icons/icon-delete.svg';
 
 function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus }: {
 
+
+  
   currentEditBlock: object,
   dataStoryData: object,
   setDataStoryData: Function,
@@ -16,7 +17,10 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 }) {
 
   //console.log(dataStoryData);
-
+  let hasId = false
+  if (currentEditBlock['block_id'] != '') {
+    hasId = true
+  }
 
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
@@ -37,6 +41,20 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   function handleFieldCaptionChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     setTextFieldImgCaption(e.currentTarget.value);
   }
+
+
+  function findBlockById(currentEditBlock) {
+    const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
+
+    var out;
+    for (var i = 0; i < allBlocks.length; i++) {
+      if (allBlocks[i]['_attributes']["xml:id"] == currentEditBlock) {
+        out = i;
+      }
+    }
+    return out;
+  }
+
 
 
   // edit panel up and down
@@ -105,17 +123,6 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
 
 
-  function findBlockById(id) {
-    const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
-
-    var out;
-    for (var i = 0; i < allBlocks.length; i++) {
-      if (allBlocks[i]['_attributes']["xml:id"] == id) {
-        out = i;
-      }
-    }
-    return out;
-  }
 
 
 
@@ -180,7 +187,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
   function exportStory() {
     const preXml = '<?xml version="1.0" encoding="UTF-8"?>\n<?xml-model href="schema/datastory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>\n'
-    console.log(preXml + loopThrough(dataStoryData, ''))
+    //console.log(preXml + loopThrough(dataStoryData, ''))
 
     function loopThrough(arr, objName) {
       let out = '';
@@ -222,7 +229,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
             } else  if(keyName === '_cdata'){
               out += '<![CDATA['+arr[keyName]+']]>'
             }else {
-              out += '<' + keyName + '>' + arr[keyName] + '</' + keyName + '>'
+              out += '<' + keyName + '>' + escapeHtml(arr[keyName]) + '</' + keyName + '>'
             }
 
 
@@ -249,6 +256,16 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
     return out;
   }
 
+  function escapeHtml(unsafe) {
+    return unsafe
+         .replaceAll(/&/g, "&amp;")
+         .replaceAll(/</g, "&lt;")
+         .replaceAll(/>/g, "&gt;")
+         .replaceAll(/"/g, "&quot;")
+         .replaceAll(/'/g, "&#039;");
+ }
+
+
   useEffect(() => {
     setFields()
     changeStyle()
@@ -259,9 +276,79 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
 
 
+
+  // function listMetdata() {
+  //   if (currentEditBlock['block_id'] !== '') {
+  //     const listItems = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
+  //       if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
+          
+  //         Object.keys(obj["ds:Metadata"]).map(function (keyName, keyIndex) {
+  //           //console.log('obj:',keyIndex, obj["ds:Metadata"][keyName]);
+  //           <li>
+  //           <div className="editList__text"><span className="hc_text--S">{obj["ds:Metadata"][keyName]}</span><br/>The dataset</div>
+  //             <div className="editList__button">
+  //                 <button type="button" name="button" className="bt_icon block_event">
+  //                 <img src={icon_edit} alt="" />
+  //                   </button>
+  //             </div>
+  //           </li>
+
+
+  //         })
+          
+  //       }}
+  //     )
+  //     return (
+  //       <ul>
+  //         {listItems}
+  //       </ul>
+  //     )
+  //   }
+
+
+
+  // }
+
+  // listMetdata();
+
+
+
+
+//dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]
+  const SimpleList = ({list}) => (
+    <ul>
+      {Object.keys(list).map(keyName => (
+        <li key={keyName}>
+            <div className="editList__text"><span className="hc_text--S">{keyName}</span><br/>{list[keyName]['_text']}</div>
+               <div className="editList__button">
+                   <button type="button" name="button" className="bt_icon block_event">
+                   <img src={icon_edit} alt="" />
+                     </button>
+               </div>
+               <div className="editList__button">
+                   <button type="button" name="button" className="bt_icon block_event">
+                   <img src={icon_delete} alt="" />
+                     </button>
+               </div>
+           </li>
+      ))}
+    </ul>
+  
+  );
+
+
+
+function addMetdata() {
+  console.log('addMetdataMetdata() ');
+}
+
+
   return (
 
     <div className={style} id="panel_edit">
+
+
+      
 
       <div className="edit_header">
         <div className="panel_edit_wrap panel_edit__split">
@@ -317,12 +404,35 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
             </div>
 
             <div id='sub_metadata'>
-              <label htmlFor="tb">Metadata title
-                <textarea
-                  name="tb"
-                  id="textField"
-                  className="smallEditField"
-                ></textarea></label>
+            <label className="labelTxt" htmlFor="text1">
+              Metadata type
+              
+              <select name="" id="" className="hc_marginBot05">
+                  <option value="dct:title">Title</option>
+                  <option value="dct:bescription">Description</option>
+                  <option value="dct:created">Date Created</option>
+                  <option value="dct:language">Language</option>
+                  <option value="dct:type">Type</option>
+                  <option value="dct:references">References</option>
+              </select>
+          </label>
+
+          <label className="labelTxt" htmlFor="text1">
+              Metadata value
+
+              <div className="fieldRow hc_marginBottom05">
+                  <input type="text" id="text1" name="text1" className="hc_marginRight05" />
+                  <button onClick={addMetdata}>Add</button>
+              </div>
+          </label>
+
+          <div className="editList hc_marginTop1 hc_marginBot1">
+          {hasId ? (
+        <SimpleList list={dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]} />
+        ): (
+        <div>No metadata</div>)
+         }
+          </div>
             </div>
 
 
