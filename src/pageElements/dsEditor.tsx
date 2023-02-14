@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
+import { log } from 'console';
 
 function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus }: {
 
@@ -29,7 +30,8 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   const [textFieldImgCaption, setTextFieldImgCaption] = useState<string>("");
   const [selectMetadaType, setSelectMetadaType] = useState<string>("");
   const [textFieldMetadaVal, setTextFieldMetadaVal] = useState<string>("");
-
+  const [selectProvType, setSelectProvType] = useState<string>("");
+  const [textFieldProveVal, setTextFieldProveVal] = useState<string>("");
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     setTextFieldContent(e.currentTarget.value);
@@ -49,7 +51,12 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   function handleMetadaTypeChange(e: React.FormEvent<HTMLSelectElement>): void {
     setSelectMetadaType(e.currentTarget.value);
   }
-
+  function handleProvValChange(e: React.FormEvent<HTMLInputElement>): void {
+    setTextFieldProveVal(e.currentTarget.value);
+  }
+  function handleProvTypeChange(e: React.FormEvent<HTMLSelectElement>): void {
+    setSelectProvType(e.currentTarget.value);
+  }
 
 
   function findBlockById(currentEditBlock) {
@@ -282,14 +289,17 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   }, [dataStoryData, currentEditBlock]);
 
 
+  const Listdata = ({list}) => {
+    let newList = list
+    if (list === undefined) {
+      newList = {}
+    }
 
-
-
-  const SimpleList = ({list}) => (
-    <ul>
-      {Object.keys(list).map(keyName => (
+    return (
+      <ul>
+      {Object.keys(newList).map(keyName => (
         <li key={keyName}>
-            <div className="editList__text"><span className="hc_text--S">{keyName}</span><br/>{list[keyName]['_text']}</div>
+            <div className="editList__text"><span className="hc_text--S">{keyName}</span><br/>{newList[keyName]['_text']}</div>
                <div className="editList__button">
                    <button type="button" name="button" className="bt_icon block_event">
                    <img src={icon_edit} alt="" />
@@ -303,10 +313,13 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
            </li>
       ))}
     </ul>
+    )
+  }
+
+
+
+
   
-  );
-
-
 
 function addMetdata() {
   //dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]
@@ -321,6 +334,27 @@ function addMetdata() {
     setDataStoryData(newDatastory);
     setEditorStatus(true)
 
+}
+
+function addProv() {
+  let provObj = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Provenance"]
+  console.log(dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])])
+  if (provObj === undefined) {
+    console.log('no prov1')
+    // dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])["ds:Provenance"]] = {}
+    // console.log('no prov2', dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])])
+    
+    let metadataNew = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])];
+    let mutatedObj = {}
+    mutatedObj = { ...metadataNew, "ds:Provenance": { [selectProvType]: { '_text': textFieldProveVal  }} };
+
+    let newDatastory = dataStoryData;
+    newDatastory['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])] = mutatedObj;
+
+    setDataStoryData(newDatastory);
+    setEditorStatus(true)
+    console.log('dataStoryData', dataStoryData)
+  }
 }
 
 
@@ -354,9 +388,9 @@ function addMetdata() {
 
             <a href="#" onClick={() => editerBlockSubContent('content')}>Content</a>
             <a href="#" onClick={() => editerBlockSubContent('metadata')}>Metadata</a>
-            <a href="#" onClick={() => editerBlockSubContent('notes')}>Notes and Comments</a>
             <a href="#" onClick={() => editerBlockSubContent('provenance')}>Provenance</a>
             <a href="#" onClick={() => editerBlockSubContent('image')}>Image</a>
+            <a href="#" onClick={() => editerBlockSubContent('notes')}>Notes and Comments</a>
 
           </div>
           <div className="edit_workspace">
@@ -417,12 +451,12 @@ function addMetdata() {
 
           <div className="editList hc_marginTop1 hc_marginBot1">
           {hasId ? (
-        <SimpleList list={dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]} />
+        <Listdata list={dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]} />
         ): (
         <div>No metadata</div>)
          }
           </div>
-            </div>
+        </div>
 
 
             <div id='sub_notes'>
@@ -435,14 +469,46 @@ function addMetdata() {
             </div>
 
             <div id='sub_provenance'>
-              <label htmlFor="tb">Provenance
-                <textarea
-                  name="tb"
-                  id="textField"
-                  className="smallEditField"
-                ></textarea>
-                <button >Add provenance</button>
-              </label>
+            <label className="labelTxt" htmlFor="text1">
+              Provenance type
+              
+              <select 
+              onChange={handleProvTypeChange}
+              className="hc_marginBot05">
+                  <option value="prov:wasGeneratedBy">Was generated by</option>
+                  <option value="prov:wasDerivedFrom">Was derived from</option>
+                  <option value="prov:wasAttributedTo">Was attributed to</option>
+                  <option value="prov:startedAtTime">Started at time</option>
+                  <option value="prov:used">Used</option>
+                  <option value="prov:wasInformedBy">Was informed by</option>
+                  <option value="prov:endedAtTime">Ended at time</option>
+                  <option value="prov:wasAssociatedWith">Was associated with</option>
+                  <option value="prov:actedOnBehalfOf">Acted onBehalf of</option>
+              </select>
+          </label>
+
+          <label className="labelTxt" htmlFor="text1">
+          Provenance value
+
+              <div className="fieldRow hc_marginBottom05">
+              <input 
+                  value={textFieldProveVal}
+                  onChange={handleProvValChange}
+                  type='text'
+                  name="provval" 
+                  className="hc_marginRight05 smallEditField" />
+                  <button 
+                  onClick={addProv}>Add</button>
+              </div>
+          </label>
+
+          <div className="editList hc_marginTop1 hc_marginBot1">
+          {hasId ? (
+        <Listdata list={dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Provenance"]} />
+        ): (
+        <div>No metadata</div>)
+         }
+          </div>
             </div>
 
             <div id='sub_image'>
