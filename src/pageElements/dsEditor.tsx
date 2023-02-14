@@ -132,7 +132,6 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
     const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
       if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
-        console.log('****', obj['_attributes']['mime']);
 
 
         let mutatedObj = {}
@@ -277,44 +276,6 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
 
 
-  // function listMetdata() {
-  //   if (currentEditBlock['block_id'] !== '') {
-  //     const listItems = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
-  //       if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
-          
-  //         Object.keys(obj["ds:Metadata"]).map(function (keyName, keyIndex) {
-  //           //console.log('obj:',keyIndex, obj["ds:Metadata"][keyName]);
-  //           <li>
-  //           <div className="editList__text"><span className="hc_text--S">{obj["ds:Metadata"][keyName]}</span><br/>The dataset</div>
-  //             <div className="editList__button">
-  //                 <button type="button" name="button" className="bt_icon block_event">
-  //                 <img src={icon_edit} alt="" />
-  //                   </button>
-  //             </div>
-  //           </li>
-
-
-  //         })
-          
-  //       }}
-  //     )
-  //     return (
-  //       <ul>
-  //         {listItems}
-  //       </ul>
-  //     )
-  //   }
-
-
-
-  // }
-
-  // listMetdata();
-
-
-
-
-//dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]
   const SimpleList = ({list}) => (
     <ul>
       {Object.keys(list).map(keyName => (
@@ -339,7 +300,18 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
 
 function addMetdata() {
-  console.log('addMetdataMetdata() ');
+  //dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]
+
+    let metadataNew = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"];
+    let mutatedObj = {}
+    mutatedObj = { ...metadataNew, 'dct:Testtest': { '_text': 'yoyoyoyoyo'  } };
+
+    let newDatastory = dataStoryData;
+    newDatastory['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"] = mutatedObj;
+
+    setDataStoryData(newDatastory);
+    setEditorStatus(true)
+
 }
 
 
