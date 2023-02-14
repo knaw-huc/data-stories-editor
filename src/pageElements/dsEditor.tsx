@@ -27,6 +27,8 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   const [textFieldContent, setTextFieldContent] = useState<string>("");
   const [textFieldImgHref, setTextFieldImgHref] = useState<string>("");
   const [textFieldImgCaption, setTextFieldImgCaption] = useState<string>("");
+  const [selectMetadaType, setSelectMetadaType] = useState<string>("");
+  const [textFieldMetadaVal, setTextFieldMetadaVal] = useState<string>("");
 
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
@@ -41,6 +43,13 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   function handleFieldCaptionChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     setTextFieldImgCaption(e.currentTarget.value);
   }
+  function handleMetadatValChange(e: React.FormEvent<HTMLInputElement>): void {
+    setTextFieldMetadaVal(e.currentTarget.value);
+  }
+  function handleMetadaTypeChange(e: React.FormEvent<HTMLSelectElement>): void {
+    setSelectMetadaType(e.currentTarget.value);
+  }
+
 
 
   function findBlockById(currentEditBlock) {
@@ -304,7 +313,7 @@ function addMetdata() {
 
     let metadataNew = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"];
     let mutatedObj = {}
-    mutatedObj = { ...metadataNew, 'dct:Testtest': { '_text': 'yoyoyoyoyo'  } };
+    mutatedObj = { ...metadataNew, [selectMetadaType]: { '_text': textFieldMetadaVal  } };
 
     let newDatastory = dataStoryData;
     newDatastory['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"] = mutatedObj;
@@ -379,7 +388,9 @@ function addMetdata() {
             <label className="labelTxt" htmlFor="text1">
               Metadata type
               
-              <select name="" id="" className="hc_marginBot05">
+              <select 
+              onChange={handleMetadaTypeChange}
+              className="hc_marginBot05">
                   <option value="dct:title">Title</option>
                   <option value="dct:bescription">Description</option>
                   <option value="dct:created">Date Created</option>
@@ -393,8 +404,14 @@ function addMetdata() {
               Metadata value
 
               <div className="fieldRow hc_marginBottom05">
-                  <input type="text" id="text1" name="text1" className="hc_marginRight05" />
-                  <button onClick={addMetdata}>Add</button>
+              <input 
+                  value={textFieldMetadaVal}
+                  onChange={handleMetadatValChange}
+                  type='text'
+                  name="metaval" 
+                  className="hc_marginRight05 smallEditField" />
+                  <button 
+                  onClick={addMetdata}>Add</button>
               </div>
           </label>
 
