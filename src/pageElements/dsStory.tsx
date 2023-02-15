@@ -19,6 +19,7 @@ function Story() {
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
   const [editorStatus, setEditorStatus] = useState(false);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
+  const [currentDataStory, setCurrentDataStory] = useState('new_datastory.xml');
   
 
   const [dataStoryData, setDataStoryData] = useState({
@@ -36,7 +37,7 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
   async function fetch_data() {
       axios
           .get(
-              'https://raw.githubusercontent.com/CLARIAH/data-stories/main/spec/WP4-Story.xml',
+              'datastory_files/'+currentDataStory,
           )
           .then(response => {
 
@@ -45,6 +46,8 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
             .then(setDataElements)
 
             setLoading(false);
+            console.log('@@',dataStoryData);
+            
           })
           .catch(err => console.log(err));
   }
@@ -77,7 +80,7 @@ function checkDataStoryData(data) {
 
   useEffect(() => {
     console.log('useEffect story currentEditBlock', currentEditBlock)
-  }, [dataStoryData, currentEditBlock]); 
+  }, [dataStoryData, currentEditBlock,currentDataStory]); 
 
 
 
@@ -132,6 +135,7 @@ function checkDataStoryData(data) {
         <ModalOpenFile
         showOpenDialog={showOpenDialog}
         setShowOpenDialog={setShowOpenDialog}
+        setCurrentDataStory={setCurrentDataStory}
         />
 
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="schema/datastory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<ds:DataStory xmlns:ds="http://example.com/ds/" xmlns:dct="http://purl.org/dc/terms/" xmlns:wp4="https://github.com/CLARIAH/wp4-stories/ns#" xml:lang="en">
+    <ds:Metadata>
+        <dct:title>New datastory</dct:title>
+        <dct:creator>Author 1</dct:creator>
+        <dct:creator>Author 2</dct:creator>
+        <dct:license>http://creativecommons.org/licenses/by-sa/4.0/</dct:license>
+    </ds:Metadata>
+    <ds:Story>
+        <ds:Block xml:id="b1" type="text" mime="text/markdown">
+            <ds:Metadata>
+                <dct:title>Block 1</dct:title>
+            </ds:Metadata>
+Your text...
+        </ds:Block>
+                <ds:Block xml:id="b2" type="text" mime="text/markdown">
+
+            <ds:Metadata>
+                <dct:title>Block 2</dct:title>
+            </ds:Metadata>
+Your text...
+        </ds:Block>
+        
+    </ds:Story>
+</ds:DataStory>
