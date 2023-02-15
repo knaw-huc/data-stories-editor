@@ -2,6 +2,9 @@ import React from 'react';
 import {useState, useEffect} from "react";
 import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
+import ModalOpenFile from "./modalOpenFile";
+
+
 
 import axios from 'axios';
 import convert from 'xml-js';
@@ -9,12 +12,14 @@ import convert from 'xml-js';
 
 function Story() {
 
-  console.log('story');
+
   
   const [storyHeader, setStoryHeader] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
   const [editorStatus, setEditorStatus] = useState(false);
+  const [showOpenDialog, setShowOpenDialog] = useState(false);
+  
 
   const [dataStoryData, setDataStoryData] = useState({
     "_declaration": {},
@@ -27,7 +32,7 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
   fetch_data();
 }
 
-
+//https://raw.githubusercontent.com/CLARIAH/data-stories/main/spec/WP4-Story.xml
   async function fetch_data() {
       axios
           .get(
@@ -44,6 +49,9 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
           .catch(err => console.log(err));
   }
 
+
+
+  
 
 
   function convertXml(xmlString) {
@@ -63,14 +71,14 @@ function checkDataStoryData(data) {
 
   function setDataElements(data) {
     setStoryHeader(data['ds:DataStory']['ds:Metadata']);
-
   }
 
 
 
-    useEffect(() => {
-      console.log('useEffect story currentEditBlock', currentEditBlock)
-    }, [dataStoryData, currentEditBlock]); 
+  useEffect(() => {
+    console.log('useEffect story currentEditBlock', currentEditBlock)
+  }, [dataStoryData, currentEditBlock]); 
+
 
 
     return (
@@ -121,6 +129,12 @@ function checkDataStoryData(data) {
 
         </div>
 
+        <ModalOpenFile
+        showOpenDialog={showOpenDialog}
+        setShowOpenDialog={setShowOpenDialog}
+        />
+
+
         <DsEditor
         currentEditBlock={currentEditBlock}
         setCurrentEditBlock={setCurrentEditBlock}
@@ -128,7 +142,10 @@ function checkDataStoryData(data) {
         setDataStoryData={setDataStoryData}
         setEditorStatus={setEditorStatus}
         editorStatus={editorStatus}
+        showOpenDialog={showOpenDialog}
+        setShowOpenDialog={setShowOpenDialog}
         />
+        
         </>
 
 

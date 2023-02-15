@@ -5,7 +5,7 @@ import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 import { log } from 'console';
 
-function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus }: {
+function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus,showOpenDialog, setShowOpenDialog }: {
 
 
   
@@ -14,7 +14,9 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   setDataStoryData: Function,
   setEditorStatus: Function,
   setCurrentEditBlock: Function,
-  editorStatus: boolean
+  editorStatus: boolean,
+  showOpenDialog: boolean, 
+  setShowOpenDialog: Function
 }) {
 
   //console.log(dataStoryData);
@@ -74,7 +76,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
 
   // edit panel up and down
-  console.log('editorStatus', editorStatus);
+  //console.log('editorStatus', editorStatus);
 
   const changeStyle = () => {
     if (editorStatus) {
@@ -357,6 +359,9 @@ function addProv() {
   }
 }
 
+function setDialogOpen() {
+  setShowOpenDialog(!showOpenDialog);
+}
 
   return (
 
@@ -370,7 +375,9 @@ function addProv() {
           <div><strong>Editor</strong></div>
           <div
             style={{ display: 'flex', flexDirection: 'row' }}>
+            <button onClick={setDialogOpen}>Open stories</button>
             <button type="button" onClick={exportStory} className="">Export story</button>
+
             <button type="button" onClick={changeStyle} className="bt_icon">
               <img src={icon_arrowDown} alt="" />
             </button>
