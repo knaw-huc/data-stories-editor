@@ -20,6 +20,9 @@ function Story() {
   const [editorStatus, setEditorStatus] = useState(false);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
   const [currentDataStory, setCurrentDataStory] = useState('new_datastory.xml');
+
+  console.log('currentDataStory', currentDataStory);
+  
   
 
   const [dataStoryData, setDataStoryData] = useState({
@@ -136,6 +139,8 @@ function checkDataStoryData(data) {
         showOpenDialog={showOpenDialog}
         setShowOpenDialog={setShowOpenDialog}
         setCurrentDataStory={setCurrentDataStory}
+        setDataStoryData = {setDataStoryData}
+        setLoading={setLoading}
         />
 
 

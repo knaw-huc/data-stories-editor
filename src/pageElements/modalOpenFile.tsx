@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function ModalOpenFile( {showOpenDialog, setShowOpenDialog, setCurrentDataStory}: {showOpenDialog: boolean, setShowOpenDialog: Function, setCurrentDataStory: Function}) {
+function ModalOpenFile( {showOpenDialog, setShowOpenDialog, setCurrentDataStory, setDataStoryData, setLoading}: {showOpenDialog: boolean, setShowOpenDialog: Function, setCurrentDataStory: Function, setDataStoryData: Function, setLoading: Function}) {
   
   let open = showOpenDialog;
   function close() {
@@ -10,8 +10,13 @@ function ModalOpenFile( {showOpenDialog, setShowOpenDialog, setCurrentDataStory}
 
   function OpenFile(fileName: String) {
     console.log(fileName);
-    
     setCurrentDataStory(fileName)
+    setLoading(true)
+    setDataStoryData({"_declaration": {}, "_instruction": {},"ds:DataStory": {}})
+    setShowOpenDialog(!showOpenDialog)
+    
+    
+
   }
   
     return (
