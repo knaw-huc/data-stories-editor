@@ -14,9 +14,6 @@ function ModalOpenFile( {showOpenDialog, setShowOpenDialog, setCurrentDataStory,
     setLoading(true)
     setDataStoryData({"_declaration": {}, "_instruction": {},"ds:DataStory": {}})
     setShowOpenDialog(!showOpenDialog)
-    
-    
-
   }
   
     return (
