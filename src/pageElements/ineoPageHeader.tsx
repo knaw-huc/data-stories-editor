@@ -5,15 +5,17 @@ function PageHeader() {
 
 
     return (
-      <div className="topHeader">
-        <div className="topHeader__brand">
-          <img src={logo} alt="" />
-          <div>Data Stories</div>
+        <div className="topHeader">
+            <div className="topHeader__brand">
+                <img src={logo} alt=""/>
+                <div className="dsBrandName">Data Stories</div>
+            </div>
+            <div>
+                <nav>
+                    Rob Zeeman
+                </nav>
+            </div>
         </div>
-        <div>
-
-          </div>
-      </div>
     )
 }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from "react";
+import {useNavigate} from "react-router-dom";
 import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
+import icon_arrowUp from '../assets/img/icons/icon-arrow-up.svg';
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 import { log } from 'console';
@@ -24,7 +26,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   if (currentEditBlock['block_id'] != '') {
     hasId = true
   }
-
+  const navigate = useNavigate();
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
   const [textFieldContent, setTextFieldContent] = useState<string>("");
@@ -375,11 +377,12 @@ function setDialogOpen() {
           <div><strong>Editor</strong></div>
           <div
             style={{ display: 'flex', flexDirection: 'row' }}>
-            <button onClick={setDialogOpen}>Open stories</button>
+            <button onClick={() => {navigate("/")}}>Save story</button>
             <button type="button" onClick={exportStory} className="">Export story</button>
-
+            <button onClick={() => {navigate("/")}}>Close story</button>
             <button type="button" onClick={changeStyle} className="bt_icon">
-              <img src={icon_arrowDown} alt="" />
+              {editorStatus ? (<img src={icon_arrowDown} alt="" />) : (<img src={icon_arrowUp} alt="" />)}
+
             </button>
 
           </div>

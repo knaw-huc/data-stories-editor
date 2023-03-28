@@ -1,8 +1,10 @@
 import React from 'react';
 import {useState, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
 import ModalOpenFile from "./modalOpenFile";
+
 
 
 
@@ -11,15 +13,22 @@ import convert from 'xml-js';
 
 
 function Story() {
-
-
-  
+  const navigate = useNavigate();
+  const params = useParams();
+  const store = params.store as string;
+  let xmlFile = '';
+  if (store !== undefined) {
+      xmlFile = 'WP4-Story.xml';
+  } else {
+      xmlFile = 'new_datastory.xml';
+  }
+  console.log(store);
   const [storyHeader, setStoryHeader] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
   const [editorStatus, setEditorStatus] = useState(false);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
-  const [currentDataStory, setCurrentDataStory] = useState('new_datastory.xml');
+  const [currentDataStory, setCurrentDataStory] = useState(xmlFile);
 
   console.log('currentDataStory', currentDataStory);
   
@@ -40,7 +49,7 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
   async function fetch_data() {
       axios
           .get(
-              'datastory_files/'+currentDataStory,
+              '/datastory_files/'+currentDataStory,
           )
           .then(response => {
 

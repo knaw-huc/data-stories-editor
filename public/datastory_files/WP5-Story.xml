@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="schema/datastory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<ds:DataStory xmlns:ds="http://example.com/ds/" xmlns:dct="http://purl.org/dc/terms/" xmlns:wp5="https://github.com/CLARIAH/wp5-stories/ns#" xmlns:prov="http://www.w3.org/ns/prov#" xml:lang="en">
+    <ds:Metadata>
+        <dct:title>15 years of the popular Dutch chat show 'DWDD' - in data</dct:title>
+        <dct:contributor>Philo van Kemenade</dct:contributor>
+        <dct:contributor>Nanne van Noord</dct:contributor>
+        <dct:creator>Muriel van Peteghem</dct:creator>
+        <dct:contributor>Mari Wigham</dct:contributor>
+        <ds:Reviewer>Roeland Ordelman</ds:Reviewer>
+        <dct:description>End of an era: After 15 years, the weekday Dutch chat show 'De Wereld Draait Door' (DWDD) was discontinued in March 2020. DWDD was one of the most popular programmes on Dutch television. Look through the lens of the Media Suite and discover what can be found out about 15 seasons of DWDD (2005-2020) by looking purely at the data.</dct:description>
+        <dct:date>2020-03-27T16:12:03.284Z</dct:date>
+        <dct:license></dct:license>
+        <ds:LandingPage>https://mediasuitedatastories.clariah.nl/DWDD/</ds:LandingPage>
+    </ds:Metadata>
+    <ds:Provenance>
+        <prov:entity prov:id="jupy">
+            <prov:location>https://github.com/beeldengeluid/ds-dwdd/blob/949bcd2b32350ae254380817b7b4e1fb7a70b770/notebooks/DWDD%20demo%20notebook.ipynb</prov:location>
+        </prov:entity>         
+    </ds:Provenance>
+    <ds:Story>
+        <ds:Block xml:id="b1" type="text" mime="text/markdown">
+            **Since it was announced that [DWDD](https://en.wikipedia.org/wiki/De_Wereld_Draait_Door) was going to stop, people everywhere have been discussing the programme, sharing lists and drawing conclusions, often on the back of the proverbial napkin. Is there another way to do this? Researchers look for patterns in data, such as the DWDD data stored in the [Netherlands Institute for Sound and Vision](https://en.wikipedia.org/wiki/Netherlands_Institute_for_Sound_and_Vision) archive. Join us to look through the lens of the [Media Suite](https://mediasuite.clariah.nl/) and discover what we can find out about 15 seasons of DWDD (2005-2020) by looking purely at the data**</ds:Block>
+        <ds:Block xml:id="b2" type="media" mime="image/gif" href="15jaarmvn-8fps-small.gif"/>        
+        <ds:Block xml:id="b3" type="text" mime="text/markdown">
+             The Media Suite is an online environment intended specially for researchers. They can use various aids that are useful for them when they want to work with large datasets. Think of advanced search capabilities, inspecting the underlying metadata, visualising patterns and making notes and annotations. Under the hood, the Media Suite uses modern techniques, such as automatic speech and image recognition, to make it easier to nose around in the radio and television archives.
+        </ds:Block>
+        <ds:Block xml:id="b4" type="text" mime="application/xhtml+xml" xmlns="http://www.w3.org/1999/xhtml"> 
+            <ds:Metadata>
+                <dct:title>Metadata</dct:title>
+            </ds:Metadata>
+            The Sound and Vision archive goes back many years, and during that time the archiving process has gone through many changes. For this 'data story' – a story based on data – we have looked at traditional, manually entered metadata, but also modern, automatically generated metadata. With the help of 'artificial intelligence' techniques, we are able to analyse and visualise 15 years of DWDD based on spoken words and images. 
+
+            <blockquote>
+                <img class="link-icon" src="/favicon-32x32.png" alt="MS"><i><a target="_blank" href="https://mediasuite.clariah.nl/tool/single-search?queryId=649782d5-9e37-492e-b551-051389e68098">See the metadata</a> for all the DWDD programmes in the Media Suite (if you have a login then you can also watch the programmes).</i></img>
+            </blockquote>
+
+             Examples of visualisations based on metadata that was manually entered by archivists can be seen in Figures 1 and 2. The most frequently (twice or more) discussed locations from manually annotated DWDD programmes are plotted on both a world map and a map of the Netherlands. It is not terribly surprising that the discussion was, apparently, quite frequently about the United States (on a global scale) and Amsterdam (within the Netherlands). What is more remarkable, is that Uruzgan features relatively often.
+        </ds:Block>
+
+        <ds:Block xml:id="b5" type="media" mime="text/html" href="https://public.flourish.studio/visualisation/1925837/embed">
+            <ds:Metadata>
+                <dct:title>_Figure 1: The most frequently discussed locations in 15 years DWDD, on a global scale (annotated by archivists)._</dct:title>
+            </ds:Metadata>
+            <ds:Provenance>
+                <!-- IMPLIED:
+                    <prov:entity prov:id="b5">
+                        <prov:location>https://public.flourish.studio/visualisation/1925837/embed</prov:location>
+                    </prov:entity>
+                -->
+                <prov:wasDerivedFrom>
+                    <prov:generatedEntity prov:ref="b5"/>
+                    <prov:usedEntity prov:ref="jupy"/>
+                </prov:wasDerivedFrom>
+            </ds:Provenance>
+            <ds:Cues>
+                <wp5:config>iframe</wp5:config>
+            </ds:Cues>
+        </ds:Block>
+        <ds:Block xml:id="b6" type="media" mime="image/png" href="./top-100-subjects-programme-and-segment.png">
+            <ds:Metadata>
+                <dct:title>Word cloud of the top 100 most frequently occurring subjects (annotated by archivists).</dct:title>
+            </ds:Metadata>
+        </ds:Block>
+  </ds:Story>
+</ds:DataStory>
+
