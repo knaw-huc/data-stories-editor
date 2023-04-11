@@ -26,7 +26,7 @@ function Story() {
   const [storyHeader, setStoryHeader] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
-  const [editorStatus, setEditorStatus] = useState(false);
+  const [editorStatus, setEditorStatus] = useState(true);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
   const [currentDataStory, setCurrentDataStory] = useState(xmlFile);
 

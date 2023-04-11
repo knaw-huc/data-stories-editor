@@ -529,8 +529,10 @@ function setDialogOpen() {
                   value={textFieldImgHref}
                   onChange={handleFieldHrefChange}
                 ></textarea>
-              </label>
 
+              </label>
+              <button>Upload image</button>
+              <p></p>
               <label htmlFor="tb">Image caption / Alt text
                 <textarea
                   name="image_caption"
