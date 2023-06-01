@@ -78,7 +78,6 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     let foundedIndex = -1;
     dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"].map((obj, index) => {
       if (obj["_attributes"]["xml:id"] === prevId) {
-        console.log('index', index)
         foundedIndex = index
       }
 

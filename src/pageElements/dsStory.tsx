@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
 import ModalOpenFile from "./modalOpenFile";
+import YasguiBlock from "./yasguiBlock";
 
 
 
@@ -22,7 +23,7 @@ function Story() {
   } else {
       xmlFile = 'new_datastory.xml';
   }
-  console.log(store);
+
   const [storyHeader, setStoryHeader] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});

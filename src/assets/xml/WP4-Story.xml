@@ -27,7 +27,7 @@
                 - media, in @mime, always via @href
                   - image/*
                   - video/*
-                   -audio *
+                  - audio *
             -->
             <ds:Metadata>
                 <dct:title>The dataset</dct:title>
