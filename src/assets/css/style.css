@@ -78,3 +78,13 @@ display: inline-block;
 width: 12px;
 height: 12px;
 }
+
+.editorWrapper {
+display:block;
+width:900px;
+margin-top: 20px;
+}
+
+.headertext{
+width: 1200px;
+}

@@ -57,6 +57,14 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     }
   }
 
+  const newEntrySparql = {
+    "_attributes": {
+      "xml:id": newId,
+      "type": "query",
+      "mime": "application/sparql-query"
+    }
+  }
+
 
   function openNewBlock() {
     setBlockHeight({height: "150px"})
@@ -72,6 +80,9 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
     jsonTemplate = newEntryMD;
     if (newType === 'image') {
       jsonTemplate = newEntryIm;
+    }
+    if (newType === 'sparql') {
+      jsonTemplate = newEntrySparql;
     }
 
 

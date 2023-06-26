@@ -625,7 +625,8 @@ width: 100%
 }
 
 .editorUp {
-top: 0px
+top: 0px;
+height: 100% !important;
 }
 
 .editorDown {

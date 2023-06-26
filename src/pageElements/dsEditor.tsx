@@ -5,12 +5,12 @@ import icon_arrowDown from '../assets/img/icons/icon-arrow-down.svg';
 import icon_arrowUp from '../assets/img/icons/icon-arrow-up.svg';
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
-import { log } from 'console';
+import ImageElement from "../editorElements/imageElement";
+import MarkdownElement from "../editorElements/markdownElement";
+import SparqlElement from "../editorElements/sparqlElement";
+
 
 function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditorStatus, setCurrentEditBlock, editorStatus,showOpenDialog, setShowOpenDialog }: {
-
-
-  
   currentEditBlock: object,
   dataStoryData: object,
   setDataStoryData: Function,
@@ -21,11 +21,11 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   setShowOpenDialog: Function
 }) {
 
-  //console.log(dataStoryData);
   let hasId = false
   if (currentEditBlock['block_id'] != '') {
     hasId = true
   }
+  console.log(dataStoryData);
   const navigate = useNavigate();
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
@@ -36,6 +36,8 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   const [textFieldMetadaVal, setTextFieldMetadaVal] = useState<string>("");
   const [selectProvType, setSelectProvType] = useState<string>("");
   const [textFieldProveVal, setTextFieldProveVal] = useState<string>("");
+  const [mimeType, setMimeType] = useState("");
+  //const blockIndex = findBlockById(currentEditBlock["block_id"]);
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     setTextFieldContent(e.currentTarget.value);
@@ -104,6 +106,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
       let textFieldContentImp = ''
       let textFieldhrefImp = ''
       let textFieldCaptionImg = ''
+      let mime = ''
 
       const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 
@@ -129,12 +132,18 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
         }
       }
 
+      // Get mimetype
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
+        mime = allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['mime'];
+      }
 
-      //console.log('update by set block id',textFieldContentImp)
+
+      //console.log(allBlocks[findBlockById(currentEditBlock['block_id'])]);
       setTextFieldContent(textFieldContentImp)
       setTextFieldHeader(headingFieldContent)
       setTextFieldImgHref(textFieldhrefImp)
       setTextFieldImgCaption(textFieldCaptionImg)
+      setMimeType(mime);
 
 
 
@@ -172,13 +181,13 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
 
     setDataStoryData(newDatastory);
     setEditorStatus(true)
-    console.log(newDatastory);
+    //console.log(newDatastory);
 
 
   };
 
   // submenu interface
-  const editerBlockSubContent = (sub) => {
+  /*const editerBlockSubContent = (sub) => {
     console.log('editerBlockSub', sub)
     document.getElementById('sub_content').style.display = 'none';
     document.getElementById('sub_metadata').style.display = 'none';
@@ -202,7 +211,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
     if (sub === 'image') {
       document.getElementById('sub_image').style.display = 'block';
     }
-  }
+  }*/
 
   function exportStory() {
     const preXml = '<?xml version="1.0" encoding="UTF-8"?>\n<?xml-model href="schema/datastory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>\n'
@@ -288,7 +297,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   useEffect(() => {
     setFields()
     changeStyle()
-    editerBlockSubContent('content')
+    //editerBlockSubContent('content')
 
   }, [dataStoryData, currentEditBlock]);
 
@@ -342,9 +351,9 @@ function addMetdata() {
 
 function addProv() {
   let provObj = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Provenance"]
-  console.log(dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])])
+  //console.log(dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])])
   if (provObj === undefined) {
-    console.log('no prov1')
+    //console.log('no prov1')
     // dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])["ds:Provenance"]] = {}
     // console.log('no prov2', dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])])
     
@@ -357,7 +366,7 @@ function addProv() {
 
     setDataStoryData(newDatastory);
     setEditorStatus(true)
-    console.log('dataStoryData', dataStoryData)
+    //console.log('dataStoryData', dataStoryData)
   }
 }
 
@@ -377,7 +386,7 @@ function setDialogOpen() {
           <div><strong>Editor</strong></div>
           <div
             style={{ display: 'flex', flexDirection: 'row' }}>
-            <button onClick={() => {navigate("/")}}>Save story</button>
+            <button onClick={() => {console.log(JSON.stringify(dataStoryData))}}>Save story</button>
             <button type="button" onClick={exportStory} className="">Export story</button>
             <button onClick={() => {navigate("/")}}>Close story</button>
             <button type="button" onClick={changeStyle} className="bt_icon">
@@ -394,16 +403,8 @@ function setDialogOpen() {
 
 
         <div className="edit_body">
-          <div className="edit_segments">
 
-            <a href="#" onClick={() => editerBlockSubContent('content')}>Content</a>
-            <a href="#" onClick={() => editerBlockSubContent('metadata')}>Metadata</a>
-            <a href="#" onClick={() => editerBlockSubContent('provenance')}>Provenance</a>
-            <a href="#" onClick={() => editerBlockSubContent('image')}>Image</a>
-            <a href="#" onClick={() => editerBlockSubContent('notes')}>Notes and Comments</a>
-
-          </div>
-          <div className="edit_workspace">
+          {/*<div className="edit_workspace">
             <div id='sub_content'>
 
               <label htmlFor="heading">Heading
@@ -546,7 +547,11 @@ function setDialogOpen() {
             </div>
 
             <button onClick={updateBlock}>Update</button>
-          </div>
+          </div>*/}
+          {mimeType === "image/*" && <ImageElement/>}
+          {mimeType === "text/markdown" && <MarkdownElement/>}
+          {mimeType === "application/sparql-query" && <SparqlElement/>}
+
 
         </div>
 

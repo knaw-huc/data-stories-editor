@@ -30,8 +30,9 @@ function Story() {
   const [editorStatus, setEditorStatus] = useState(true);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
   const [currentDataStory, setCurrentDataStory] = useState(xmlFile);
+  const [contentType, setContentType] = useState<string>("");
 
-  console.log('currentDataStory', currentDataStory);
+  //console.log('currentDataStory', currentDataStory);
   
   
 
@@ -59,7 +60,7 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
             .then(setDataElements)
 
             setLoading(false);
-            console.log('@@',dataStoryData);
+            //console.log('@@',dataStoryData);
             
           })
           .catch(err => console.log(err));
@@ -92,7 +93,7 @@ function checkDataStoryData(data) {
 
 
   useEffect(() => {
-    console.log('useEffect story currentEditBlock', currentEditBlock)
+    //console.log('useEffect story currentEditBlock', currentEditBlock)
   }, [dataStoryData, currentEditBlock,currentDataStory]); 
 
 

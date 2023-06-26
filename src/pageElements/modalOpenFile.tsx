@@ -9,7 +9,7 @@ function ModalOpenFile( {showOpenDialog, setShowOpenDialog, setCurrentDataStory,
   }
 
   function OpenFile(fileName: String) {
-    console.log(fileName);
+    //console.log(fileName);
     setCurrentDataStory(fileName)
     setLoading(true)
     setDataStoryData({"_declaration": {}, "_instruction": {},"ds:DataStory": {}})
