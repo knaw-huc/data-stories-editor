@@ -82,9 +82,19 @@ height: 12px;
 .editorWrapper {
 display:block;
 width:900px;
-margin-top: 20px;
+margin: 20px 0;
 }
 
 .headertext{
 width: 1200px;
+}
+
+.mdNewLine {
+white-space: pre-wrap;
+}
+
+.rowBtn {
+display: inline-block;
+margin-top: 10px;
+width: 100px;
 }

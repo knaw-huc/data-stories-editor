@@ -11,7 +11,7 @@ import icon_delete from '../assets/img/icons/icon-delete.svg';
 
 
 
-function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, setCurrentEditBlock, setDataStoryData, setEditorStatus, editorStatus}: {
+function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, setCurrentEditBlock, setDataStoryData, setEditorStatus, editorStatus, deleteStoryBlockByID}: {
   content: object, 
   contentType: String, 
   dataStoryData: object, 
@@ -19,7 +19,8 @@ function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, set
   setCurrentEditBlock: Function,
   setDataStoryData: Function,
   setEditorStatus: Function,
-  editorStatus: boolean} ): ReactElement {
+  editorStatus: boolean,
+  deleteStoryBlockByID: Function} ): ReactElement {
 
 
 
@@ -66,6 +67,10 @@ function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, set
     setEditorStatus(true)
   }
 
+  function deleteCurBlock() {
+
+  }
+
 
   useEffect(() => {
   }, [dataStoryData,currentEditBlock]);
@@ -79,7 +84,11 @@ function StoryBlock( {content, contentType, dataStoryData, currentEditBlock, set
             <button type="button" name="button" className="bt_icon block_event" onClick={changeCurEdit} >
               <img src={icon_edit} alt="" />
             </button>
-            <button type="button" name="button"  className="bt_icon">
+            <button type="button" name="button"  className="bt_icon" onClick={() => {
+              if (window.confirm("Delete data story block?")) {
+                  deleteStoryBlockByID(blockId);
+              }
+            }}>
               <img src={icon_delete} alt="" />
             </button>
           </div>

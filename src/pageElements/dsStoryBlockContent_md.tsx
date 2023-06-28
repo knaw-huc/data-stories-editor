@@ -19,7 +19,7 @@ function StoryBlockMD( {contentHead,contentBody }: {contentHead: string, content
       ) : (
         <div></div>
       ) }
-      <ReactMarkdown>{contentBody}</ReactMarkdown>
+      <ReactMarkdown children={contentBody}/>
 
       </div>
 

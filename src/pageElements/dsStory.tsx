@@ -31,6 +31,7 @@ function Story() {
   const [showOpenDialog, setShowOpenDialog] = useState(false);
   const [currentDataStory, setCurrentDataStory] = useState(xmlFile);
   const [contentType, setContentType] = useState<string>("");
+  const [refresh, setRefresh] = useState(true);
 
   //console.log('currentDataStory', currentDataStory);
   
@@ -90,11 +91,38 @@ function checkDataStoryData(data) {
     setStoryHeader(data['ds:DataStory']['ds:Metadata']);
   }
 
+const deleteStoryBlockByID = (id)  => {
+    const index = findBlockById(id);
+    if (index > -1) {
+        let buffer = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'];
+        console.log(buffer);
+        delete buffer[index];
+        let newDSD = dataStoryData;
+        newDSD['ds:DataStory']['ds:Story']['ds:Block'] = buffer.flat();
+        setDataStoryData(newDSD);
+        setRefresh(!refresh);
+    }
+}
+
+    function findBlockById(currentBlock) {
+        const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
+        console.log(allBlocks);
+
+        var out = -1;
+        for (var i = 0; i < allBlocks.length; i++) {
+            if (allBlocks[i]['_attributes']["xml:id"] === currentBlock) {
+                out = i;
+            }
+        }
+        return out;
+    }
+
+
 
 
   useEffect(() => {
     //console.log('useEffect story currentEditBlock', currentEditBlock)
-  }, [dataStoryData, currentEditBlock,currentDataStory]); 
+  }, [dataStoryData, currentEditBlock,currentDataStory]);
 
 
 
@@ -115,6 +143,7 @@ function checkDataStoryData(data) {
               setDataStoryData = {setDataStoryData}
               setEditorStatus={setEditorStatus}
               editorStatus={editorStatus}
+              deleteStoryBlockByID={deleteStoryBlockByID}
               ></ DsStoryBlock>
 
         ):
@@ -134,6 +163,7 @@ function checkDataStoryData(data) {
                  setDataStoryData = {setDataStoryData}
                  setEditorStatus={setEditorStatus}
                  editorStatus={editorStatus}
+                 deleteStoryBlockByID={deleteStoryBlockByID}
                    ></ DsStoryBlock>
 
                )

@@ -25,7 +25,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   if (currentEditBlock['block_id'] != '') {
     hasId = true
   }
-  console.log(dataStoryData);
+
   const navigate = useNavigate();
   const [style, setStyle] = useState("panel_edit fixedBottom editorDown");
   const [textFieldHeader, setTextFieldHeader] = useState<string>("");
@@ -37,6 +37,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   const [selectProvType, setSelectProvType] = useState<string>("");
   const [textFieldProveVal, setTextFieldProveVal] = useState<string>("");
   const [mimeType, setMimeType] = useState("");
+  const [block, setBlock] = useState<Object>({});
   //const blockIndex = findBlockById(currentEditBlock["block_id"]);
 
   function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
@@ -65,12 +66,12 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
   }
 
 
-  function findBlockById(currentEditBlock) {
+  function findBlockById(currentBlock) {
     const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 
     var out;
     for (var i = 0; i < allBlocks.length; i++) {
-      if (allBlocks[i]['_attributes']["xml:id"] == currentEditBlock) {
+      if (allBlocks[i]['_attributes']["xml:id"] === currentBlock) {
         out = i;
       }
     }
@@ -107,6 +108,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
       let textFieldhrefImp = ''
       let textFieldCaptionImg = ''
       let mime = ''
+      let editableBlock = {}
 
       const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 
@@ -137,6 +139,11 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
         mime = allBlocks[findBlockById(currentEditBlock['block_id'])]['_attributes']['mime'];
       }
 
+      //Get complete block
+      if (allBlocks[findBlockById(currentEditBlock['block_id'])] !== undefined) {
+        editableBlock = allBlocks[findBlockById(currentEditBlock['block_id'])];
+      }
+
 
       //console.log(allBlocks[findBlockById(currentEditBlock['block_id'])]);
       setTextFieldContent(textFieldContentImp)
@@ -144,6 +151,7 @@ function DsEditor({ currentEditBlock, dataStoryData, setDataStoryData, setEditor
       setTextFieldImgHref(textFieldhrefImp)
       setTextFieldImgCaption(textFieldCaptionImg)
       setMimeType(mime);
+      setBlock(editableBlock);
 
 
 
@@ -403,153 +411,9 @@ function setDialogOpen() {
 
 
         <div className="edit_body">
-
-          {/*<div className="edit_workspace">
-            <div id='sub_content'>
-
-              <label htmlFor="heading">Heading
-                <textarea
-                  name="heading"
-                  id="headingField"
-                  className="smallEditField"
-                  value={textFieldHeader}
-                  onChange={handleFieldHeaderChange}
-                ></textarea>
-              </label>
-
-
-              <label htmlFor="tb">Markdown text
-                <textarea
-                  name="tb"
-                  id="textField"
-                  value={textFieldContent}
-                  onChange={handleFieldTextChange}
-
-
-                ></textarea></label>
-            </div>
-
-            <div id='sub_metadata'>
-            <label className="labelTxt" htmlFor="text1">
-              Metadata type
-              
-              <select 
-              onChange={handleMetadaTypeChange}
-              className="hc_marginBot05">
-                  <option value="dct:title">Title</option>
-                  <option value="dct:bescription">Description</option>
-                  <option value="dct:created">Date Created</option>
-                  <option value="dct:language">Language</option>
-                  <option value="dct:type">Type</option>
-                  <option value="dct:references">References</option>
-              </select>
-          </label>
-
-          <label className="labelTxt" htmlFor="text1">
-              Metadata value
-
-              <div className="fieldRow hc_marginBottom05">
-              <input 
-                  value={textFieldMetadaVal}
-                  onChange={handleMetadatValChange}
-                  type='text'
-                  name="metaval" 
-                  className="hc_marginRight05 smallEditField" />
-                  <button 
-                  onClick={addMetdata}>Add</button>
-              </div>
-          </label>
-
-          <div className="editList hc_marginTop1 hc_marginBot1">
-          {hasId ? (
-        <Listdata list={dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Metadata"]} />
-        ): (
-        <div>No metadata</div>)
-         }
-          </div>
-        </div>
-
-
-            <div id='sub_notes'>
-              <label htmlFor="tb">Notes
-                <textarea
-                  name="tb"
-                  id="textField"
-
-                ></textarea></label>
-            </div>
-
-            <div id='sub_provenance'>
-            <label className="labelTxt" htmlFor="text1">
-              Provenance type
-              
-              <select 
-              onChange={handleProvTypeChange}
-              className="hc_marginBot05">
-                  <option value="prov:wasGeneratedBy">Was generated by</option>
-                  <option value="prov:wasDerivedFrom">Was derived from</option>
-                  <option value="prov:wasAttributedTo">Was attributed to</option>
-                  <option value="prov:startedAtTime">Started at time</option>
-                  <option value="prov:used">Used</option>
-                  <option value="prov:wasInformedBy">Was informed by</option>
-                  <option value="prov:endedAtTime">Ended at time</option>
-                  <option value="prov:wasAssociatedWith">Was associated with</option>
-                  <option value="prov:actedOnBehalfOf">Acted onBehalf of</option>
-              </select>
-          </label>
-
-          <label className="labelTxt" htmlFor="text1">
-          Provenance value
-
-              <div className="fieldRow hc_marginBottom05">
-              <input 
-                  value={textFieldProveVal}
-                  onChange={handleProvValChange}
-                  type='text'
-                  name="provval" 
-                  className="hc_marginRight05 smallEditField" />
-                  <button 
-                  onClick={addProv}>Add</button>
-              </div>
-          </label>
-
-          <div className="editList hc_marginTop1 hc_marginBot1">
-          {hasId ? (
-        <Listdata list={dataStoryData['ds:DataStory']['ds:Story']['ds:Block'][findBlockById(currentEditBlock['block_id'])]["ds:Provenance"]} />
-        ): (
-        <div>No metadata</div>)
-         }
-          </div>
-            </div>
-
-            <div id='sub_image'>
-              <label htmlFor="tb">Image href
-                <textarea
-                  name="image_url"
-                  className="smallEditField"
-                  value={textFieldImgHref}
-                  onChange={handleFieldHrefChange}
-                ></textarea>
-
-              </label>
-              <button>Upload image</button>
-              <p></p>
-              <label htmlFor="tb">Image caption / Alt text
-                <textarea
-                  name="image_caption"
-                  className="smallEditField"
-                  value={textFieldImgCaption}
-                  onChange={handleFieldCaptionChange}
-                ></textarea>
-              </label>
-
-
-            </div>
-
-            <button onClick={updateBlock}>Update</button>
-          </div>*/}
-          {mimeType === "image/*" && <ImageElement/>}
-          {mimeType === "text/markdown" && <MarkdownElement/>}
+          {!block.hasOwnProperty("_attributes") && <div><strong>No block selected</strong></div>}
+          {mimeType === "image/*" && <ImageElement  block={block} changeStyle={changeStyle}/>}
+          {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
           {mimeType === "application/sparql-query" && <SparqlElement/>}
 
 
