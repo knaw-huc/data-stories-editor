@@ -32,21 +32,21 @@ function ImageElement({block, changeStyle}: { block: object, changeStyle: Functi
                 .then((res) => res.json())
                 .then((data) => {
                     setUrl(UPLOAD_URL + file.name)
-                    writeToBlock();
+                    writeToBlock(UPLOAD_URL + file.name, caption);
                 })
                 .catch((err) => console.error(err));
         } else {
             if (url !== "") {
-               writeToBlock();
+               writeToBlock(url, caption);
             } else {
                 alert("No image added!");
             }
         }
     }
 
-    function writeToBlock() {
-        block["_attributes"]["href"] = url;
-        block["ds:Metadata"]["dct:title"]["_text"] = caption;
+    function writeToBlock(wUrl, wCaption) {
+        block["_attributes"]["href"] = wUrl;
+        block["ds:Metadata"]["dct:title"]["_text"] = wCaption;
         changeStyle();
     }
 
