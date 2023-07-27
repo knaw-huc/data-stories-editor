@@ -1,15 +1,11 @@
 import React from 'react';
 import {useState, useEffect} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {json, useNavigate, useParams} from "react-router-dom";
 import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
 import ModalOpenFile from "./modalOpenFile";
 import YasguiBlock from "./yasguiBlock";
-
-
-
-
-import axios from 'axios';
+import {API_URL} from "../misc/functions";
 import convert from 'xml-js';
 
 
@@ -17,19 +13,15 @@ function Story() {
   const navigate = useNavigate();
   const params = useParams();
   const store = params.store as string;
-  let xmlFile = '';
-  if (store !== undefined) {
-      xmlFile = 'WP4-Story.xml';
-  } else {
-      xmlFile = 'new_datastory.xml';
-  }
+
+
 
   const [storyHeader, setStoryHeader] = useState(Object);
   const [loading, setLoading] = useState(true);
   const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
-  const [editorStatus, setEditorStatus] = useState(true);
+  const [editorStatus, setEditorStatus] = useState(false);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
-  const [currentDataStory, setCurrentDataStory] = useState(xmlFile);
+  const [currentDataStory, setCurrentDataStory] = useState(store);
   const [contentType, setContentType] = useState<string>("");
   const [refresh, setRefresh] = useState(true);
 
@@ -43,29 +35,37 @@ function Story() {
     "ds:DataStory": {}
   });
 
+  console.log(dataStoryData);
 
 if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
   fetch_data();
 }
 
 //https://raw.githubusercontent.com/CLARIAH/data-stories/main/spec/WP4-Story.xml
-  async function fetch_data() {
+  /*async function fetch_data() {
       axios
           .get(
-              '/datastory_files/'+currentDataStory,
+              API_URL + 'get_item?ds=' + store,
           )
           .then(response => {
 
-            convertXml(response.data)
-            .then(checkDataStoryData)
-            .then(setDataElements)
+            const json = (response.data)
+
 
             setLoading(false);
             //console.log('@@',dataStoryData);
             
           })
           .catch(err => console.log(err));
-  }
+  }*/
+
+    async function fetch_data() {
+        const response = await fetch(API_URL + 'get_item?ds=' + store);
+        const json = await response.json();
+        setDataStoryData(json);
+        setDataElements(json);
+        setLoading(false);
+    }
 
 
 
@@ -106,7 +106,6 @@ const deleteStoryBlockByID = (id)  => {
 
     function findBlockById(currentBlock) {
         const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
-        console.log(allBlocks);
 
         var out = -1;
         for (var i = 0; i < allBlocks.length; i++) {
@@ -118,11 +117,6 @@ const deleteStoryBlockByID = (id)  => {
     }
 
 
-
-
-  useEffect(() => {
-    //console.log('useEffect story currentEditBlock', currentEditBlock)
-  }, [dataStoryData, currentEditBlock,currentDataStory]);
 
 
 

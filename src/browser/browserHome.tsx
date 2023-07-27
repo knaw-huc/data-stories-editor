@@ -4,16 +4,17 @@ import {useState, useEffect} from "react";
 import {IResultList} from "../misc/interfaces";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
+import {API_URL} from "../misc/functions";
 
 function BrowserHome() {
-    const [data, setData] = useState<IResultList>({amount: 0, items: []});
+    const [data, setData] = useState<IResultList>({status: "", structure: []});
     const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(-1);
     const [activeStore, setActiveStore] = useState("");
     const navigate = useNavigate();
 
     async function fetchData() {
-        const response = await fetch("http://localhost:5000/browse");
+        const response = await fetch(API_URL +  "get_data_stories");
         const json = await response.json();
         setData(json);
         setLoading(false);
@@ -24,6 +25,17 @@ function BrowserHome() {
             return "dsActiveIndexRow";
         } else {
             return "dsResultRow";
+        }
+    }
+
+    function getStatus(s) {
+        switch (s) {
+            case 'D':
+                return 'Draft';
+            case 'P':
+                return 'Published';
+            default:
+                return "?";
         }
     }
 
@@ -50,21 +62,21 @@ function BrowserHome() {
                 <div className="dsResultTable">
                     <div className="dsResultHeaderRow">
                         <div className="dsResultCell">Title</div>
-                        <div className="dsResultCell">Filename</div>
+                        <div className="dsResultCell">Status</div>
                         <div className="dsResultCell">Owner</div>
                         <div className="dsResultCell">Group</div>
                         <div className="dsResultCell">Created</div>
                         <div className="dsResultCell">Modified</div>
                     </div>
-                    {data.items.map((item, index: number) => {
+                    {data.structure.map((item, index: number) => {
                         return (
-                                    <div className={`${item.store === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.store)}>
+                                    <div className={`${item.store === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}>
                                         <div className="dsResultCell">{item.title}</div>
-                                        <div className="dsResultCell">{item.filename}</div>
+                                        <div className="dsResultCell">{getStatus(item.status)}</div>
                                         <div className="dsResultCell">{item.owner}</div>
-                                        <div className="dsResultCell">{item.group}</div>
-                                        <div className="dsResultCell">{item.created.replace('T', " ")}</div>
-                                        <div className="dsResultCell">{item.modified.replace('T', " ")}</div>
+                                        <div className="dsResultCell">{item.groep}</div>
+                                        <div className="dsResultCell">{item.created}</div>
+                                        <div className="dsResultCell">{item.modified}</div>
                                     </div>
                         )
                     })}

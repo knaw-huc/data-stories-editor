@@ -1,3 +1,5 @@
+export const API_URL = 'http://localhost:5000/';
+
 export function findBlockById(currentBlock, dataStoryData) {
     const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
 

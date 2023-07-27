@@ -3,12 +3,15 @@ export interface IStoryItem {
     filename: string,
     store: string,
     owner: string,
-    group: string,
+    groep: string,
     created: string,
-    modified: string;
+    modified: string,
+    status: string,
+    id: number,
+    uuid: string
 }
 
 export interface IResultList {
-    amount: number,
-    items: IStoryItem[]
+    status: string,
+    structure: IStoryItem[]
 }
