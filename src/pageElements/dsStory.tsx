@@ -3,61 +3,41 @@ import {useState, useEffect} from "react";
 import {json, useNavigate, useParams} from "react-router-dom";
 import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
-import ModalOpenFile from "./modalOpenFile";
 import YasguiBlock from "./yasguiBlock";
 import {API_URL} from "../misc/functions";
 import convert from 'xml-js';
 
 
 function Story() {
-  const navigate = useNavigate();
-  const params = useParams();
-  const store = params.store as string;
+    const navigate = useNavigate();
+    const params = useParams();
+    const store = params.store as string;
 
 
+    const [storyHeader, setStoryHeader] = useState(Object);
+    const [loading, setLoading] = useState(true);
+    const [currentEditBlock, setCurrentEditBlock] = useState({"block_id": ""});
+    const [editorStatus, setEditorStatus] = useState(false);
+    const [showOpenDialog, setShowOpenDialog] = useState(false);
+    const [currentDataStory, setCurrentDataStory] = useState(store);
+    const [contentType, setContentType] = useState<string>("");
+    const [refresh, setRefresh] = useState(true);
 
-  const [storyHeader, setStoryHeader] = useState(Object);
-  const [loading, setLoading] = useState(true);
-  const [currentEditBlock, setCurrentEditBlock] = useState({"block_id":""});
-  const [editorStatus, setEditorStatus] = useState(false);
-  const [showOpenDialog, setShowOpenDialog] = useState(false);
-  const [currentDataStory, setCurrentDataStory] = useState(store);
-  const [contentType, setContentType] = useState<string>("");
-  const [refresh, setRefresh] = useState(true);
-
-  //console.log('currentDataStory', currentDataStory);
-  
-  
-
-  const [dataStoryData, setDataStoryData] = useState({
-    "_declaration": {},
-    "_instruction": {},
-    "ds:DataStory": {}
-  });
-
-  console.log(dataStoryData);
-
-if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
-  fetch_data();
-}
-
-//https://raw.githubusercontent.com/CLARIAH/data-stories/main/spec/WP4-Story.xml
-  /*async function fetch_data() {
-      axios
-          .get(
-              API_URL + 'get_item?ds=' + store,
-          )
-          .then(response => {
-
-            const json = (response.data)
+    //console.log('currentDataStory', currentDataStory);
 
 
-            setLoading(false);
-            //console.log('@@',dataStoryData);
-            
-          })
-          .catch(err => console.log(err));
-  }*/
+    const [dataStoryData, setDataStoryData] = useState({
+        "_declaration": {},
+        "_instruction": {},
+        "ds:DataStory": {}
+    });
+
+    //console.log(dataStoryData);
+
+    if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
+        fetch_data();
+    }
+
 
     async function fetch_data() {
         const response = await fetch(API_URL + 'get_item?ds=' + store);
@@ -68,41 +48,36 @@ if (Object.keys(dataStoryData["ds:DataStory"]).length === 0) {
     }
 
 
-
-  
-
-
-  function convertXml(xmlString) {
-      return new Promise((resolve, reject) => {
-        let dataStoryDataRaw = convert.xml2js(xmlString, {compact: true})
+    function convertXml(xmlString) {
+        return new Promise((resolve, reject) => {
+            let dataStoryDataRaw = convert.xml2js(xmlString, {compact: true})
             resolve(dataStoryDataRaw);
-      })
-  }
-
-
-function checkDataStoryData(data) {
-  return new Promise((resolve, reject) => {
-    setDataStoryData(data)
-        resolve(data);
-      })
-}
-
-  function setDataElements(data) {
-    setStoryHeader(data['ds:DataStory']['ds:Metadata']);
-  }
-
-const deleteStoryBlockByID = (id)  => {
-    const index = findBlockById(id);
-    if (index > -1) {
-        let buffer = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'];
-        console.log(buffer);
-        delete buffer[index];
-        let newDSD = dataStoryData;
-        newDSD['ds:DataStory']['ds:Story']['ds:Block'] = buffer.flat();
-        setDataStoryData(newDSD);
-        setRefresh(!refresh);
+        })
     }
-}
+
+
+    function checkDataStoryData(data) {
+        return new Promise((resolve, reject) => {
+            setDataStoryData(data)
+            resolve(data);
+        })
+    }
+
+    function setDataElements(data) {
+        setStoryHeader(data['ds:DataStory']['ds:Metadata']);
+    }
+
+    const deleteStoryBlockByID = (id) => {
+        const index = findBlockById(id);
+        if (index > -1) {
+            let buffer = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'];
+            delete buffer[index];
+            let newDSD = dataStoryData;
+            newDSD['ds:DataStory']['ds:Story']['ds:Block'] = buffer.flat();
+            setDataStoryData(newDSD);
+            setRefresh(!refresh);
+        }
+    }
 
     function findBlockById(currentBlock) {
         const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
@@ -117,82 +92,69 @@ const deleteStoryBlockByID = (id)  => {
     }
 
 
-
-
-
     return (
-      <>
+        <>
 
 
-        <div className="dataStoryBlocks">
+            <div className="dataStoryBlocks">
 
 
-        {!loading ? (
-            <DsStoryBlock
-              content={storyHeader}
-              contentType="header"
-              dataStoryData={dataStoryData}
-              currentEditBlock={currentEditBlock}
-              setCurrentEditBlock={setCurrentEditBlock}
-              setDataStoryData = {setDataStoryData}
-              setEditorStatus={setEditorStatus}
-              editorStatus={editorStatus}
-              deleteStoryBlockByID={deleteStoryBlockByID}
-              ></ DsStoryBlock>
+                {!loading ? (
+                        <DsStoryBlock
+                            content={storyHeader}
+                            contentType="header"
+                            dataStoryData={dataStoryData}
+                            currentEditBlock={currentEditBlock}
+                            setCurrentEditBlock={setCurrentEditBlock}
+                            setDataStoryData={setDataStoryData}
+                            setEditorStatus={setEditorStatus}
+                            editorStatus={editorStatus}
+                            deleteStoryBlockByID={deleteStoryBlockByID}
+                        ></ DsStoryBlock>
 
-        ):
-          (<div className="dsBlock"></div>)
-         }
+                    ) :
+                    (<div className="dsBlock"></div>)
+                }
 
-         {!loading ? (
-           dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map((item, index) => {
-               return (
+                {!loading ? (
+                        dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map((item, index) => {
+                            return (
 
-                 <DsStoryBlock
-                 content={item}
-                 contentType={item._attributes.type}
-                 dataStoryData={dataStoryData}
-                 currentEditBlock={currentEditBlock}
-                 setCurrentEditBlock={setCurrentEditBlock}
-                 setDataStoryData = {setDataStoryData}
-                 setEditorStatus={setEditorStatus}
-                 editorStatus={editorStatus}
-                 deleteStoryBlockByID={deleteStoryBlockByID}
-                   ></ DsStoryBlock>
+                                <DsStoryBlock
+                                    content={item}
+                                    contentType={item._attributes.type}
+                                    dataStoryData={dataStoryData}
+                                    currentEditBlock={currentEditBlock}
+                                    setCurrentEditBlock={setCurrentEditBlock}
+                                    setDataStoryData={setDataStoryData}
+                                    setEditorStatus={setEditorStatus}
+                                    editorStatus={editorStatus}
+                                    deleteStoryBlockByID={deleteStoryBlockByID}
+                                ></ DsStoryBlock>
 
-               )
-             })
-         ):
-           (<div className="dsBlock">Loading storyblocks</div>)
-          }
-
-
-
-        </div>
-
-        <ModalOpenFile
-        showOpenDialog={showOpenDialog}
-        setShowOpenDialog={setShowOpenDialog}
-        setCurrentDataStory={setCurrentDataStory}
-        setDataStoryData = {setDataStoryData}
-        setLoading={setLoading}
-        />
+                            )
+                        })
+                    ) :
+                    (<div className="dsBlock">Loading storyblocks</div>)
+                }
 
 
-        <DsEditor
-        currentEditBlock={currentEditBlock}
-        setCurrentEditBlock={setCurrentEditBlock}
-        dataStoryData={dataStoryData}
-        setDataStoryData={setDataStoryData}
-        setEditorStatus={setEditorStatus}
-        editorStatus={editorStatus}
-        showOpenDialog={showOpenDialog}
-        setShowOpenDialog={setShowOpenDialog}
-        />
-        
+            </div>
+
+
+            <DsEditor
+                uuid={store}
+                currentEditBlock={currentEditBlock}
+                setCurrentEditBlock={setCurrentEditBlock}
+                dataStoryData={dataStoryData}
+                setDataStoryData={setDataStoryData}
+                setEditorStatus={setEditorStatus}
+                editorStatus={editorStatus}
+                showOpenDialog={showOpenDialog}
+                setShowOpenDialog={setShowOpenDialog}
+            />
+
         </>
-
-
 
 
     )

@@ -28,6 +28,16 @@ function BrowserHome() {
         }
     }
 
+    async function createDataStory() {
+        const response = await fetch(API_URL + 'create_new');
+        const json = await response.json();
+        if (json.datastory_id !== undefined) {
+            navigate('edit/' + json.datastory_id);
+        } else {
+            alert("ERROR: No new data story created!");
+        }
+    }
+
     function getStatus(s) {
         switch (s) {
             case 'D':
@@ -46,7 +56,7 @@ function BrowserHome() {
     return (
         <div className="dsRepository">
             <div className="btnPanel">
-                <div className="panelButton" onClick={() => navigate("edit")}>+ New</div>
+                <div className="panelButton" onClick={() => createDataStory()}>+ New</div>
                 <div className="panelButton" onClick={() => {
                     if (activeStore === "") {
                         alert("No data story selected");
@@ -70,7 +80,7 @@ function BrowserHome() {
                     </div>
                     {data.structure.map((item, index: number) => {
                         return (
-                                    <div className={`${item.store === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}>
+                                    <div className={`${item.uuid === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}>
                                         <div className="dsResultCell">{item.title}</div>
                                         <div className="dsResultCell">{getStatus(item.status)}</div>
                                         <div className="dsResultCell">{item.owner}</div>

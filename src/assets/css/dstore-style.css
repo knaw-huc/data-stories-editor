@@ -509,8 +509,6 @@ font-weight: bold
 }
 
 textarea, input, select, option {
-width: 100%;
-max-width: 700px;
 background-color: #fafafa;
 border: 1px solid #ccc;
 padding: 10px
@@ -1028,4 +1026,26 @@ top: 0px;
 right: 0px;
 bottom: 0px;
 left: 0px
+}
+
+.authorBtn {
+display: inline-block;
+margin-left: 4px;
+}
+
+#landing_ok, #landing_not_ok, #endpoint_not_ok, #endpoint_ok{
+padding-left: 14px;
+font-weight: bold;
+}
+
+#landing_ok, #endpoint_ok{
+color: #27ae60;
+}
+
+#landing_not_ok, #endpoint_not_ok{
+color: #bb0000;
+}
+
+.no_view{
+display: none;
 }
