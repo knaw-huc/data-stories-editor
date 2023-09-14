@@ -9,7 +9,8 @@ import ImageElement from "../editorElements/imageElement";
 import MarkdownElement from "../editorElements/markdownElement";
 import SparqlElement from "../editorElements/sparqlElement";
 import {API_URL} from "../misc/functions";
-import MetaDataElement from "../editorElements/metaDataElement";
+// import MetaDataElement from "../editorElements/metaDataElement";
+import MdTest from "../editorElements/mdTest";
 
 
 function DsEditor({
@@ -462,7 +463,7 @@ function DsEditor({
 
                 <div className="edit_body">
                     {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' && <div><strong>No block selected</strong></div>}
-                    {mimeType === "metadata" && <MetaDataElement block={dataStoryData["ds:DataStory"]["ds:Metadata"]} changeStyle={changeStyle}/>}
+                    {mimeType === "metadata" && <MdTest block={dataStoryData["ds:DataStory"]["ds:Metadata"]} changeStyle={changeStyle}/>}
                     {mimeType === "image/*" && <ImageElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "application/sparql-query" && <SparqlElement/>}

@@ -5,6 +5,7 @@ import {API_URL} from "../misc/functions";
 function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Function }) {
     const [title, setTitle] = useState(block["dct:title"]["_text"]);
     const [authors, setAuthors] = useState(get_authors);
+    const [license, setLicense] = useState(get_license);
     const [landing, setLanding] = useState(get_landing_page);
     const [endpoint, setEndpoint] = useState(get_endpoint);
     const [refresh, setRefresh] = useState(false);
@@ -19,6 +20,9 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
             const index =  parseInt(e.currentTarget.id.substring(1));
             buffer[index] = e.currentTarget.value;
             setAuthors(buffer);
+        }
+        if (e.currentTarget.id === 'license') {
+            setLicense(e.currentTarget.value);
         }
         if (e.currentTarget.id === 'landing') {
             reset_status('landing');
@@ -46,6 +50,14 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
         }
     }
 
+    function get_license() {
+        if (block.hasOwnProperty("dct:license")) {
+            return block["dct:license"]["_text"];
+        } else {
+            return "";
+        }
+    }
+
     function get_authors() {
         let list = [];
         block["dct:creator"].map((item) => {
@@ -55,9 +67,20 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
     }
 
     function saveMetadata() {
-        console.log(authors);
         block["dct:title"]["_text"] = title;
+        block["dct:license"]["_text"] = license;
+        block["ds:Endpoint"]["_text"] = endpoint;
+        block["ds:LandingPage"]["_text"] = landing;
+        block["dct:creator"] = write_authors(authors);
         changeStyle();
+    }
+
+    function write_authors(auth_list) {
+        let list = [];
+        auth_list.map((item) => {
+            list.push({"_text": item});
+        })
+        return list;
     }
 
     function delete_author(id) {

@@ -1049,3 +1049,14 @@ color: #bb0000;
 .no_view{
 display: none;
 }
+
+.field_group_header{
+display: block;
+color: #ffffff;
+font-weight: bold;
+background-color: #000c48;
+border-radius: 5px;
+margin: 26px 0;
+cursor: pointer;
+padding: 8px 0 8px 6px;
+}
