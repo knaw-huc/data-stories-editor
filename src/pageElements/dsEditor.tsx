@@ -383,7 +383,7 @@ function DsEditor({
     async function saveStory() {
         const ds = {
             datastory_id: uuid,
-            datastory_title: dataStoryData['ds:DataStory']['ds:Metadata']['dct:title']['_text'],
+            datastory_title: dataStoryData['ds:DataStory']['ds:Metadata']['dct:title'][0]['_text'],
             datastory: dataStoryData
         }
         setWriting(true);
@@ -400,6 +400,7 @@ function DsEditor({
         if (json.status === 'OK') {
             setWriting(false);
         }
+        console.log(json);
 
 
     }
@@ -463,8 +464,8 @@ function DsEditor({
 
                 <div className="edit_body">
                     {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' && <div><strong>No block selected</strong></div>}
-                    {mimeType === "metadata" && <MdTest block={dataStoryData["ds:DataStory"]["ds:Metadata"]} changeStyle={changeStyle}/>}
-                    {mimeType === "image/*" && <ImageElement block={block} changeStyle={changeStyle}/>}
+                    {mimeType === "metadata" && <MdTest dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}/>}
+                    {mimeType === "image/*" && <ImageElement block={block} changeStyle={changeStyle} uuid={uuid}/>}
                     {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "application/sparql-query" && <SparqlElement/>}
                 </div>

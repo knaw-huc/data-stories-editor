@@ -13,9 +13,9 @@ function StoryBlockHeader( {contentHeader }: {contentHeader: Object} ): ReactEle
 
   let storyTitle, storyAuthors, storyLicense;
 
-  storyTitle = contentHeader['dct:title']._text;
+  storyTitle = contentHeader['dct:title'][0]._text;
   storyAuthors = contentHeader['dct:creator'];
-  storyLicense = contentHeader['dct:license']._text;
+  storyLicense = contentHeader['dct:license'][0]._text;
   //console.log('storyAuthors', storyAuthors)
 
 

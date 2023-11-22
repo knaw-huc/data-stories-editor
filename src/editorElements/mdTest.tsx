@@ -2,14 +2,30 @@ import React from "react";
 import {useState} from "react";
 import FieldElement from "./fieldElement";
 import FieldGroupElement from "./fieldGroupElement";
+import UriFieldElement from "./uriFieldElement";
+import AreaFieldElement from "./areaFieldElement";
 
 
-function MdTest({block, changeStyle}: { block: object, changeStyle: Function }) {
-    const [fields, setFields] = useState(fillFields);
-    let buffer = [];
+function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: Function, changeStyle: Function }) {
+    let block = dsData["ds:DataStory"]["ds:Metadata"];
+    let fields = fillFields();
 
-    function changeFields() {
-        alert("rob");
+    const changeFields = (fieldName, list) => {
+        fields[fieldName] = list;
+    }
+
+    function saveMetadata() {
+        let tmpBlock = {}
+        for (let key in fields) {
+            tmpBlock[key] = [];
+            for (let fieldKey in fields[key]) {
+                tmpBlock[key].push({"_text": fields[key][fieldKey]});
+            }
+        }
+        block = tmpBlock;
+        let tmpData = dsData;
+        tmpData["ds:DataStory"]["ds:Metadata"] = block;
+        setDsData(tmpData);
     }
 
     function fillFields() {
@@ -30,13 +46,30 @@ function MdTest({block, changeStyle}: { block: object, changeStyle: Function }) 
     }
 
 
-
     return (
-        <div>
+        <div className="mdEditor">
             <h1>Edit metadata</h1>
+            <div className="mdSaveBtn"><button onClick={() => {saveMetadata();}}>Save metadata</button></div>
             <FieldElement fieldname="dct:title" fields={fields} changeValues={changeFields}/>
             <FieldElement fieldname="dct:creator" fields={fields} changeValues={changeFields}/>
-            <FieldGroupElement/>
+            <FieldGroupElement label="Content" blockName="contentBlock"/>
+            <div id="contentBlock">
+                <FieldElement fieldname="dct:subject" fields={fields} changeValues={changeFields}/>
+                <AreaFieldElement fieldname="dct:abstract" fields={fields} changeValues={changeFields}/>
+                <AreaFieldElement fieldname="dct:description" fields={fields} changeValues={changeFields}/>
+                <AreaFieldElement fieldname="dct:tableOfContents" fields={fields} changeValues={changeFields}/>
+            </div>
+            <FieldGroupElement label="Actor" blockName="actorBlock"/>
+            <div id="actorBlock">
+                <FieldElement fieldname="dct:contributor" fields={fields} changeValues={changeFields}/>
+                <FieldElement fieldname="dct:publisher" fields={fields} changeValues={changeFields}/>
+            </div>
+            <FieldGroupElement label="URI's" blockName="uriBlock"/>
+                <div id="uriBlock">
+                    <UriFieldElement fieldname={"ds:Endpoint"} fields={fields} changeValues={changeFields} id="endpoint"/>
+                    <UriFieldElement fieldname={"ds:LandingPage"} fields={fields} changeValues={changeFields} id="landing"/>
+                </div>
+
         </div>
     )
 

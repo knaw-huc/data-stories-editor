@@ -5,10 +5,13 @@ function FieldElement({fieldname, fields, changeValues}: {fieldname: string, fie
     let fieldValues = [];
     if (fields.hasOwnProperty(fieldname)) {
         fieldValues = fields[fieldname];
+    } else {
+        fieldValues.push("");
     }
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
-        console.log('rob');
+        fieldValues[e.currentTarget.id] = e.currentTarget.value;
+        changeValues(fieldname, fieldValues);
     }
 
     function deleteField(index) {
@@ -24,11 +27,11 @@ function FieldElement({fieldname, fields, changeValues}: {fieldname: string, fie
             <h4>{mdFields[fieldname]["label"]}</h4>
             {
                 fieldValues.map((item, index) => {
-                    const a_id = "a" + index.toString();
+                    const a_id =  index.toString();
                     if (index === 0) {
-                        return (<div><input type="text" id={a_id}  className="author" defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={addField}>+</button></div>);}
+                        return (<div key={index}><input type="text" id={a_id}   defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={addField}>+</button></div>);}
                     else {
-                        return (<div><input type="text" id={a_id} className="author" defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={() => {deleteField(index)}}>-</button></div>);
+                        return (<div key={index}><input type="text" id={a_id} defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={() => {deleteField(index)}}>-</button></div>);
                     }
                 })
             }

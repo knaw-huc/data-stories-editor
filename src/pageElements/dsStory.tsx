@@ -12,8 +12,6 @@ function Story() {
     const navigate = useNavigate();
     const params = useParams();
     const store = params.store as string;
-
-
     const [storyHeader, setStoryHeader] = useState(Object);
     const [loading, setLoading] = useState(true);
     const [currentEditBlock, setCurrentEditBlock] = useState({"block_id": ""});

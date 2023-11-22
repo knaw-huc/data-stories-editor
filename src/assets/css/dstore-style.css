@@ -1060,3 +1060,11 @@ margin: 26px 0;
 cursor: pointer;
 padding: 8px 0 8px 6px;
 }
+
+.mdSaveBtn {
+position: absolute;
+display: inline-block;
+right: 400px;
+top: 120px;
+}
+

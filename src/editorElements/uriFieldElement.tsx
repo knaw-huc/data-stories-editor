@@ -1,26 +1,42 @@
 import React from "react";
+import {useState} from "react";
 import {API_URL, mdFields} from "../misc/functions";
 
-function UriFieldElement({fieldname, fields, changeValues}: {fieldname: string, fields: object, changeValues: Function}) {
+function UriFieldElement({
+                             fieldname,
+                             fields,
+                             changeValues,
+                             id
+                         }: { fieldname: string, fields: object, changeValues: Function, id: string }) {
     let fieldValues = [];
     if (fields.hasOwnProperty(fieldname)) {
         fieldValues = fields[fieldname];
+    } else {
+        fieldValues.push("");
     }
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
-        console.log('rob');
+        reset_status();
+        fieldValues[0] = (e.currentTarget.value);
+        changeValues(fieldname, fieldValues);
     }
 
-    function deleteField(index) {
-        console.log('rob');
+    function set_status_ok() {
+        document.getElementById(id + "_ok").classList.remove("no_view");
     }
 
-    function addField() {
-        console.log('rob');
+    function set_status_not_ok() {
+        document.getElementById(id + "_not_ok").classList.remove("no_view");
     }
 
-    async function check_url(url_type) {
-        const urlStruc = {url: url}
+    function reset_status() {
+        document.getElementById(id + "_ok").classList.add("no_view");
+        document.getElementById(id + "_not_ok").classList.add("no_view");
+    }
+
+
+    async function check_url() {
+        const urlStruc = {url: fieldValues[0]}
         const response = await fetch(API_URL + "check_url", {
             method: 'POST',
             headers: {
@@ -31,22 +47,26 @@ function UriFieldElement({fieldname, fields, changeValues}: {fieldname: string, 
         });
         const json = await response.json();
         if (json.status === 200) {
-            set_status_ok(url_type);
+            set_status_ok();
         } else {
-            set_status_not_ok(url_type);
+            set_status_not_ok();
         }
-        console.log(json);
     }
+
+    const ok = id + "_ok";
+    const not_ok = id + "_not_ok";
 
     return (
         <div>
             <h4>{mdFields[fieldname]["label"]}</h4>
-            {
-                fieldValues.map((item, index) => {
-                    const a_id = "a" + index.toString();
-                        return (<div><input type="text" id={a_id}  className="author" defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={() => {check_url('endpoint')}}>Check</button><span id="endpoint_ok" className="no_view">&#10003;</span><span id="endpoint_not_ok" className="no_view">X</span></div>);
-                })
-            }
+            <div><input type="text" id={id} className="author" defaultValue={fieldValues[0]} size={40}
+                                                    onChange={handleChange}/>
+                        <button className="authorBtn" onClick={() => {
+                            check_url()
+                        }}>Check
+                        </button>
+                        <span id={ok} className="no_view">&#10003;</span><span id={not_ok} className="no_view">X</span>
+                    </div>
         </div>
     )
 }

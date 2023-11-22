@@ -28,6 +28,16 @@ function BrowserHome() {
         }
     }
 
+    async function delete_datastory() {
+        if (window.confirm("Delete datastory?") === true   ) {
+            const response = await fetch(API_URL + 'delete?ds=' + activeStore);
+            const json = await response.json();
+            if (json.status === "OK") {
+                setLoading(true);
+            }
+        }
+    }
+
     async function createDataStory() {
         const response = await fetch(API_URL + 'create_new');
         const json = await response.json();
@@ -59,12 +69,18 @@ function BrowserHome() {
                 <div className="panelButton" onClick={() => createDataStory()}>+ New</div>
                 <div className="panelButton" onClick={() => {
                     if (activeStore === "") {
-                        alert("No data story selected");
+                        alert("No data story selected!");
                     } else {
                         navigate("edit/" + activeStore);
                     }
                 }}><img className="panelIcon" src={icon_edit}/> Edit</div>
-                <div className="panelButton"><img  className="panelIcon" src={icon_delete}/> Delete</div>
+                <div className="panelButton" onClick={() => {
+                    if (activeStore === "") {
+                        alert("No data story selected for deletion!");
+                    } else {
+                        delete_datastory();
+                    }
+                }}><img  className="panelIcon" src={icon_delete}/> Delete</div>
             </div>
             {loading ? (
                 <div>Data stories loading...</div>
