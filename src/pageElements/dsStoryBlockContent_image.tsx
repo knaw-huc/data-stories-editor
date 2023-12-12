@@ -22,8 +22,8 @@ function StoryBlockImage( {title, href}: {title: string, href: string} ): ReactE
           alt={title} 
           style={{width:'100%', height:'auto', margin: '0 0 0 0'}}
           />
-          <caption style={{width:'100%', fontSize: '.85rem'}}>{title}</caption>
         </figure>
+          <caption style={{width:'100%', fontSize: '.85rem'}}>{title}</caption>
 
       </div>
 

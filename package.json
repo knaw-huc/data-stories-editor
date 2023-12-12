@@ -21,10 +21,8 @@
     "react-markdown": "^8.0.3",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "react-xml-parser": "^1.1.8",
     "typescript": "^4.7.4",
-    "web-vitals": "^2.1.4",
-    "xml-js": "^1.6.11"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

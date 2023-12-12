@@ -1,64 +1,47 @@
-import React, {useState} from "react";
+import React, {ReactElement, useState} from "react";
 import {useEffect} from "react";
 import Yasgui from "@triply/yasgui";
 import "@triply/yasgui/build/yasgui.min.css";
 import MenuAddBox from "./menuAddBox";
+import '../assets/css/yasgui-browser.css';
 
-export default function YasguiBlock() {
-    const [collapsed, setCollapsed] = useState(false);
-    const [menuActive, setMenuActive] = useState(false);
+export default function YasguiBlock({content} : {content: object}): ReactElement {
+    localStorage.removeItem("yagui__config");
 
-    function alter() {
-        if (!collapsed) {
-            setCollapsed(true);
-            let obj = document.getElementById("yasgui");
-            if (obj !== null) {
-                obj.classList.add("noView");
-            }
 
-        } else {
-            setCollapsed(false);
-            let obj = document.getElementById("yasgui");
-            if (obj !== null) {
-                obj.classList.remove("noView");
-            }
+
+
+    function setBrowser(yasgui) {
+        if (content["_cdata"] !== undefined) {
+            let tab = yasgui.getTab();
+            tab.yasr.storePluginConfig('table', {"compact": true});
+            tab.setQuery(content["_cdata"]);
+            tab.query();
+
         }
     }
 
     function yasMerin() {
         const list = document.getElementsByClassName("yasgui");
+        Yasgui.Yasr.plugins.table.defaults.compact = true;
+        Yasgui.Yasr.plugins.table.defaults.pageSize = 6;
         if (list.length === 0) {
-            const yasgui = new Yasgui(document.getElementById("yasgui") as HTMLElement, {});
+            const yasgui = new Yasgui(document.getElementById("yasgui") as HTMLElement, {requestConfig:
+                    {endpoint: "https://druid.datalegend.net/dataLegend/deaths-1910-1920/sparql/deaths-1910-1920"}});
+            setBrowser(yasgui);
         }
+
     }
 
     useEffect(() => {
         yasMerin();
-    }, []);
+    });
 
     return (
         <div className="dsTextBlock">
-            <div className="dsBlockHeadMenu">
-                <ul>
-                    <li><span className="material-symbols-sharp">toggle_off</span> Metadata</li>
-                    <li><span className="material-symbols-sharp">toggle_off</span> Notes & commentaries</li>
-                    <li><span className="material-symbols-sharp">toggle_off</span> Provenance</li>
-                </ul>
-                <div className="dsTypeName">QUERY</div>
-            </div>
             <div className="dsTextBlockContent">
                 <div id="yasgui" />
             </div>
-            <div className="dsBlockMenuBottom">
-                <ul>
-                    <li onClick={() => {setMenuActive(true)}}><span className="material-symbols-sharp">add_box</span> Add block below</li>
-                    <li><span className="material-symbols-sharp">pinch</span> Move this block</li>
-                    <li onClick={() => {alter()}}>{!collapsed ? (<React.Fragment><span className="material-symbols-sharp">unfold_less</span>Collapse block</React.Fragment>) :(<React.Fragment><span className="material-symbols-sharp">unfold_more</span>Expand block</React.Fragment>)}</li>
-                </ul>
-            </div>
-            {menuActive && (<div className="dsMenuBox" onClick={() => {setMenuActive(false)}}>
-                <MenuAddBox/>
-            </div>)}
         </div>
     )
 }

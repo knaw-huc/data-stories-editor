@@ -4,6 +4,7 @@ import StoryBlockMD from "./dsStoryBlockContent_md";
 import StoryBlockTable from "./dsStoryBlockContent_table";
 import StoryBlockImage from "./dsStoryBlockContent_image";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
+import YasguiBlock from "./yasguiBlock";
 import StoryBlockNew from "./dsStoryBlockNewBlock";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
@@ -34,7 +35,8 @@ function StoryBlock({
 
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
-    const ifQuery = contentType === 'query';
+    const ifQuery = contentType === 'query' && content['_attributes']["xml:id"] !== 'b7';
+    const ifTestQuery = contentType === 'query' && content['_attributes']["xml:id"] == 'b7';
     const ifImage = contentType === 'media';
 
     let h2Title = '';
@@ -112,7 +114,6 @@ function StoryBlock({
                 </div>
                 <div className="dsBlock__content dsBlock__right" id={blockId}>
 
-
                     {ifHeader && (
                         <StoryBlockHeader contentHeader={content}/>
                     )}
@@ -121,9 +122,10 @@ function StoryBlock({
                         <StoryBlockMD contentHead={h2Title} contentBody={contentTxt}/>
                     )}
 
-                    {ifQuery && (
+                    {/*{ifQuery && (
                         <StoryBlockTable/>
-                    )}
+                    )}*/}
+                    {ifTestQuery && (<YasguiBlock content={content} />)}
                     {ifImage && (
                         <StoryBlockImage
                             title={h2Title}

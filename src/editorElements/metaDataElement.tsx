@@ -3,7 +3,7 @@ import {useState} from "react";
 import {API_URL} from "../misc/functions";
 
 function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Function }) {
-    const [title, setTitle] = useState(block["dct:title"]["_text"]);
+    const [title, setTitle] = useState(block["dct:title"][0]["_text"]);
     const [authors, setAuthors] = useState(get_authors);
     const [license, setLicense] = useState(get_license);
     const [landing, setLanding] = useState(get_landing_page);
@@ -30,13 +30,13 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
         }
         if (e.currentTarget.id === 'endpoint') {
             reset_status('endpoint');
-            setLanding(e.currentTarget.value);
+            setEndpoint(e.currentTarget.value);
         }
     }
 
     function get_landing_page() {
         if (block.hasOwnProperty("ds:LandingPage")) {
-            return block["ds:LandingPage"]["_text"];
+            return block["ds:LandingPage"][0]["_text"];
         } else {
             return ""
         }
@@ -44,7 +44,7 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
 
     function get_endpoint() {
         if (block.hasOwnProperty("ds:Endpoint")) {
-            return block["ds:Endpoint"]["_text"];
+            return block["ds:Endpoint"][0]["_text"];
         } else {
             return ""
         }
@@ -52,7 +52,7 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
 
     function get_license() {
         if (block.hasOwnProperty("dct:license")) {
-            return block["dct:license"]["_text"];
+            return block["dct:license"][0]["_text"];
         } else {
             return "";
         }
@@ -67,10 +67,11 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
     }
 
     function saveMetadata() {
-        block["dct:title"]["_text"] = title;
-        block["dct:license"]["_text"] = license;
-        block["ds:Endpoint"]["_text"] = endpoint;
-        block["ds:LandingPage"]["_text"] = landing;
+        console.log("OK");
+        block["dct:title"][0]["_text"] = title;
+        block["dct:license"][0]["_text"] = license;
+        block["ds:Endpoint"][0]["_text"] = endpoint;
+        block["ds:LandingPage"][0]["_text"] = landing;
         block["dct:creator"] = write_authors(authors);
         changeStyle();
     }

@@ -1,0 +1,7 @@
+.tabsList, .controlbar, .yasqe, .yasr_header{
+display: none !important;
+}
+
+.dataTables_info, .dataTables_paginate{
+font-weight: bold !important;
+}

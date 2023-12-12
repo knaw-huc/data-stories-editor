@@ -5,7 +5,7 @@ import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
 import YasguiBlock from "./yasguiBlock";
 import {API_URL} from "../misc/functions";
-import convert from 'xml-js';
+
 
 
 function Story() {
@@ -45,13 +45,6 @@ function Story() {
         setLoading(false);
     }
 
-
-    function convertXml(xmlString) {
-        return new Promise((resolve, reject) => {
-            let dataStoryDataRaw = convert.xml2js(xmlString, {compact: true})
-            resolve(dataStoryDataRaw);
-        })
-    }
 
 
     function checkDataStoryData(data) {
