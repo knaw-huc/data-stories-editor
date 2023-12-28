@@ -19,7 +19,8 @@ function StoryBlock({
                         setDataStoryData,
                         setEditorStatus,
                         editorStatus,
-                        deleteStoryBlockByID
+                        deleteStoryBlockByID,
+                        store
                     }: {
     content: object,
     contentType: String,
@@ -29,14 +30,15 @@ function StoryBlock({
     setDataStoryData: Function,
     setEditorStatus: Function,
     editorStatus: boolean,
-    deleteStoryBlockByID: Function
+    deleteStoryBlockByID: Function,
+    store: string
 }): ReactElement {
 
 
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
-    const ifQuery = contentType === 'query' && content['_attributes']["xml:id"] !== 'b7';
-    const ifTestQuery = contentType === 'query' && content['_attributes']["xml:id"] == 'b7';
+    const ifQuery = contentType === 'query';
+    //const ifTestQuery = contentType === 'query' && content['_attributes']["xml:id"] == 'b7';
     const ifImage = contentType === 'media';
 
     let h2Title = '';
@@ -60,6 +62,9 @@ function StoryBlock({
 
     if (ifQuery) {
         blockId = content['_attributes']["xml:id"]  //
+        if (content['ds:Metadata'] !== undefined) {
+            h2Title = content['ds:Metadata']['dct:title']._text
+        }
     }
 
     if (ifImage) {
@@ -122,10 +127,8 @@ function StoryBlock({
                         <StoryBlockMD contentHead={h2Title} contentBody={contentTxt}/>
                     )}
 
-                    {/*{ifQuery && (
-                        <StoryBlockTable/>
-                    )}*/}
-                    {ifTestQuery && (<YasguiBlock content={content} />)}
+
+                    {ifQuery && (<YasguiBlock contentHead={h2Title} content={content} store={store} />)}
                     {ifImage && (
                         <StoryBlockImage
                             title={h2Title}

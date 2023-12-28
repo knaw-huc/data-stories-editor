@@ -101,6 +101,7 @@ function Story() {
                             setEditorStatus={setEditorStatus}
                             editorStatus={editorStatus}
                             deleteStoryBlockByID={deleteStoryBlockByID}
+                            store={store}
                         ></ DsStoryBlock>
 
                     ) :
@@ -122,6 +123,7 @@ function Story() {
                                     editorStatus={editorStatus}
                                     deleteStoryBlockByID={deleteStoryBlockByID}
                                     key={index}
+                                    store={store}
                                 ></ DsStoryBlock>
 
                             )

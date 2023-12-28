@@ -1,7 +1,5 @@
 import React, { ReactElement} from 'react';
-
-import ReactMarkdown from 'react-markdown'
-import ReactDom from 'react-dom'
+import ReactMarkdown from 'react-markdown';
 
 
 

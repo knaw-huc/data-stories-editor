@@ -10,7 +10,6 @@ function StoryBlockTable( {}: {} ): ReactElement {
 
 
 
-
     return (
 
       <div className="" >
