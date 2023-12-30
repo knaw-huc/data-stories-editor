@@ -33,8 +33,6 @@ function StoryBlock({
     deleteStoryBlockByID: Function,
     store: string
 }): ReactElement {
-
-
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
     const ifQuery = contentType === 'query';
@@ -42,9 +40,10 @@ function StoryBlock({
     const ifImage = contentType === 'media';
 
     let h2Title = '';
-    let contentTxt = ''
-    let blockId = ''
-    let imgHref = ''
+    let contentTxt = '';
+    let blockId = '';
+    let imgHref = '';
+    let endpoint = '';
 
 
     if (ifHeader) {
@@ -62,6 +61,7 @@ function StoryBlock({
 
     if (ifQuery) {
         blockId = content['_attributes']["xml:id"]  //
+        endpoint = getEndpoint(content);
         if (content['ds:Metadata'] !== undefined) {
             h2Title = content['ds:Metadata']['dct:title']._text
         }
@@ -75,6 +75,17 @@ function StoryBlock({
         }
     }
 
+    function getEndpoint(content) {
+        if (content?.["ds:Metadata"]?.["ds:Endpoint"]?.[0]?.["_text"] !== undefined && content["ds:Metadata"]["ds:Endpoint"][0]["_text"] !== '' ) {
+            return content["ds:Metadata"]["ds:Endpoint"][0]["_text"];
+        } else {
+            if (dataStoryData["ds:DataStory"]["ds:Metadata"]?.["ds:Endpoint"]?.[0]?.["_text"] !== undefined && dataStoryData["ds:DataStory"]["ds:Metadata"]["ds:Endpoint"][0]["_text"] !== '') {
+                return dataStoryData["ds:DataStory"]["ds:Metadata"]["ds:Endpoint"][0]["_text"]
+            } else {
+                return "no_endpoint";
+            }
+        }
+    }
 
     function changeCurEdit() {
         setCurrentEditBlock({block_id: blockId})
@@ -128,7 +139,7 @@ function StoryBlock({
                     )}
 
 
-                    {ifQuery && (<YasguiBlock contentHead={h2Title} content={content} store={store} />)}
+                    {ifQuery && (<YasguiBlock contentHead={h2Title} content={content} store={store} endpoint={endpoint} />)}
                     {ifImage && (
                         <StoryBlockImage
                             title={h2Title}

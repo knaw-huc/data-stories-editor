@@ -15,12 +15,12 @@ function StoryBlockImage( {title, href}: {title: string, href: string} ): ReactE
 
       <div className="" style={{width:'100%'}}>
         <figure 
-        style={{width:'100%', margin: '0 0 0 0'}}
+        style={{width:'100%', margin: '0 0 0 0', textAlign: "center"}}
         >
           <img 
           src={href}
           alt={title} 
-          style={{width:'100%', height:'auto', margin: '0 0 0 0'}}
+          style={{maxWidth: '100%', height:'auto', margin: '0 0 0 0'}}
           />
         </figure>
           <caption style={{width:'100%', fontSize: '.85rem'}}>{title}</caption>
