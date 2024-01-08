@@ -7,7 +7,7 @@ margin: 0
 }
 
 * {
-box-sizing: border-box
+box-sizing: border-box;
 }
 
 ul, ol {
@@ -579,7 +579,7 @@ flex-direction: column
 }
 
 .edit_body input, .edit_body select, .edit_body option {
-max-width: 400px
+width: 700px
 }
 
 .edit_segments {
@@ -956,7 +956,7 @@ scroll-behavior: smooth
 }
 
 body {
-font-family: "IBM Plex Sans", sans-serif;
+font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 font-size: 18px
 }
 
@@ -1066,5 +1066,9 @@ position: absolute;
 display: inline-block;
 right: 400px;
 top: 120px;
+}
+
+.md_editor{
+width: 800px;
 }
 

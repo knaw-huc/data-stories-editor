@@ -5,11 +5,14 @@ import "@triply/yasgui/build/yasgui.min.css";
 import MenuAddBox from "./menuAddBox";
 import '../assets/css/yasgui-browser.css';
 import {API_URL} from "../misc/functions";
+import Geo from "huc-geo-plugin";
+
 
 export default function YasguiBlock({contentHead, content, store, endpoint} : {contentHead: string, content: object, store: string, endpoint: string}): ReactElement {
     localStorage.removeItem("yagui__config");
     const hasHead = contentHead !== '';
     const yas_id: string = "yasgui_" + content['_attributes']["xml:id"];
+    const yasGeo = Geo;
 
     function setBrowser(yasgui) {
         if (content["_cdata"] !== undefined) {
@@ -35,6 +38,7 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
     function yasMerin() {
         if (endpoint !== "no_endpoint") {
             const list = document.getElementById(yas_id).getElementsByClassName("yasgui");
+            Yasgui.Yasr.registerPlugin("Geo", yasGeo);
             Yasgui.Yasr.plugins.table.defaults.compact = true;
             Yasgui.Yasr.plugins.table.defaults.pageSize = 6;
             if (list.length === 0) {

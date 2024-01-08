@@ -47,7 +47,7 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
 
 
     return (
-        <div className="mdEditor">
+        <div className="md_editor">
             <h1>Edit metadata</h1>
             <div className="mdSaveBtn"><button onClick={() => {saveMetadata();}}>Save metadata</button></div>
             <FieldElement fieldname="dct:title" fields={fields} changeValues={changeFields}/>
