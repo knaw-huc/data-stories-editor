@@ -6,6 +6,7 @@ import icon_arrowUp from '../assets/img/icons/icon-arrow-up.svg';
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 import ImageElement from "../editorElements/imageElement";
+import FrameElement from "../editorElements/frameElement";
 import MarkdownElement from "../editorElements/markdownElement";
 import SparqlElement from "../editorElements/sparqlElement";
 import {API_URL} from "../misc/functions";
@@ -220,32 +221,7 @@ function DsEditor({
 
     };
 
-    // submenu interface
-    /*const editerBlockSubContent = (sub) => {
-      console.log('editerBlockSub', sub)
-      document.getElementById('sub_content').style.display = 'none';
-      document.getElementById('sub_metadata').style.display = 'none';
-      document.getElementById('sub_notes').style.display = 'none';
-      document.getElementById('sub_provenance').style.display = 'none';
 
-      document.getElementById('sub_image').style.display = 'none';
-
-      if (sub === 'content') {
-        document.getElementById('sub_content').style.display = 'block';
-      }
-      if (sub === 'metadata') {
-        document.getElementById('sub_metadata').style.display = 'block';
-      }
-      if (sub === 'notes') {
-        document.getElementById('sub_notes').style.display = 'block';
-      }
-      if (sub === 'provenance') {
-        document.getElementById('sub_provenance').style.display = 'block';
-      }
-      if (sub === 'image') {
-        document.getElementById('sub_image').style.display = 'block';
-      }
-    }*/
 
     function exportStory() {
         const preXml = '<?xml version="1.0" encoding="UTF-8"?>\n<?xml-model href="schema/datastory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>\n'
@@ -466,6 +442,7 @@ function DsEditor({
                     {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' && <div><strong>No block selected</strong></div>}
                     {mimeType === "metadata" && <MdTest dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}/>}
                     {mimeType === "image/*" && <ImageElement block={block} changeStyle={changeStyle} uuid={uuid}/>}
+                    {mimeType === "text/html" && <FrameElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "application/sparql-query" && <SparqlElement/>}
                 </div>

@@ -23,20 +23,20 @@ function StoryBlockHeader( {contentHeader }: {contentHeader: Object} ): ReactEle
 
       <div className="" >
         <h1>{storyTitle}</h1>
-        <p>
+        <div>
         Created by {storyAuthors.map((item, i, row) => {
             let comma = ', ';
             if (i + 1 === row.length) {
               comma = '';
             }
               return (
-                <><em>{item._text}</em>{comma}</>
+                <div className="inlineStoryItem" key={i}><em>{item._text}</em>{comma}</div>
               )
             })
 
          }
         <br/>
-        <small>License: <a href={storyLicense}>{storyLicense}</a></small></p>
+        <small>License: <a href={storyLicense}>{storyLicense}</a></small></div>
       </div>
 
     )

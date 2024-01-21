@@ -105,3 +105,9 @@ font-size: smaller;
 color: #ffffff !important;
 margin-right: 20px;
 }
+
+.newBlockOptionBtn{
+display: inline-block;
+margin-bottom: 8px;
+width: 100px;
+}

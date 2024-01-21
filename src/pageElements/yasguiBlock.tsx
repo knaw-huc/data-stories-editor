@@ -8,6 +8,7 @@ import {API_URL} from "../misc/functions";
 import Geo from "huc-geo-plugin";
 
 
+
 export default function YasguiBlock({contentHead, content, store, endpoint} : {contentHead: string, content: object, store: string, endpoint: string}): ReactElement {
     localStorage.removeItem("yagui__config");
     const hasHead = contentHead !== '';
@@ -31,6 +32,9 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
     function handleQuery(yasgui, query) {
         let tab = yasgui.getTab();
         tab.yasr.storePluginConfig('table', {"compact": true});
+        if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'geo') {
+            tab.yasr.selectPlugin("Geo");
+        }
         tab.setQuery(query);
         tab.query();
     }

@@ -1072,3 +1072,7 @@ top: 120px;
 width: 800px;
 }
 
+.inlineStoryItem {
+display:inline;
+}
+
