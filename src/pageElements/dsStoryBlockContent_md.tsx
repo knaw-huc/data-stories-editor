@@ -11,7 +11,7 @@ function StoryBlockMD( {contentHead,contentBody }: {contentHead: string, content
 
     return (
 
-      <div className="" >
+      <div>
       {!hasHead ? (
         <h2>{contentHead}</h2>
       ) : (

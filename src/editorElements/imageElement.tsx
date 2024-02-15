@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 
-function ImageElement({block, changeStyle, uuid}: { block: object, changeStyle: Function, uuid: string }) {
-    const [caption, setCaption] = useState<string>("");
-    const [url, setUrl] = useState<string>("");
+function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: object, changeStyle: Function, setCurrentEditBlock: Function, uuid: string }) {
+    const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
+    const [url, setUrl] = useState<string>(block["_attributes"]["href"]);
     const [file, setFile] = useState<File>();
     const UPLOAD_URL = "http://localhost:5000/";
 
@@ -17,8 +17,8 @@ function ImageElement({block, changeStyle, uuid}: { block: object, changeStyle: 
         if (e.currentTarget.id === 'img') {
             setFile(e.currentTarget.files[0]);
         }
-
     }
+
 
 
     function saveBlock() {
@@ -26,7 +26,7 @@ function ImageElement({block, changeStyle, uuid}: { block: object, changeStyle: 
             const formData = new FormData();
             formData.append('file', file);
             formData.append('uuid', uuid);
-            fetch('http://localhost:5000/upload', {
+            fetch(UPLOAD_URL + 'upload', {
                 method: 'POST',
                 body: formData,
             })
@@ -49,7 +49,9 @@ function ImageElement({block, changeStyle, uuid}: { block: object, changeStyle: 
         block["_attributes"]["href"] = wUrl;
         block["ds:Metadata"]["dct:title"]["_text"] = wCaption;
         changeStyle();
+        //setCurrentEditBlock({"block_id": ""});
     }
+
 
     return (
         <div>

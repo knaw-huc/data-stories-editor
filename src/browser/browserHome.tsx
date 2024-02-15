@@ -96,7 +96,11 @@ function BrowserHome() {
                     </div>
                     {data.structure.map((item, index: number) => {
                         return (
-                                    <div className={`${item.uuid === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}>
+                                    <div className={`${item.uuid === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}
+                                    onDoubleClick={() => {
+                                        setActiveStore(item.uuid);
+                                        navigate("edit/" + activeStore);
+                                    }}>
                                         <div className="dsResultCell">{item.title}</div>
                                         <div className="dsResultCell">{getStatus(item.status)}</div>
                                         <div className="dsResultCell">{item.owner}</div>

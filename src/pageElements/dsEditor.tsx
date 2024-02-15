@@ -183,8 +183,6 @@ function DsEditor({
 
         const newState = dataStoryData['ds:DataStory']['ds:Story']['ds:Block'].map(obj => {
             if (obj['_attributes']['xml:id'] === currentEditBlock['block_id']) {
-
-
                 let mutatedObj = {}
                 if (obj['_attributes']['mime'] === 'image/*') {
                     mutatedObj = {
@@ -220,7 +218,6 @@ function DsEditor({
 
 
     };
-
 
 
     function exportStory() {
@@ -376,9 +373,6 @@ function DsEditor({
         if (json.status === 'OK') {
             setWriting(false);
         }
-        console.log(json);
-
-
     }
 
     function addProv() {
@@ -436,18 +430,18 @@ function DsEditor({
             </div>
 
             <div className="panel_edit_inner panel_edit_wrap">
-
-
-                <div className="edit_body">
-                    {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' && <div><strong>No block selected</strong></div>}
-                    {mimeType === "metadata" && <MdTest dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}/>}
-                    {mimeType === "image/*" && <ImageElement block={block} changeStyle={changeStyle} uuid={uuid}/>}
+                {!editorStatus && (<div className="edit_body">
+                    {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' &&
+                    <div><strong>No block selected</strong></div>}
+                    {mimeType === "metadata" &&
+                    <MdTest dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}/>}
+                    {mimeType === "image/*" &&
+                    <ImageElement block={block} changeStyle={changeStyle} setCurrentEditBlock={setCurrentEditBlock}
+                                  uuid={uuid}/>}
                     {mimeType === "text/html" && <FrameElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "application/sparql-query" && <SparqlElement/>}
-                </div>
-
-
+                </div>)}
             </div>
         </div>
 

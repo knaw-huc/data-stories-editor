@@ -5,9 +5,12 @@ import StoryBlockTable from "./dsStoryBlockContent_table";
 import StoryBlockImage from "./dsStoryBlockContent_image";
 import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
 import YasguiBlock from "./yasguiBlock";
+import StoryBlockFrame from "./dsStoryBlockContent_frame";
 import StoryBlockNew from "./dsStoryBlockNewBlock";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
+import icon_down from '../assets/img/icons/down-arrow-svgrepo-com.svg';
+import icon_up from '../assets/img/icons/up-arrow-svgrepo-com.svg';
 
 
 function StoryBlock({
@@ -36,14 +39,16 @@ function StoryBlock({
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
     const ifQuery = contentType === 'query';
-    //const ifTestQuery = contentType === 'query' && content['_attributes']["xml:id"] == 'b7';
-    const ifImage = contentType === 'media';
+    //const ifTestQuery = contentType === 'query' && content['_attributes']["xml:id"] === 'b7';
+    const ifImage = contentType === 'media' && content['_attributes']["mime"] !== 'text/html';
+    const ifFrame = contentType === 'media' && content['_attributes']["mime"] === 'text/html';
 
     let h2Title = '';
     let contentTxt = '';
     let blockId = '';
     let imgHref = '';
     let endpoint = '';
+    let frameHref = '';
 
 
     if (ifHeader) {
@@ -75,6 +80,14 @@ function StoryBlock({
         }
     }
 
+    if (ifFrame) {
+        blockId = content['_attributes']["xml:id"]  //
+        frameHref = content['_attributes']["href"]
+        if (content['ds:Metadata'] !== undefined) {
+            h2Title = content['ds:Metadata']['dct:title']._text
+        }
+    }
+
     function getEndpoint(content) {
         if (content?.["ds:Metadata"]?.["ds:Endpoint"]?.[0]?.["_text"] !== undefined && content["ds:Metadata"]["ds:Endpoint"][0]["_text"] !== '' ) {
             return content["ds:Metadata"]["ds:Endpoint"][0]["_text"];
@@ -89,7 +102,7 @@ function StoryBlock({
 
     function changeCurEdit() {
         setCurrentEditBlock({block_id: blockId})
-        setEditorStatus(true)
+        setEditorStatus(true);
     }
 
     function changeMetadata() {
@@ -119,14 +132,22 @@ function StoryBlock({
                             <img src={icon_edit} alt=""/>
                         </button>)}
 
-                    {!ifHeader && (
+                    {!ifHeader && (<>
                         <button type="button" name="button" className="bt_icon" onClick={() => {
                             if (window.confirm("Delete data story block?")) {
                                 deleteStoryBlockByID(blockId);
                             }
                         }}>
                             <img src={icon_delete} alt=""/>
-                        </button>)}
+                        </button>
+                        <button type="button" name="button" className="bt_icon bt_icon_up">
+                            <img src={icon_up} alt=""/>
+                        </button>
+                            <button type="button" name="button" className="bt_icon bt_icon_down">
+                                <img src={icon_down} alt=""/>
+                            </button>
+                        </>
+                    )}
                 </div>
                 <div className="dsBlock__content dsBlock__right" id={blockId}>
 
@@ -146,6 +167,7 @@ function StoryBlock({
                             href={imgHref}
                         />
                     )}
+                    {ifFrame && (<StoryBlockFrame title={h2Title} href={frameHref}/>)}
 
 
                 </div>

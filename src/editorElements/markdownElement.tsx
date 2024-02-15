@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import MDEditor, { selectWord } from "@uiw/react-md-editor";
 function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Function}) {
     const [value, setValue] = React.useState(block["_text"]);
-    const [headerValue, setHeaderValue] = React.useState(block["ds:Metadata"]["dct:title"]["_text"].replace('  ', ' '));
+    const [headerValue, setHeaderValue] = React.useState(block["ds:Metadata"]["dct:title"]["_text"]);
 
     function saveBlock() {
         block["_text"] = value;
@@ -11,9 +11,20 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
         changeStyle();
     }
 
+    function init() {
+        if (value !== block["_text"] || headerValue !== block["ds:Metadata"]["dct:title"]["_text"]) {
+            setValue(block["_text"]);
+            setHeaderValue(block["ds:Metadata"]["dct:title"]["_text"]);
+            console.log(headerValue);
+        }
+
+    }
+
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         setHeaderValue(e.currentTarget.value);
     }
+
+    //init();
 
     return (
         <div>

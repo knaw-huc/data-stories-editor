@@ -58,6 +58,7 @@ function Story() {
         setStoryHeader(data['ds:DataStory']['ds:Metadata']);
     }
 
+
     const deleteStoryBlockByID = (id) => {
         const index = findBlockById(id);
         if (index > -1) {

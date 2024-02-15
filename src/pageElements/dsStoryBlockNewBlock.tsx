@@ -24,7 +24,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         "_comment": "",
         "ds:Metadata": {
             "dct:title": {
-                "_text": "New text block"
+                "_text": ""
             },
             "_comment": ""
         },
@@ -37,7 +37,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
                 "_text": "# I. {$ds-Block/dct:title}"
             }
         },
-        "_text": "This is a new markdown block."
+        "_text": ""
     }
 
     const newEntryIm = {
@@ -50,7 +50,7 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         "_comment": "",
         "ds:Metadata": {
             "dct:title": {
-                "_text": "Caption / alt text here"
+                "_text": ""
             },
             "_comment": ""
         }

@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import Iframe from "react-iframe";
 
 function FrameElement({block, changeStyle}: { block: object, changeStyle: Function}) {
-    const [caption, setCaption] = useState<string>("");
-    const [url, setUrl] = useState<string>("");
+    const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
+    const [url, setUrl] = useState<string>(block["_attributes"]["href"]);
     const [preview, setPreview] = useState(false);
 
 
@@ -34,6 +34,7 @@ function FrameElement({block, changeStyle}: { block: object, changeStyle: Functi
         changeStyle();
     }
 
+
     return (
         <div>
             <h1>Embed HTML</h1>
@@ -42,10 +43,13 @@ function FrameElement({block, changeStyle}: { block: object, changeStyle: Functi
                 <input type="text" id="caption" defaultValue={caption} size={200} onChange={handleChange}/>
                 <h4>HTML URL</h4>
                 <input type="text" id="url" defaultValue={url} size={200} onChange={handleChange}/>
-                <button onClick={() => {setPreview(true)}}>Preview</button>
+                <div>
+                <button className="rowBtn" onClick={() => {setPreview(!preview)}}>Preview</button>
+                </div>
                 {preview && <Iframe url={url} width="100%" height="500"/>}
                 <div>
                     <button className="rowBtn" onClick={saveBlock}>Save block</button>
+                    <button className="rowBtn" onClick={() => {changeStyle();}}>Dismiss</button>
                 </div>
             </div>
         </div>
