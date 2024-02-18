@@ -15,7 +15,7 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
         if (value !== block["_text"] || headerValue !== block["ds:Metadata"]["dct:title"]["_text"]) {
             setValue(block["_text"]);
             setHeaderValue(block["ds:Metadata"]["dct:title"]["_text"]);
-            console.log(headerValue);
+            //console.log(headerValue);
         }
 
     }

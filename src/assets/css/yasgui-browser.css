@@ -1,4 +1,4 @@
-.tabsList, .controlbar, .yasqe, .yasr_header{
+.dsTextBlockContent > * .tabsList, .controlbar, .yasqe, .yasr_header{
 display: none !important;
 }
 

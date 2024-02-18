@@ -20,6 +20,7 @@ function Story() {
     const [currentDataStory, setCurrentDataStory] = useState(store);
     const [contentType, setContentType] = useState<string>("");
     const [refresh, setRefresh] = useState(true);
+    const [storyOrder, setStoryOrder] = useState([]);
 
     //console.log('currentDataStory', currentDataStory);
 
@@ -54,8 +55,22 @@ function Story() {
         })
     }
 
+
+
     function setDataElements(data) {
         setStoryHeader(data['ds:DataStory']['ds:Metadata']);
+        if (storyOrder.length === 0) {
+            let tmpArray = [];
+            data["ds:DataStory"]["ds:Story"]["ds:Block"].map((item) => {
+                tmpArray.push(item["_attributes"]["xml:id"]);
+            });
+            setStoryOrder(tmpArray);
+        }
+
+    }
+
+    function reload() {
+        setRefresh(!refresh);
     }
 
 
@@ -103,6 +118,9 @@ function Story() {
                             editorStatus={editorStatus}
                             deleteStoryBlockByID={deleteStoryBlockByID}
                             store={store}
+                            orderArray={storyOrder}
+                            setOrderArray={setStoryOrder}
+                            reload={reload}
                         ></ DsStoryBlock>
 
                     ) :
@@ -125,6 +143,9 @@ function Story() {
                                     deleteStoryBlockByID={deleteStoryBlockByID}
                                     key={index}
                                     store={store}
+                                    orderArray={storyOrder}
+                                    setOrderArray={setStoryOrder}
+                                    reload={reload}
                                 ></ DsStoryBlock>
 
                             )

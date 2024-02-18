@@ -8,7 +8,7 @@ function AreaFieldElement({fieldname, fields, changeValues}: {fieldname: string,
     }
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
-        console.log('rob');
+
     }
 
 

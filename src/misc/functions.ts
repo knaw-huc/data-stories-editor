@@ -71,3 +71,9 @@ export function findBlockById(currentBlock, dataStoryData) {
     }
     return out;
 }
+
+export function swapUp(value: string, array:string[]) {
+        const index = array.indexOf(value);
+        [array[index], array[index-1]] = [array[index-1], array[index]];
+        return array;
+}

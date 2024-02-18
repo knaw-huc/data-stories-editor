@@ -125,7 +125,7 @@ function MetaDataElement({block, changeStyle}: { block: object, changeStyle: Fun
         } else {
             set_status_not_ok(url_type);
         }
-        console.log(json);
+        //console.log(json);
     }
 
 

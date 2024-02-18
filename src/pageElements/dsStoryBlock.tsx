@@ -23,7 +23,10 @@ function StoryBlock({
                         setEditorStatus,
                         editorStatus,
                         deleteStoryBlockByID,
-                        store
+                        store,
+                        orderArray,
+                        setOrderArray,
+                        reload
                     }: {
     content: object,
     contentType: String,
@@ -35,6 +38,9 @@ function StoryBlock({
     editorStatus: boolean,
     deleteStoryBlockByID: Function,
     store: string
+    orderArray: String[]
+    setOrderArray: Function
+    reload: Function
 }): ReactElement {
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
@@ -50,6 +56,21 @@ function StoryBlock({
     let endpoint = '';
     let frameHref = '';
 
+    function switchElements(value, direction = 'up') {
+        const sourceIndex = orderArray.indexOf(value);
+        let tmpArr = orderArray;
+        let targetIndex = sourceIndex - 1;
+        if (direction === 'down') {
+            targetIndex = sourceIndex + 1;
+        }
+        [tmpArr[sourceIndex], tmpArr[targetIndex]] = [tmpArr[targetIndex], tmpArr[sourceIndex]];
+        let blockList = dataStoryData["ds:DataStory"]["ds:Story"]["ds:Block"];
+        [blockList[sourceIndex], blockList[targetIndex]] = [blockList[targetIndex], blockList[sourceIndex]];
+        dataStoryData["ds:DataStory"]["ds:Story"]["ds:block"] = blockList;
+        setDataStoryData(dataStoryData);
+        setOrderArray(tmpArr);
+        reload();
+    }
 
     if (ifHeader) {
         blockId = 'pageHeader'  //
@@ -118,6 +139,8 @@ function StoryBlock({
     useEffect(() => {
     }, [dataStoryData, currentEditBlock]);
 
+    console.log(orderArray);
+    console.log(blockId);
 
     return (
         <>
@@ -140,12 +163,16 @@ function StoryBlock({
                         }}>
                             <img src={icon_delete} alt=""/>
                         </button>
-                        <button type="button" name="button" className="bt_icon bt_icon_up">
+                        {blockId !== orderArray[0] && (<button type="button" name="button" className="bt_icon bt_icon_up" onClick={
+                            () => {switchElements(blockId, 'up')}
+                        }>
                             <img src={icon_up} alt=""/>
-                        </button>
-                            <button type="button" name="button" className="bt_icon bt_icon_down">
+                        </button>)}
+                            {blockId !== orderArray[orderArray.length -1] &&  (<button type="button" name="button" className="bt_icon bt_icon_down" onClick={
+                                () => {switchElements(blockId, 'down')}
+                            }>
                                 <img src={icon_down} alt=""/>
-                            </button>
+                            </button>)}
                         </>
                     )}
                 </div>
