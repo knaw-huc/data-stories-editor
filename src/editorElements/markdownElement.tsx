@@ -28,6 +28,10 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
 
     return (
         <div>
+            <div className="editorPanel">
+                <button className="editorPanelBtn" onClick={() => {alert('Metadata editor forthcoming.')}}>Metadata</button>
+                <button className="editorPanelBtn" onClick={() => {alert('Provenance editor forthcoming.')}}>Provenance</button>
+            </div>
             <h1>Edit markdown block</h1>
             <h4>Header</h4>
             <div className="editorWrapper">

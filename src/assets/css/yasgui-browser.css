@@ -1,6 +1,10 @@
-.dsTextBlockContent > * .tabsList, .controlbar, .yasqe, .yasr_header{
+ .tabsList, .controlbar, .dsTextBlockContent > * .yasqe, .yasr_header{
 display: none !important;
 }
+
+ #yasgui_ed .yasgui .yasr .yasr_header{
+ display: block !important;
+ }
 
 .dataTables_info, .dataTables_paginate{
 font-weight: bold !important;

@@ -66,7 +66,7 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
                 {endpoint === "no_endpoint" && (
                     <p>No endpoint defined!</p>
                 )}
-                <div id={yas_id} />
+                <div id={yas_id} className="yasgui_readOnly"/>
             </div>
         </div>
     )

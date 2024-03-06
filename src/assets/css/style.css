@@ -119,3 +119,19 @@ height: 500px !important;
 border: 1px solid #999999;
 z-index: 0;
 }
+
+.editorPanel{
+position:absolute;
+right: 490px;
+top: 110px;
+}
+
+.editorPanelBtn {
+display: inline-block;
+margin-right: 10px;
+width: 120px;
+}
+
+#yasgui_ed, #yasgui_ed > * {
+max-width: 1000px;
+}

@@ -1,0 +1,17 @@
+version: '2'
+
+networks:
+  eco_network:
+    external:
+      name: nginxproxynetwork
+
+services:
+  ecodices:
+    image: registry.diginfra.net/tsd/ecodices-browser:1.0
+    container_name: ecodices_browse_app
+    environment:
+      - VIRTUAL_HOST=db.ecodices.nl
+    volumes:
+      - /home/robz/:/home
+    networks:
+      - eco_network

@@ -102,6 +102,13 @@ function DsEditor({
         return out;
     }
 
+    function getEndpoint() {
+        if (dataStoryData["ds:DataStory"]["ds:Metadata"]?.["ds:Endpoint"]?.[0]?.["_text"] !== undefined && dataStoryData["ds:DataStory"]["ds:Metadata"]["ds:Endpoint"][0]["_text"] !== '') {
+            return dataStoryData["ds:DataStory"]["ds:Metadata"]["ds:Endpoint"][0]["_text"]
+        } else {
+            return "no_endpoint";
+        }
+    }
 
     // edit panel up and down
     //console.log('editorStatus', editorStatus);
@@ -440,7 +447,7 @@ function DsEditor({
                                   uuid={uuid}/>}
                     {mimeType === "text/html" && <FrameElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
-                    {mimeType === "application/sparql-query" && <SparqlElement/>}
+                    {mimeType === "application/sparql-query" && <SparqlElement block={block} endpoint={getEndpoint()} store={uuid} changeStyle={changeStyle}/>}
                 </div>)}
             </div>
         </div>

@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  datastories-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: datastories_app
+    ports:
+      - 80:80
+

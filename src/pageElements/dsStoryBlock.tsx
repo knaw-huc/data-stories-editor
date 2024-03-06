@@ -139,8 +139,6 @@ function StoryBlock({
     useEffect(() => {
     }, [dataStoryData, currentEditBlock]);
 
-    console.log(orderArray);
-    console.log(blockId);
 
     return (
         <>
