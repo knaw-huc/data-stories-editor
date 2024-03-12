@@ -16,7 +16,7 @@ const hasTitle = title.trim() !== "";
 
         <div>
             {hasTitle && (<h2>{title}</h2>)}
-            <Iframe url={href} width="100%" height="500"/>
+            <Iframe className="frameBox" url={href} width="100%" height="500"/>
         </div>
 
     )

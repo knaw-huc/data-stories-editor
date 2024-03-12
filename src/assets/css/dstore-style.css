@@ -1076,5 +1076,9 @@ width: 800px;
 display:inline;
 }
 
+.frameBox{
+border: 1px solid #999999;
+}
+
 
 
