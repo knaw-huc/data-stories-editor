@@ -148,15 +148,15 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
                     <div>
                         <button className="newBlockOptionBtn" onClick={() => addNew('markdown')}>Markdown</button>
                     </div>
-                    <div>
-                        <button className="newBlockOptionBtn" onClick={() => addNew('frame')}>Frame</button>
-                    </div>
                 </div>
 
                 <div>
                     <strong>Media</strong>
                     <div>
                         <button className="newBlockOptionBtn" onClick={() => addNew('image')}>Image</button>
+                    </div>
+                    <div>
+                        <button className="newBlockOptionBtn" onClick={() => addNew('frame')}>Frame</button>
                     </div>
                 </div>
 

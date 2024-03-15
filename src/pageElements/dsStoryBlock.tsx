@@ -26,7 +26,8 @@ function StoryBlock({
                         store,
                         orderArray,
                         setOrderArray,
-                        reload
+                        reload,
+                        editMode
                     }: {
     content: object,
     contentType: String,
@@ -40,7 +41,8 @@ function StoryBlock({
     store: string
     orderArray: String[]
     setOrderArray: Function
-    reload: Function
+    reload: Function,
+    editMode: boolean
 }): ReactElement {
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
@@ -146,14 +148,14 @@ function StoryBlock({
             <div className="dsBlock dsBlock__layout dsBlock__margin">
                 <div className="dsBlock__handle revealBlock dsBlock__left">
                     {ifHeader ? (
-                        <button type="button" name="button" className="bt_icon block_event" onClick={changeMetadata}>
+                        editMode &&  (<button type="button" name="button" className="bt_icon block_event" onClick={changeMetadata}>
                             <img src={icon_edit} alt=""/>
-                        </button>) : (
-                        <button type="button" name="button" className="bt_icon block_event" onClick={changeCurEdit}>
+                        </button>) ) : (
+                        editMode && (<button type="button" name="button" className="bt_icon block_event" onClick={changeCurEdit}>
                             <img src={icon_edit} alt=""/>
-                        </button>)}
+                        </button>))}
 
-                    {!ifHeader && (<>
+                    {!ifHeader && editMode && (<>
                         <button type="button" name="button" className="bt_icon" onClick={() => {
                             if (window.confirm("Delete data story block?")) {
                                 deleteStoryBlockByID(blockId);
@@ -197,12 +199,12 @@ function StoryBlock({
 
                 </div>
             </div>
-            <StoryBlockNew
+            { editMode && (<StoryBlockNew
                 prevId={blockId}
                 dataStoryData={dataStoryData}
                 setDataStoryData={setDataStoryData}
                 setCurrentEditBlock={setCurrentEditBlock}
-            />
+            />)}
         </>
 
     )

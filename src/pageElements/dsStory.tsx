@@ -21,6 +21,7 @@ function Story() {
     const [contentType, setContentType] = useState<string>("");
     const [refresh, setRefresh] = useState(true);
     const [storyOrder, setStoryOrder] = useState([]);
+    const [editMode, setEditMode] = useState(false);
 
     //console.log('currentDataStory', currentDataStory);
 
@@ -121,6 +122,7 @@ function Story() {
                             orderArray={storyOrder}
                             setOrderArray={setStoryOrder}
                             reload={reload}
+                            editMode={editMode}
                         ></ DsStoryBlock>
 
                     ) :
@@ -146,6 +148,7 @@ function Story() {
                                     orderArray={storyOrder}
                                     setOrderArray={setStoryOrder}
                                     reload={reload}
+                                    editMode={editMode}
                                 ></ DsStoryBlock>
 
                             )

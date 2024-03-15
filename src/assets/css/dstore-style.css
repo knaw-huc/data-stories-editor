@@ -729,13 +729,13 @@ max-width: 1200px
 max-width: 1800px
 }
 
-.dsBlock:hover {
+/*.dsBlock:hover {
 background-color: #f2f2f6
 }
 
 .dsBlock:hover .revealBlock {
 visibility: visible
-}
+}*/
 
 .dsBlock--active {
 background-color: #f2f2f6
