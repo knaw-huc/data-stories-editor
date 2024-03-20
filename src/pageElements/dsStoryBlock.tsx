@@ -58,6 +58,11 @@ function StoryBlock({
     let endpoint = '';
     let frameHref = '';
 
+    let leftBlockPartClass = "dsBlock__left";
+    if (editMode) {
+        leftBlockPartClass = 'dsBlock__handle revealBlock dsBlock__left';
+    }
+
     function switchElements(value, direction = 'up') {
         const sourceIndex = orderArray.indexOf(value);
         let tmpArr = orderArray;
@@ -146,7 +151,7 @@ function StoryBlock({
         <>
 
             <div className="dsBlock dsBlock__layout dsBlock__margin">
-                <div className="dsBlock__handle revealBlock dsBlock__left">
+                <div className={leftBlockPartClass}>
                     {ifHeader ? (
                         editMode &&  (<button type="button" name="button" className="bt_icon block_event" onClick={changeMetadata}>
                             <img src={icon_edit} alt=""/>

@@ -15,7 +15,7 @@ root.render(
       <Routes>
           <Route path="/" element={<App/>}>
               <Route index element={<BrowserHome/>}/>
-              <Route path="edit" element={<Story/>}>
+              <Route path="story" element={<Story/>}>
                   <Route path=":store" element={<Story/>}/>
               </Route>
 

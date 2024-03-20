@@ -23,7 +23,9 @@ function DsEditor({
                       setCurrentEditBlock,
                       editorStatus,
                       showOpenDialog,
-                      setShowOpenDialog
+                      setShowOpenDialog,
+                      editMode,
+                      setEditMode
                   }: {
     uuid: string
     currentEditBlock: object,
@@ -33,8 +35,11 @@ function DsEditor({
     setCurrentEditBlock: Function,
     editorStatus: boolean,
     showOpenDialog: boolean,
-    setShowOpenDialog: Function
+    setShowOpenDialog: Function,
+    editMode: boolean,
+    setEditMode: Function
 }) {
+
 
     let hasId = false
     if (currentEditBlock['block_id'] != '') {
@@ -406,6 +411,7 @@ function DsEditor({
         setShowOpenDialog(!showOpenDialog);
     }
 
+
     return (
 
         <div className={style} id="panel_edit">
@@ -413,23 +419,34 @@ function DsEditor({
 
             <div className="edit_header">
                 <div className="panel_edit_wrap panel_edit__split">
-                    <div><strong>Editor</strong></div>
+                    {editMode ? (<div><strong>Edit story</strong></div>) : (<div><strong>View story</strong></div>)}
+
                     <div
                         style={{display: 'flex', flexDirection: 'row'}}>
                         {writing && <div className="writeMsg">Writing data story...</div>}
-                        <button onClick={() => {
+                        {editMode ? (
+                            <button className="lowerMenuBtn" onClick={() =>
+                            {setEditMode(false);
+                                setStyle("panel_edit fixedBottom editorDown");
+                            setEditorStatus(false)}} >
+                                View story
+                            </button>
+                        ) : (
+                            <button className="lowerMenuBtn" onClick={() => {setEditMode(true)}} >
+                                Edit story
+                            </button>
+                        )}
+                        {editMode && <button className="lowerMenuBtn" onClick={() => {
                             saveStory()
                         }}>Save story
-                        </button>
-                        <button type="button" onClick={exportStory} className="">Export story</button>
-                        <button onClick={() => {
+                        </button>}
+                        <button className="lowerMenuBtn" onClick={() => {
                             navigate("/")
                         }}>Close story
                         </button>
-                        <button type="button" onClick={changeStyle} className="bt_icon">
-                            {editorStatus ? (<img src={icon_arrowDown} alt=""/>) : (<img src={icon_arrowUp} alt=""/>)}
-
-                        </button>
+                        {editMode && hasId  && <button type="button" onClick={changeStyle}  className="lowerMenuBtn">
+                            {editorStatus ? (<>Edit</>) : (<>Preview</>)}
+                        </button>}
 
                     </div>
 
@@ -447,7 +464,8 @@ function DsEditor({
                                   uuid={uuid}/>}
                     {mimeType === "text/html" && <FrameElement block={block} changeStyle={changeStyle}/>}
                     {mimeType === "text/markdown" && <MarkdownElement block={block} changeStyle={changeStyle}/>}
-                    {mimeType === "application/sparql-query" && <SparqlElement block={block} endpoint={getEndpoint()} store={uuid} changeStyle={changeStyle}/>}
+                    {mimeType === "application/sparql-query" &&
+                    <SparqlElement block={block} endpoint={getEndpoint()} store={uuid} changeStyle={changeStyle}/>}
                 </div>)}
             </div>
         </div>

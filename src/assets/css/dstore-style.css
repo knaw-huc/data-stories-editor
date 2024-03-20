@@ -731,11 +731,11 @@ max-width: 1800px
 
 /*.dsBlock:hover {
 background-color: #f2f2f6
-}
+}*/
 
 .dsBlock:hover .revealBlock {
 visibility: visible
-}*/
+}
 
 .dsBlock--active {
 background-color: #f2f2f6
@@ -1078,6 +1078,23 @@ display:inline;
 
 .frameBox{
 border: 1px solid #999999;
+}
+
+.lowerMenuBtn{
+color:#ffffff;
+background-color: #0a3069;
+border: 2px solid #ffffff;
+margin-left: 6px;
+width: 100px;
+font-weight: bold;
+}
+
+.lowerMenuBtn:hover{
+background-color: #2a6496;
+}
+
+.dsBlock__right{
+overflow-x: scroll;
 }
 
 

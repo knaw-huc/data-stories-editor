@@ -6,6 +6,7 @@ import MenuAddBox from "./menuAddBox";
 import '../assets/css/yasgui-browser.css';
 import {API_URL} from "../misc/functions";
 import Geo from "huc-geo-plugin";
+import Chart from "huc-chart-plugin";
 
 
 
@@ -14,6 +15,7 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
     const hasHead = contentHead !== '';
     const yas_id: string = "yasgui_" + content['_attributes']["xml:id"];
     const yasGeo = Geo;
+    const yasChart = Chart;
 
     function setBrowser(yasgui) {
         if (content["_cdata"] !== undefined) {
@@ -32,8 +34,17 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
     function handleQuery(yasgui, query) {
         let tab = yasgui.getTab();
         tab.yasr.storePluginConfig('table', {"compact": true});
+        tab.yasr.selectPlugin('table');
         if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'geo') {
             tab.yasr.selectPlugin("Geo");
+        }
+        if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'gchart') {
+            tab.yasr.selectPlugin("Chart");
+            const chartOptions = JSON.parse(content["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
+            tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
+        }
+        if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'table') {
+            tab.yasr.selectPlugin('table');
         }
         tab.setQuery(query);
         tab.query();
@@ -43,6 +54,7 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
         if (endpoint !== "no_endpoint") {
             const list = document.getElementById(yas_id).getElementsByClassName("yasgui");
             Yasgui.Yasr.registerPlugin("Geo", yasGeo);
+            Yasgui.Yasr.registerPlugin("Chart", yasChart);
             Yasgui.Yasr.plugins.table.defaults.compact = true;
             Yasgui.Yasr.plugins.table.defaults.pageSize = 6;
             if (list.length === 0) {

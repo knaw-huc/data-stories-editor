@@ -171,6 +171,8 @@ function Story() {
                 editorStatus={editorStatus}
                 showOpenDialog={showOpenDialog}
                 setShowOpenDialog={setShowOpenDialog}
+                editMode={editMode}
+                setEditMode={setEditMode}
             />
 
         </>

@@ -42,7 +42,7 @@ function BrowserHome() {
         const response = await fetch(API_URL + 'create_new');
         const json = await response.json();
         if (json.datastory_id !== undefined) {
-            navigate('edit/' + json.datastory_id);
+            navigate('story/' + json.datastory_id);
         } else {
             alert("ERROR: No new data story created!");
         }
@@ -71,7 +71,7 @@ function BrowserHome() {
                     if (activeStore === "") {
                         alert("No data story selected!");
                     } else {
-                        navigate("edit/" + activeStore);
+                        navigate("story/" + activeStore);
                     }
                 }}><img className="panelIcon" src={icon_edit}/> Edit</div>
                 <div className="panelButton" onClick={() => {
@@ -99,7 +99,7 @@ function BrowserHome() {
                                     <div className={`${item.uuid === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}
                                     onDoubleClick={() => {
                                         setActiveStore(item.uuid);
-                                        navigate("edit/" + activeStore);
+                                        navigate("story/" + activeStore);
                                     }}>
                                         <div className="dsResultCell">{item.title}</div>
                                         <div className="dsResultCell">{getStatus(item.status)}</div>
