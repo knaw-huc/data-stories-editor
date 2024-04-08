@@ -19,7 +19,6 @@ function FrameElement({block, changeStyle}: { block: object, changeStyle: Functi
 
     }
 
-
     function saveBlock() {
             if (url !== "") {
                 writeToBlock(url, caption);

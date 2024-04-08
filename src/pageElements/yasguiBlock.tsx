@@ -9,9 +9,14 @@ import Geo from "huc-geo-plugin";
 import Chart from "huc-chart-plugin";
 
 
-
-export default function YasguiBlock({contentHead, content, store, endpoint} : {contentHead: string, content: object, store: string, endpoint: string}): ReactElement {
+export default function YasguiBlock({
+                                        contentHead,
+                                        content,
+                                        store,
+                                        endpoint
+                                    }: { contentHead: string, content: object, store: string, endpoint: string }): ReactElement {
     localStorage.removeItem("yagui__config");
+    const [canQuery, setCanQuery] = useState(false);
     const hasHead = contentHead !== '';
     const yas_id: string = "yasgui_" + content['_attributes']["xml:id"];
     const yasGeo = Geo;
@@ -78,7 +83,17 @@ export default function YasguiBlock({contentHead, content, store, endpoint} : {c
                 {endpoint === "no_endpoint" && (
                     <p>No endpoint defined!</p>
                 )}
-                <div id={yas_id} className="yasgui_readOnly"/>
+                {canQuery ? (<div><div title="Close query editor" className="querySwitch" onClick={() => {
+                        document.getElementById(yas_id).innerHTML= '';
+                        yasMerin();
+                        setCanQuery(false);
+                    }}>⇊</div><div id={yas_id} className="yasgui_query_permitted"/></div>)
+                    :
+                    (<div><div title="Edit query" className="querySwitch" onClick={() => {
+                        setCanQuery(true)
+                    }}>⇈</div>
+                        <div id={yas_id} className="yasgui_readOnly"/></div>)}
+
             </div>
         </div>
     )

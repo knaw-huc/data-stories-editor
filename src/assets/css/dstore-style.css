@@ -1097,5 +1097,12 @@ background-color: #2a6496;
 overflow-x: scroll;
 }
 
+.querySwitch{
+text-align: center;
+cursor: pointer;
+font-weight: bold;
+font-size: larger;
+}
+
 
 

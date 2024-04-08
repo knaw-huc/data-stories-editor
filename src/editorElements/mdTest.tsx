@@ -26,6 +26,7 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
         let tmpData = dsData;
         tmpData["ds:DataStory"]["ds:Metadata"] = block;
         setDsData(tmpData);
+        changeStyle();
     }
 
     function fillFields() {
@@ -49,7 +50,12 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
     return (
         <div className="md_editor">
             <h1>Edit metadata</h1>
-            <div className="mdSaveBtn"><button onClick={() => {saveMetadata();}}>Save metadata</button></div>
+            <div className="mdSaveBtn">
+                <button onClick={() => {
+                    saveMetadata();
+                }}>Save metadata
+                </button>
+            </div>
             <FieldElement fieldname="dct:title" fields={fields} changeValues={changeFields}/>
             <FieldElement fieldname="dct:creator" fields={fields} changeValues={changeFields}/>
             <FieldGroupElement label="Content" blockName="contentBlock"/>
@@ -65,11 +71,14 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
                 <FieldElement fieldname="dct:publisher" fields={fields} changeValues={changeFields}/>
             </div>
             <FieldGroupElement label="URI's" blockName="uriBlock"/>
-                <div id="uriBlock">
-                    <UriFieldElement fieldname={"ds:Endpoint"} fields={fields} changeValues={changeFields} id="endpoint"/>
-                    <UriFieldElement fieldname={"ds:LandingPage"} fields={fields} changeValues={changeFields} id="landing"/>
-                </div>
-
+            <div id="uriBlock">
+                <UriFieldElement fieldname={"ds:Endpoint"} fields={fields} changeValues={changeFields} id="endpoint"/>
+                <UriFieldElement fieldname={"ds:LandingPage"} fields={fields} changeValues={changeFields} id="landing"/>
+            </div>
+            <FieldGroupElement label="Other metadata" blockName="otherBlock"/>
+            <div id="otherBlock">
+                <div>Other stuff</div>
+            </div>
         </div>
     )
 

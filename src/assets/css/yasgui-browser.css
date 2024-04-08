@@ -2,7 +2,7 @@
 display: none !important;
 }
 
- #yasgui_ed .yasgui .yasr .yasr_header{
+ #yasgui_ed .yasgui .yasr .yasr_header, .yasgui_query_permitted .yasgui .yasqe, .yasgui_query_permitted .yasgui .yasr .yasr_header {
  display: block !important;
  }
 
