@@ -1,10 +1,10 @@
 import React from "react";
-import {mdFields} from "../misc/functions";
+import {provenanceFields} from "../misc/functions";
 
-export default function MetadataElement({setEditorStatus}: {setEditorStatus: Function}) {
+export default function ProvenanceElement({setEditorStatus}: {setEditorStatus: Function}) {
     return (
         <div>
-            <h1>Metadata current block</h1>
+            <h1>Provenance current block</h1>
             <div>
                 <button className="editorPanelBtn" onClick={() => {setEditorStatus("data")}}>Save</button>
                 <button className="editorPanelBtn" onClick={() => {setEditorStatus("data")}}>Dismiss</button>

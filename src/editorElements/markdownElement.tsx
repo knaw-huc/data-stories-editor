@@ -1,9 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from "react-dom";
 import MDEditor, { selectWord } from "@uiw/react-md-editor";
+import ProvenanceElement from "./provenanceElement";
+import MetadataElement from "./metaDataElement";
+
+
 function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Function}) {
     const [value, setValue] = React.useState(block["_text"]);
     const [headerValue, setHeaderValue] = React.useState(block["ds:Metadata"]["dct:title"]["_text"]);
+    const [editorStatus, setEditorStatus] = useState("data");
 
     function saveBlock() {
         block["_text"] = value;
@@ -28,9 +33,9 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
 
     return (
         <div>
-            <div className="editorPanel">
-                <button className="editorPanelBtn" onClick={() => {alert('Metadata editor forthcoming.')}}>Metadata</button>
-                <button className="editorPanelBtn" onClick={() => {alert('Provenance editor forthcoming.')}}>Provenance</button>
+            {editorStatus === "data" && <div><div className="editorPanel">
+                <button className="editorPanelBtn" onClick={() => {setEditorStatus("metadata")}}>Metadata</button>
+                <button className="editorPanelBtn" onClick={() => {setEditorStatus("provenance")}}>Provenance</button>
             </div>
             <h1>Edit markdown block</h1>
             <h4>Header</h4>
@@ -41,7 +46,9 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
             <div data-color-mode="light" className="editorWrapper">
             <MDEditor height={400}  value={value} onChange={setValue} />
             </div>
-            <button onClick={saveBlock}>Save block</button>
+                <button onClick={saveBlock}>Save block</button></div>}
+            {editorStatus === "provenance" && <ProvenanceElement setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )
 }
