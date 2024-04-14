@@ -7,8 +7,13 @@ import Geo from "huc-geo-plugin";
 import {API_URL} from "../misc/functions";
 
 function SparqlElement({block, endpoint, store, changeStyle}: {block: object, endpoint: string, store: string, changeStyle: Function}) {
-
     const hasEndpoint = endpoint !== 'no_endpoint';
+
+    let yasProps;
+
+    function handleChange() {
+        console.log("Hello");
+    }
 
     function setBrowser(yasgui) {
         if (block["_cdata"] !== undefined) {
@@ -16,6 +21,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
         } else {
             get_sparql(yasgui);
         }
+        yasProps = yasgui;
     }
 
     async function get_sparql(yasgui) {
@@ -32,6 +38,11 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
         }
         tab.setQuery(query);
         tab.query();
+    }
+
+    function saveBlock() {
+        console.log(yasProps.getTab().yasr.selectedPlugin);
+        changeStyle();
     }
 
     function yasMerin() {
@@ -62,12 +73,18 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                         <div className="editorPanel">
                             <button className="editorPanelBtn" onClick={() => {alert('Metadata editor forthcoming.')}}>Metadata</button>
                             <button className="editorPanelBtn" onClick={() => {alert('Provenance editor forthcoming.')}}>Provenance</button>
+                            <button className="editorPanelBtn" onClick={() => {saveBlock();}}>Save</button>
+                            <button className="editorPanelBtn" onClick={() => {changeStyle();}}>Discard</button>
                         </div>
                     <h1>Edit query block</h1>
                     <h4>Header</h4>
                     <div className="editorWrapper">
                     <input type="text" id="header" defaultValue={block["ds:Metadata"]["dct:title"]["_text"]}  size={200} />
                     </div>
+                    <h4>Image URL</h4>
+                    <input type="text" id="url" defaultValue={url} size={200} onChange={handleChange}/>
+                    <h4>Or upload image</h4>
+                    <input type="file" id="img" onChange={handleChange}/>
                     <h4>Query</h4>
                     <div id="yasgui_ed" /></div>) : (<div>No endpoint defined!</div>)}
 
