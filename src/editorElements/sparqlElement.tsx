@@ -1,15 +1,21 @@
 import React from "react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import Yasgui from "@triply/yasgui";
 import "@triply/yasgui/build/yasgui.min.css";
-
+import ProvenanceElement from "./provenanceElement";
+import MetadataElement from "./metaDataElement";
 import Geo from "huc-geo-plugin";
+import Chart from "huc-chart-plugin";
 import {API_URL} from "../misc/functions";
 
 function SparqlElement({block, endpoint, store, changeStyle}: {block: object, endpoint: string, store: string, changeStyle: Function}) {
+    const [editorStatus, setEditorStatus] = useState("data");
     const hasEndpoint = endpoint !== 'no_endpoint';
-
+    const hasQueryFile = block["_attributes"]["href"] !== undefined;
+    const yasGeo = Geo;
+    const yasChart = Chart;
     let yasProps;
+
 
     function handleChange() {
         console.log("Hello");
@@ -19,7 +25,9 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
         if (block["_cdata"] !== undefined) {
             handleQuery(yasgui, block["_cdata"]);
         } else {
-            get_sparql(yasgui);
+            if (hasQueryFile) {
+                get_sparql(yasgui);
+            }
         }
         yasProps = yasgui;
     }
@@ -46,9 +54,11 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     }
 
     function yasMerin() {
-        if (endpoint) {
+        if (hasEndpoint) {
             localStorage.removeItem("yagui__config");
             const list = document.getElementById("yasgui_ed").getElementsByClassName("yasgui");
+            Yasgui.Yasr.registerPlugin("Geo", yasGeo);
+            Yasgui.Yasr.registerPlugin("Chart", yasChart);
             Yasgui.Yasr.plugins.table.defaults.compact = true;
             Yasgui.Yasr.plugins.table.defaults.pageSize = 6;
             if (list.length === 0) {
@@ -67,9 +77,13 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
 
 
     return (
-        <>
+        <div>
+            {editorStatus === "data" && <div><div className="editorPanel">
+                <button className="editorPanelBtn" onClick={() => {setEditorStatus("metadata")}}>Metadata</button>
+                <button className="editorPanelBtn" onClick={() => {setEditorStatus("provenance")}}>Provenance</button>
+            </div>
             <div>
-                {endpoint ? (<div>
+                {hasEndpoint ? (<div>
                         <div className="editorPanel">
                             <button className="editorPanelBtn" onClick={() => {alert('Metadata editor forthcoming.')}}>Metadata</button>
                             <button className="editorPanelBtn" onClick={() => {alert('Provenance editor forthcoming.')}}>Provenance</button>
@@ -81,15 +95,25 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     <div className="editorWrapper">
                     <input type="text" id="header" defaultValue={block["ds:Metadata"]["dct:title"]["_text"]}  size={200} />
                     </div>
-                    <h4>Image URL</h4>
-                    <input type="text" id="url" defaultValue={url} size={200} onChange={handleChange}/>
-                    <h4>Or upload image</h4>
-                    <input type="file" id="img" onChange={handleChange}/>
+                    <h4>Query file</h4>
+                    {hasQueryFile ? (
+                        <div>
+                            <div>{block["_attributes"]["href"]}</div><br/>
+                            <div><button>Delete</button></div>
+                        </div>
+                    ) : (
+                        <div>
+                        <div>No query file</div><br/>
+                        <button>Add</button>
+                        </div>
+                    )}
+
                     <h4>Query</h4>
                     <div id="yasgui_ed" /></div>) : (<div>No endpoint defined!</div>)}
-
-            </div>
-        </>
+            </div></div>}
+            {editorStatus === "provenance" && <ProvenanceElement setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
+        </div>
     )
 }
 

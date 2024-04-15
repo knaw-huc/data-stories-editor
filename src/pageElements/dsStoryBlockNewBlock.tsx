@@ -77,6 +77,13 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
             "xml:id": newId,
             "type": "query",
             "mime": "application/sparql-query"
+        },
+        "_comment": "",
+        "ds:Metadata": {
+            "dct:title": {
+                "_text": ""
+            },
+            "_comment": ""
         }
     }
 

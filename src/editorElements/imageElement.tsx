@@ -1,9 +1,12 @@
 import React, {useState} from "react";
+import ProvenanceElement from "./provenanceElement";
+import MetadataElement from "./metaDataElement";
 
 function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: object, changeStyle: Function, setCurrentEditBlock: Function, uuid: string }) {
     const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
     const [url, setUrl] = useState<string>(block["_attributes"]["href"]);
     const [file, setFile] = useState<File>();
+    const [editorStatus, setEditorStatus] = useState("data");
     const UPLOAD_URL = "http://localhost:5000/";
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
@@ -55,6 +58,11 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
 
     return (
         <div>
+            {editorStatus === "data" && <div>
+                <div className="editorPanel">
+                <button className="editorPanelBtn" onClick={() => {setEditorStatus("metadata")}}>Metadata</button>
+                <button className="editorPanelBtn" onClick={() => {setEditorStatus("provenance")}}>Provenance</button>
+            </div>
             <h1>Select or upload image</h1>
             <div className="editorWrapper">
                 <h4>Caption</h4>
@@ -67,7 +75,9 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
                 <div>
                     <button className="rowBtn" onClick={saveBlock}>Save block</button>
                 </div>
-            </div>
+            </div></div>}
+                {editorStatus === "provenance" && <ProvenanceElement setEditorStatus={setEditorStatus}/>}
+                {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )
 }
