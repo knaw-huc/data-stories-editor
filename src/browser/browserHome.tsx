@@ -14,7 +14,7 @@ function BrowserHome() {
     const navigate = useNavigate();
 
     async function fetchData() {
-        const response = await fetch(API_URL +  "get_data_stories");
+        const response = await fetch(API_URL + "get_data_stories");
         const json = await response.json();
         setData(json);
         setLoading(false);
@@ -29,7 +29,7 @@ function BrowserHome() {
     }
 
     async function delete_datastory() {
-        if (window.confirm("Delete datastory?") === true   ) {
+        if (window.confirm("Delete datastory?") === true) {
             const response = await fetch(API_URL + 'delete?ds=' + activeStore);
             const json = await response.json();
             if (json.status === "OK") {
@@ -73,43 +73,69 @@ function BrowserHome() {
                     } else {
                         navigate("story/" + activeStore);
                     }
-                }}><img className="panelIcon" src={icon_edit}/> Edit</div>
+                }}><img className="panelIcon" src={icon_edit}/> Edit
+                </div>
                 <div className="panelButton" onClick={() => {
                     if (activeStore === "") {
                         alert("No data story selected for deletion!");
                     } else {
                         delete_datastory();
                     }
-                }}><img  className="panelIcon" src={icon_delete}/> Delete</div>
+                }}><img className="panelIcon" src={icon_delete}/> Delete
+                </div>
             </div>
             {loading ? (
                 <div>Data stories loading...</div>
             ) : (
-                <div className="dsResultTable">
-                    <div className="dsResultHeaderRow">
-                        <div className="dsResultCell">Title</div>
-                        <div className="dsResultCell">Status</div>
-                        <div className="dsResultCell">Owner</div>
-                        <div className="dsResultCell">Group</div>
-                        <div className="dsResultCell">Created</div>
-                        <div className="dsResultCell">Modified</div>
+                <div>
+                    <div className="dsResultTable">
+                        <div className="dsResultHeaderRow">
+                            <div className="dsResultCell">Title</div>
+                            <div className="dsResultCell">Status</div>
+                            <div className="dsResultCell">Owner</div>
+                            <div className="dsResultCell">Group</div>
+                            <div className="dsResultCell">Created</div>
+                            <div className="dsResultCell">Modified</div>
+                        </div>
+                        {data.structure.map((item, index: number) => {
+                            return (
+                                <div className={`${item.uuid === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`}
+                                     key={index} onClick={() => setActiveStore(item.uuid)}
+                                     onDoubleClick={() => {
+                                         setActiveStore(item.uuid);
+                                         navigate("story/" + activeStore);
+                                     }}>
+                                    <div className="dsResultCell">{item.title}</div>
+                                    <div className="dsResultCell">{getStatus(item.status)}</div>
+                                    <div className="dsResultCell">{item.owner}</div>
+                                    <div className="dsResultCell">{item.groep}</div>
+                                    <div className="dsResultCell">{item.created}</div>
+                                    <div className="dsResultCell">{item.modified}</div>
+                                </div>
+                            )
+                        })}
                     </div>
-                    {data.structure.map((item, index: number) => {
-                        return (
-                                    <div className={`${item.uuid === activeStore ? 'dsActiveResultRow' : 'dsResultRow'}`} key={index} onClick={() => setActiveStore(item.uuid)}
-                                    onDoubleClick={() => {
-                                        setActiveStore(item.uuid);
-                                        navigate("story/" + activeStore);
-                                    }}>
-                                        <div className="dsResultCell">{item.title}</div>
-                                        <div className="dsResultCell">{getStatus(item.status)}</div>
-                                        <div className="dsResultCell">{item.owner}</div>
-                                        <div className="dsResultCell">{item.groep}</div>
-                                        <div className="dsResultCell">{item.created}</div>
-                                        <div className="dsResultCell">{item.modified}</div>
-                                    </div>
-                        )
-                    })}
+                    <div className="homeText"><h3>About this version</h3>
+                        <div>
+                            This version of the Data Stories editor is not an official version, but a demonstration of the work in progress.
+                            The viewer mode of the editor is nearly completed, but editing a complete data story is nog yet possible.
+                        </div>
+                        <div>
+                            Editing texts and adding images and external media is possible, but the SPARQL editor is still in progress. That's also the case for the metadata and provenance editors.<br/>
+                            Global metadata are editable, but limited, due to an overhaul of the metadata editor.
+                        </div>
+                        <div>
+                            The release of the first test version is expected in the first week of May. That version will contain the main part of the projected functionality, like:
+                            <ul>
+                                <li>The SPARQL editor</li>
+                                <li>Metadata and provenance editors</li>
+                                <li>Authorisation</li>
+                                <li>Comments</li>
+                            </ul>
+                            <div>Besides these features we are working on bugfixing, user documentation and improving usability.</div>
+
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

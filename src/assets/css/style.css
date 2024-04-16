@@ -135,3 +135,18 @@ width: 120px;
 #yasgui_ed, #yasgui_ed > * {
 max-width: 1000px;
 }
+
+.homeText{
+margin: 40px 20px;
+background-color: #eeeeee;
+width: 840px;
+padding: 10px 16px;
+border: 1px solid #aaaaaa;
+}
+
+.homeText div{
+margin: 14px 0;
+width: 800px;
+font-size: 14px;
+line-height: 20px;
+}
