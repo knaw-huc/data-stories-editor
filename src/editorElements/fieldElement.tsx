@@ -1,7 +1,8 @@
 import React from "react";
-import {mdFields} from "../misc/functions";
+import {useState} from "react";
 
-function FieldElement({fieldname, fields, changeValues}: {fieldname: string, fields: object, changeValues: Function}) {
+function FieldElement({fieldname, fields, fieldStruc, changeValues}: {fieldname: string, fields: object, fieldStruc: object, changeValues: Function}) {
+    const [refresh, setRefresh] = useState(true);
     let fieldValues = [];
     if (fields.hasOwnProperty(fieldname)) {
         fieldValues = fields[fieldname];
@@ -15,16 +16,18 @@ function FieldElement({fieldname, fields, changeValues}: {fieldname: string, fie
     }
 
     function deleteField(index) {
-        console.log('rob');
+        fieldValues.splice(index, 1);
+        setRefresh(!refresh);
     }
 
     function addField() {
-        console.log('rob');
+        fieldValues.push("");
+        setRefresh(!refresh);
     }
 
     return (
         <div>
-            <h4>{mdFields[fieldname]["label"]}</h4>
+            <h4>{fieldStruc[fieldname]["label"]}</h4>
             {
                 fieldValues.map((item, index) => {
                     const a_id =  index.toString();

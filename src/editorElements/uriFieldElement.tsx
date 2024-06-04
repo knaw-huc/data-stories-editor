@@ -1,13 +1,14 @@
 import React from "react";
 import {useState} from "react";
-import {API_URL, mdFields} from "../misc/functions";
+import {API_URL} from "../misc/functions";
 
 function UriFieldElement({
                              fieldname,
                              fields,
+                            fieldStruc,
                              changeValues,
                              id
-                         }: { fieldname: string, fields: object, changeValues: Function, id: string }) {
+                         }: { fieldname: string, fields: object, fieldStruc: object, changeValues: Function, id: string }) {
     let fieldValues = [];
     if (fields.hasOwnProperty(fieldname)) {
         fieldValues = fields[fieldname];
@@ -58,7 +59,7 @@ function UriFieldElement({
 
     return (
         <div>
-            <h4>{mdFields[fieldname]["label"]}</h4>
+            <h4>{fieldStruc[fieldname]["label"]}</h4>
             <div><input type="text" id={id} className="author" defaultValue={fieldValues[0]} size={40}
                                                     onChange={handleChange}/>
                         <button className="authorBtn" onClick={() => {

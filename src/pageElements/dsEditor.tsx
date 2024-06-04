@@ -11,7 +11,7 @@ import MarkdownElement from "../editorElements/markdownElement";
 import SparqlElement from "../editorElements/sparqlElement";
 import {API_URL} from "../misc/functions";
 // import MetaDataElement from "../editorElements/metaDataElement";
-import MdTest from "../editorElements/mdTest";
+import MetadataStory from "../editorElements/metadataStory";
 
 
 function DsEditor({
@@ -62,37 +62,6 @@ function DsEditor({
 
     //const blockIndex = findBlockById(currentEditBlock["block_id"]);
 
-    function handleFieldTextChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-        setTextFieldContent(e.currentTarget.value);
-    }
-
-    function handleFieldHeaderChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-        setTextFieldHeader(e.currentTarget.value);
-    }
-
-    function handleFieldHrefChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-        setTextFieldImgHref(e.currentTarget.value);
-    }
-
-    function handleFieldCaptionChange(e: React.FormEvent<HTMLTextAreaElement>): void {
-        setTextFieldImgCaption(e.currentTarget.value);
-    }
-
-    function handleMetadatValChange(e: React.FormEvent<HTMLInputElement>): void {
-        setTextFieldMetadaVal(e.currentTarget.value);
-    }
-
-    function handleMetadaTypeChange(e: React.FormEvent<HTMLSelectElement>): void {
-        setSelectMetadaType(e.currentTarget.value);
-    }
-
-    function handleProvValChange(e: React.FormEvent<HTMLInputElement>): void {
-        setTextFieldProveVal(e.currentTarget.value);
-    }
-
-    function handleProvTypeChange(e: React.FormEvent<HTMLSelectElement>): void {
-        setSelectProvType(e.currentTarget.value);
-    }
 
 
     function findBlockById(currentBlock) {
@@ -458,7 +427,7 @@ function DsEditor({
                     {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' &&
                     <div><strong>No block selected</strong></div>}
                     {mimeType === "metadata" &&
-                    <MdTest dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}/>}
+                    <MetadataStory dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}/>}
                     {mimeType === "image/*" &&
                     <ImageElement block={block} changeStyle={changeStyle} setCurrentEditBlock={setCurrentEditBlock}
                                   uuid={uuid}/>}

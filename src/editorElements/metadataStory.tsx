@@ -4,9 +4,10 @@ import FieldElement from "./fieldElement";
 import FieldGroupElement from "./fieldGroupElement";
 import UriFieldElement from "./uriFieldElement";
 import AreaFieldElement from "./areaFieldElement";
+import {mdFields} from "../misc/functions";
 
 
-function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: Function, changeStyle: Function }) {
+function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDsData: Function, changeStyle: Function }) {
     let block = dsData["ds:DataStory"]["ds:Metadata"];
     let fields = fillFields();
 
@@ -43,6 +44,7 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
                 }
             }
         }
+        console.log(retObj);
         return retObj;
     }
 
@@ -55,25 +57,30 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
                     saveMetadata();
                 }}>Save metadata
                 </button>
+                    <button onClick={() => {
+                        changeStyle();
+                    }}>Dismiss
+                    </button>
+
             </div>
-            <FieldElement fieldname="dct:title" fields={fields} changeValues={changeFields}/>
-            <FieldElement fieldname="dct:creator" fields={fields} changeValues={changeFields}/>
+            <FieldElement fieldname="dct:title" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
+            <FieldElement fieldname="dct:creator" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
             <FieldGroupElement label="Content" blockName="contentBlock"/>
             <div id="contentBlock">
-                <FieldElement fieldname="dct:subject" fields={fields} changeValues={changeFields}/>
-                <AreaFieldElement fieldname="dct:abstract" fields={fields} changeValues={changeFields}/>
-                <AreaFieldElement fieldname="dct:description" fields={fields} changeValues={changeFields}/>
-                <AreaFieldElement fieldname="dct:tableOfContents" fields={fields} changeValues={changeFields}/>
+                <FieldElement fieldname="dct:subject" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
+                <AreaFieldElement fieldname="dct:abstract" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
+                <AreaFieldElement fieldname="dct:description" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
+                <AreaFieldElement fieldname="dct:tableOfContents" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
             </div>
             <FieldGroupElement label="Actor" blockName="actorBlock"/>
             <div id="actorBlock">
-                <FieldElement fieldname="dct:contributor" fields={fields} changeValues={changeFields}/>
-                <FieldElement fieldname="dct:publisher" fields={fields} changeValues={changeFields}/>
+                <FieldElement fieldname="dct:contributor" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
+                <FieldElement fieldname="dct:publisher" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
             </div>
             <FieldGroupElement label="URI's" blockName="uriBlock"/>
             <div id="uriBlock">
-                <UriFieldElement fieldname={"ds:Endpoint"} fields={fields} changeValues={changeFields} id="endpoint"/>
-                <UriFieldElement fieldname={"ds:LandingPage"} fields={fields} changeValues={changeFields} id="landing"/>
+                <UriFieldElement fieldname={"ds:Endpoint"} fields={fields} fieldStruc={mdFields} changeValues={changeFields} id="endpoint"/>
+                <UriFieldElement fieldname={"ds:LandingPage"} fields={fields} fieldStruc={mdFields} changeValues={changeFields} id="landing"/>
             </div>
             <FieldGroupElement label="Other metadata" blockName="otherBlock"/>
             <div id="otherBlock">
@@ -84,4 +91,4 @@ function MdTest({dsData, setDsData, changeStyle}: { dsData: object, setDsData: F
 
 }
 
-export default MdTest;
+export default MetadataStory;

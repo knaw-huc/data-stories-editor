@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import ProvenanceElement from "./provenanceElement";
 import MetadataElement from "./metaDataElement";
+import {API_URL} from "../misc/functions";
 
 function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: object, changeStyle: Function, setCurrentEditBlock: Function, uuid: string }) {
     const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
     const [url, setUrl] = useState<string>(block["_attributes"]["href"]);
     const [file, setFile] = useState<File>();
     const [editorStatus, setEditorStatus] = useState("data");
-    const UPLOAD_URL = "http://localhost:5000/";
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         //setHeaderValue(e.currentTarget.value);
@@ -29,14 +29,14 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
             const formData = new FormData();
             formData.append('file', file);
             formData.append('uuid', uuid);
-            fetch(UPLOAD_URL + 'upload', {
+            fetch(API_URL + 'upload', {
                 method: 'POST',
                 body: formData,
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    setUrl(UPLOAD_URL + uuid + "/images/" + file.name)
-                    writeToBlock(UPLOAD_URL + uuid + "/images/" + file.name, caption);
+                    setUrl(API_URL + uuid + "/images/" + file.name)
+                    writeToBlock(API_URL + uuid + "/images/" + file.name, caption);
                 })
                 .catch((err) => console.error(err));
         } else {
