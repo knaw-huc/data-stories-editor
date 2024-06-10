@@ -25,7 +25,9 @@ function DsEditor({
                       showOpenDialog,
                       setShowOpenDialog,
                       editMode,
-                      setEditMode
+                      setEditMode,
+                      commentMode,
+                      setCommentMode
                   }: {
     uuid: string
     currentEditBlock: object,
@@ -37,7 +39,9 @@ function DsEditor({
     showOpenDialog: boolean,
     setShowOpenDialog: Function,
     editMode: boolean,
-    setEditMode: Function
+    setEditMode: Function,
+    commentMode: boolean,
+    setCommentMode: Function
 }) {
 
 
@@ -388,18 +392,27 @@ function DsEditor({
 
             <div className="edit_header">
                 <div className="panel_edit_wrap panel_edit__split">
-                    {editMode ? (<div><strong>Edit story</strong></div>) : (<div><strong>View story</strong></div>)}
+                    {editMode && <div><strong>Edit story</strong></div>}
+                    {commentMode && <div><strong>Comments</strong></div>}
+                    {!editMode && !commentMode && <div><strong>View story</strong></div>}
 
                     <div
                         style={{display: 'flex', flexDirection: 'row'}}>
                         {writing && <div className="writeMsg">Writing data story...</div>}
-                        {editMode ? (
+                        {editMode ? (<>
+                                <button className="lowerMenuBtn" onClick={() =>
+                                {setEditMode(false);
+                                    setStyle("panel_edit fixedBottom editorDown");
+                                    setCommentMode(true)}} >
+                                    Comments
+                                </button>
                             <button className="lowerMenuBtn" onClick={() =>
                             {setEditMode(false);
+                                setCommentMode(false);
                                 setStyle("panel_edit fixedBottom editorDown");
                             setEditorStatus(false)}} >
                                 View story
-                            </button>
+                            </button></>
                         ) : (
                             <button className="lowerMenuBtn" onClick={() => {setEditMode(true)}} >
                                 Edit story

@@ -45,6 +45,10 @@ p, h1, h2, h3, h4, h5, h6 {
 width: 100%
 }
 
+h4{
+margin: 10px 0;
+}
+
 .hc_text--bold {
 font-weight: 600
 }
@@ -1068,7 +1072,7 @@ right: 400px;
 top: 120px;
 }
 
-.mdSaveBtn button {
+.mdSaveBtn button, .commentSaveBtn button {
 display: inline-block;
 margin-right: 10px;
 width: 120px;
@@ -1108,6 +1112,56 @@ text-align: center;
 cursor: pointer;
 font-weight: bold;
 font-size: larger;
+}
+
+.omdPanelMsg, .omdSelector, .omdPanel button{
+display: inline-block;
+margin-right: 30px;
+}
+
+.omdPanel{
+display: block;
+border-radius: 5px;
+}
+
+.omdPanelMsg{
+padding-left: 10px;
+font-weight: bold;
+font-size: smaller;
+color: #ffffff;
+}
+
+.omdPanel{
+padding: 4px;
+background-color: #000c48;
+margin-top: 40px;
+}
+
+.omdSelector select{
+width: 300px;
+}
+
+.commentArea{
+display: block;
+margin: 20px 0;
+background-color: #dfdfdf;
+font-size: smaller;
+padding: 10px;
+border: 1px solid #999999;
+border-radius: 5px;
+}
+
+.addCommentElement{
+font-weight: bold;
+cursor: pointer;
+}
+
+.commentDivider{
+border-color: #eeeeee;
+}
+
+.multiLineText{
+white-space: pre-line;
 }
 
 

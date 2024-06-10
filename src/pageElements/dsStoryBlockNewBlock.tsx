@@ -23,11 +23,13 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": {
+            "dct:title": [{
                 "_text": ""
-            },
+            }],
             "_comment": ""
         },
+        "ds:Provenance":{},
+        "ds:Comments": [],
         "ds:Cues": {
             "_comment": [],
             "ds:title-prologue": {
@@ -49,11 +51,15 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": {
+            "dct:title": [{
                 "_text": ""
-            },
+            }],
             "_comment": ""
-        }
+        },
+        "ds:Provenance":{},
+        "ds:Comments": [],
+        "ds:Cues": {}
+
     }
 
     const newEntryHtmlRef = {
@@ -65,11 +71,14 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": {
+            "dct:title": [{
                 "_text": ""
-            },
+            }],
             "_comment": ""
-        }
+        },
+        "ds:Provenance":{},
+        "ds:Comments": [],
+        "ds:Cues": {}
     }
 
     const newEntrySparql = {
@@ -80,11 +89,14 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": {
+            "dct:title": [{
                 "_text": ""
-            },
+            }],
             "_comment": ""
-        }
+        },
+        "ds:Provenance":{},
+        "ds:Comments": [],
+        "ds:Cues": {}
     }
 
 

@@ -7,6 +7,7 @@ import StoryBlockHeader from "./dsStoryBlockContent_storyHead";
 import YasguiBlock from "./yasguiBlock";
 import StoryBlockFrame from "./dsStoryBlockContent_frame";
 import StoryBlockNew from "./dsStoryBlockNewBlock";
+import CommentsElement from "../editorElements/commentsElement";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 import icon_down from '../assets/img/icons/down-arrow-svgrepo-com.svg';
@@ -27,7 +28,8 @@ function StoryBlock({
                         orderArray,
                         setOrderArray,
                         reload,
-                        editMode
+                        editMode,
+                        commentMode
                     }: {
     content: object,
     contentType: String,
@@ -42,7 +44,8 @@ function StoryBlock({
     orderArray: String[]
     setOrderArray: Function
     reload: Function,
-    editMode: boolean
+    editMode: boolean,
+    commentMode: boolean
 }): ReactElement {
     const ifHeader = contentType === 'header';
     const ifText = contentType === 'text';
@@ -57,11 +60,16 @@ function StoryBlock({
     let imgHref = '';
     let endpoint = '';
     let frameHref = '';
+    let comments = [];
 
     let leftBlockPartClass = "dsBlock__left";
     if (editMode) {
         leftBlockPartClass = 'dsBlock__handle revealBlock dsBlock__left';
     }
+
+    if (!content.hasOwnProperty("ds:Comments")) {
+        content["ds:Comments"] = [];
+    };
 
     function switchElements(value, direction = 'up') {
         const sourceIndex = orderArray.indexOf(value);
@@ -201,6 +209,7 @@ function StoryBlock({
                     )}
                     {ifFrame && (<StoryBlockFrame title={h2Title} href={frameHref}/>)}
 
+                    {commentMode && !editMode && <CommentsElement content={content}/>}
 
                 </div>
             </div>

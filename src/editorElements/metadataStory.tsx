@@ -4,6 +4,7 @@ import FieldElement from "./fieldElement";
 import FieldGroupElement from "./fieldGroupElement";
 import UriFieldElement from "./uriFieldElement";
 import AreaFieldElement from "./areaFieldElement";
+import OtherMetadata from "./otherMetadata";
 import {mdFields} from "../misc/functions";
 
 
@@ -30,6 +31,11 @@ function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDs
         changeStyle();
     }
 
+    const addOtherField = (otherFieldName) => {
+        const fieldStruc = <FieldElement fieldname={otherFieldName} fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>;
+
+    }
+
     function fillFields() {
         let retObj = [];
         for (let key in block) {
@@ -44,7 +50,6 @@ function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDs
                 }
             }
         }
-        console.log(retObj);
         return retObj;
     }
 
@@ -72,7 +77,7 @@ function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDs
                 <AreaFieldElement fieldname="dct:description" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
                 <AreaFieldElement fieldname="dct:tableOfContents" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
             </div>
-            <FieldGroupElement label="Actor" blockName="actorBlock"/>
+            <FieldGroupElement label="Actors" blockName="actorBlock"/>
             <div id="actorBlock">
                 <FieldElement fieldname="dct:contributor" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
                 <FieldElement fieldname="dct:publisher" fields={fields} fieldStruc={mdFields} changeValues={changeFields}/>
@@ -84,7 +89,7 @@ function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDs
             </div>
             <FieldGroupElement label="Other metadata" blockName="otherBlock"/>
             <div id="otherBlock">
-                <div>Other stuff</div>
+                <OtherMetadata metadata={block}/>
             </div>
         </div>
     )

@@ -22,6 +22,7 @@ function Story() {
     const [refresh, setRefresh] = useState(true);
     const [storyOrder, setStoryOrder] = useState([]);
     const [editMode, setEditMode] = useState(false);
+    const [commentMode, setCommentMode] = useState(false);
 
     //console.log('currentDataStory', currentDataStory);
 
@@ -123,6 +124,7 @@ function Story() {
                             setOrderArray={setStoryOrder}
                             reload={reload}
                             editMode={editMode}
+                            commentMode={commentMode}
                         ></ DsStoryBlock>
 
                     ) :
@@ -149,6 +151,7 @@ function Story() {
                                     setOrderArray={setStoryOrder}
                                     reload={reload}
                                     editMode={editMode}
+                                    commentMode={commentMode}
                                 ></ DsStoryBlock>
 
                             )
@@ -173,6 +176,8 @@ function Story() {
                 setShowOpenDialog={setShowOpenDialog}
                 editMode={editMode}
                 setEditMode={setEditMode}
+                commentMode={commentMode}
+                setCommentMode={setCommentMode}
             />
 
         </>
