@@ -72,11 +72,12 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
                 <input type="text" id="url" defaultValue={url} size={200} onChange={handleChange}/>
                 <h4>Or upload image</h4>
                 <input type="file" id="img" onChange={handleChange}/>
-                <div>
+                <div className="commentSaveBtn">
                     <button className="rowBtn" onClick={saveBlock}>Save block</button>
+                    <button onClick={() => {changeStyle()}}>Dismiss</button>
                 </div>
             </div></div>}
-                {editorStatus === "provenance" && <ProvenanceElement setEditorStatus={setEditorStatus}/>}
+                {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
                 {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )

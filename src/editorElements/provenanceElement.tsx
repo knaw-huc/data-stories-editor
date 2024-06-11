@@ -1,15 +1,15 @@
 import React from "react";
 import {useState} from "react";
-import {provenanceFields} from '../misc/functions';
+import {provenanceFields, fillFields} from '../misc/functions';
 import FieldGroupElement from "./fieldGroupElement";
 import FieldElement from "./fieldElement";
 
 
-export default function ProvenanceElement({setEditorStatus}: {setEditorStatus: Function}) {
+export default function ProvenanceElement({provenanceBlock, setEditorStatus}: {provenanceBlock: object, setEditorStatus: Function}) {
     const [provValues, setProvValues] = useState([]);
     const [refresh, setRefresh] = useState(true);
     const provKeys = Object.keys(provenanceFields);
-    let fields = [];
+    let fields = fillFields(provenanceBlock);
 
 
 
@@ -22,9 +22,15 @@ export default function ProvenanceElement({setEditorStatus}: {setEditorStatus: F
             <h1>Provenance current block</h1>
             <div style={{margin: 20}}>
                 {provKeys.map((key) => {
+                    if (provenanceBlock[key] === undefined)
+                    {
                     return (
                         <FieldElement fieldname={key} fields={[]} fieldStruc={provenanceFields} changeValues={changeFields}/>
-                    )
+                    )} else {
+                        return (
+                        <FieldElement fieldname={key} fields={fields} fieldStruc={provenanceFields} changeValues={changeFields}/>
+                        )
+                    }
                 })}
             </div>
             <div>

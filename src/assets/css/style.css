@@ -137,6 +137,7 @@ max-width: 1000px;
 }
 
 .homeText{
+display: none;
 margin: 40px 20px;
 background-color: #eeeeee;
 width: 840px;

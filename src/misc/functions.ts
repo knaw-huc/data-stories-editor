@@ -137,3 +137,20 @@ export function swapUp(value: string, array: string[]) {
     [array[index], array[index - 1]] = [array[index - 1], array[index]];
     return array;
 }
+
+export function fillFields(block) {
+    let retObj = [];
+    for (let key in block) {
+        if (key !== "_comment") {
+            retObj[key] = [];
+            if (Array.isArray(block[key])) {
+                block[key].map((item) => {
+                    retObj[key].push(item["_text"]);
+                });
+            } else {
+                retObj[key].push(block[key]["_text"]);
+            }
+        }
+    }
+    return retObj;
+}

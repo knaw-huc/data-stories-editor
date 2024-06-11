@@ -5,12 +5,12 @@ import FieldGroupElement from "./fieldGroupElement";
 import UriFieldElement from "./uriFieldElement";
 import AreaFieldElement from "./areaFieldElement";
 import OtherMetadata from "./otherMetadata";
-import {mdFields} from "../misc/functions";
+import {mdFields, fillFields} from "../misc/functions";
 
 
-function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDsData: Function, changeStyle: Function }) {
+function MetadataStory({dsData, setDsData, changeStyle, reload}: { dsData: object, setDsData: Function, changeStyle: Function, reload: Function }) {
     let block = dsData["ds:DataStory"]["ds:Metadata"];
-    let fields = fillFields();
+    let fields = fillFields(block);
 
     const changeFields = (fieldName, list) => {
         fields[fieldName] = list;
@@ -24,11 +24,13 @@ function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDs
                 tmpBlock[key].push({"_text": fields[key][fieldKey]});
             }
         }
-        block = tmpBlock;
+        /*block = tmpBlock;*/
         let tmpData = dsData;
-        tmpData["ds:DataStory"]["ds:Metadata"] = block;
-        setDsData(tmpData);
+        tmpData["ds:DataStory"]["ds:Metadata"] = tmpBlock;
         changeStyle();
+        reload();
+        setDsData(tmpData);
+
     }
 
     const addOtherField = (otherFieldName) => {
@@ -36,22 +38,7 @@ function MetadataStory({dsData, setDsData, changeStyle}: { dsData: object, setDs
 
     }
 
-    function fillFields() {
-        let retObj = [];
-        for (let key in block) {
-            if (key !== "_comment") {
-                retObj[key] = [];
-                if (Array.isArray(block[key])) {
-                    block[key].map((item) => {
-                        retObj[key].push(item["_text"]);
-                    });
-                } else {
-                    retObj[key].push(block[key]["_text"]);
-                }
-            }
-        }
-        return retObj;
-    }
+
 
 
     return (

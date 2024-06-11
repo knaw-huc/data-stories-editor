@@ -111,7 +111,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     <h4>Query</h4>
                     <div id="yasgui_ed" /></div>) : (<div>No endpoint defined!</div>)}
             </div></div>}
-            {editorStatus === "provenance" && <ProvenanceElement setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
             {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )

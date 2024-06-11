@@ -3,12 +3,16 @@ import {useState} from "react";
 
 function FieldElement({fieldname, fields, fieldStruc, changeValues}: {fieldname: string, fields: object, fieldStruc: object, changeValues: Function}) {
     const [refresh, setRefresh] = useState(true);
+
     let fieldValues = [];
     if (fields.hasOwnProperty(fieldname)) {
         fieldValues = fields[fieldname];
     } else {
         fieldValues.push("");
     }
+    console.log(fieldname);
+    console.log(fieldValues);
+    console.log(fields);
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         fieldValues[e.currentTarget.id] = e.currentTarget.value;
@@ -17,6 +21,7 @@ function FieldElement({fieldname, fields, fieldStruc, changeValues}: {fieldname:
 
     function deleteField(index) {
         fieldValues.splice(index, 1);
+        //changeValues(fieldname, fields);
         setRefresh(!refresh);
     }
 

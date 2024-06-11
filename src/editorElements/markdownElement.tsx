@@ -10,6 +10,7 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
     const [headerValue, setHeaderValue] = React.useState(block["ds:Metadata"]["dct:title"]["_text"]);
     const [editorStatus, setEditorStatus] = useState("data");
 
+
     function saveBlock() {
         block["_text"] = value;
         block["ds:Metadata"]["dct:title"]["_text"] = headerValue;
@@ -46,8 +47,11 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
             <div data-color-mode="light" className="editorWrapper">
             <MDEditor height={400}  value={value} onChange={setValue} />
             </div>
-                <button onClick={saveBlock}>Save block</button></div>}
-            {editorStatus === "provenance" && <ProvenanceElement setEditorStatus={setEditorStatus}/>}
+                <div className="commentSaveBtn">
+                <button onClick={saveBlock}>Save block</button>
+                    <button onClick={() => {changeStyle()}}>Dismiss</button>
+                </div></div>}
+            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
             {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )

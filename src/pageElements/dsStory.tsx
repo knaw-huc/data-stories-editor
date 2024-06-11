@@ -178,6 +178,7 @@ function Story() {
                 setEditMode={setEditMode}
                 commentMode={commentMode}
                 setCommentMode={setCommentMode}
+                reload={reload}
             />
 
         </>
