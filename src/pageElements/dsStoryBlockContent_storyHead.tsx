@@ -1,12 +1,5 @@
 import React, { ReactElement} from 'react';
-
-// header
-// let headerMD = '##yo \n _123123123_ \n [HSN Occupations](https://iisg.amsterdam/en/hsn/data/occupations)'
-// let headerHTML = xmlDoc.getElementsByTagName('ds:DataStory')[0].getElementsByTagName('ds:Metadata')[0];
-// console.log(headerHTML)
-// let headerHTML2 = xmlDoc.getElementsByTagName('ds:DataStory')[0].getElementsByTagName('ds:Metadata')[0]
-
-
+import {useState} from "react";
 
 
 function StoryBlockHeader( {contentHeader }: {contentHeader: Object} ): ReactElement {
@@ -16,7 +9,6 @@ function StoryBlockHeader( {contentHeader }: {contentHeader: Object} ): ReactEle
   storyTitle = contentHeader['dct:title'][0]._text;
   storyAuthors = contentHeader['dct:creator'];
   storyLicense = contentHeader['dct:license'][0]._text;
-  //console.log('storyAuthors', storyAuthors)
 
 
     return (

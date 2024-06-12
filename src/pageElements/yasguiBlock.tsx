@@ -21,6 +21,7 @@ export default function YasguiBlock({
     const yas_id: string = "yasgui_" + content['_attributes']["xml:id"];
     const yasGeo = Geo;
     const yasChart = Chart;
+    let yasBuffer = null;
 
     function setBrowser(yasgui) {
         if (content["_cdata"] !== undefined) {
@@ -45,8 +46,10 @@ export default function YasguiBlock({
         }
         if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'gchart') {
             tab.yasr.selectPlugin("Chart");
-            const chartOptions = JSON.parse(content["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
-            tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
+            if (content["ds:Cues"]["wp4:data-output-config"] !== undefined) {
+                const chartOptions = JSON.parse(content["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
+                tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
+            }
         }
         if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'table') {
             tab.yasr.selectPlugin('table');
@@ -63,10 +66,12 @@ export default function YasguiBlock({
             Yasgui.Yasr.plugins.table.defaults.compact = true;
             Yasgui.Yasr.plugins.table.defaults.pageSize = 6;
             if (list.length === 0) {
-                const yasgui = new Yasgui(document.getElementById(yas_id) as HTMLElement, {
+            //document.getElementById(yas_id).innerHTML = '';
+            const yasgui = new Yasgui(document.getElementById(yas_id) as HTMLElement, {
                     requestConfig:
                         {endpoint: endpoint}
                 });
+
                 setBrowser(yasgui);
             }
         }

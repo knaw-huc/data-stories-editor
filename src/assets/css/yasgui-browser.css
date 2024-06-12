@@ -9,3 +9,23 @@ display: none !important;
 .dataTables_info, .dataTables_paginate{
 font-weight: bold !important;
 }
+
+#yasgui_ed > * .switch {
+ display: none;
+}
+
+ #yasgui_ed > * .tableFilter{
+  margin: 10px;
+ }
+
+ #yasgui_ed > * .pageSizeWrapper{
+  width: 300px;
+ }
+
+ #yasgui_ed > * .tableSizer{
+  width: 100px;
+ }
+
+ #yasgui_ed > * .CodeMirrorScroll{
+z-index: 99 !important;
+ }

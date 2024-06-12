@@ -61,15 +61,42 @@ function StoryBlock({
     let endpoint = '';
     let frameHref = '';
     let comments = [];
+    let provenanceList = [];
+
+
 
     let leftBlockPartClass = "dsBlock__left";
     if (editMode) {
         leftBlockPartClass = 'dsBlock__handle revealBlock dsBlock__left';
     }
 
-    if (!content.hasOwnProperty("ds:Comments")) {
+    if (!ifHeader && !content.hasOwnProperty("ds:Comments")) {
         content["ds:Comments"] = [];
     };
+
+    if (ifHeader && !dataStoryData["ds:DataStory"].hasOwnProperty("ds:Comments")) {
+        let tmpDS = dataStoryData;
+        tmpDS["ds:DataStory"]["ds:Comments"] = [];
+        setDataStoryData(tmpDS);
+    }
+
+    if (!ifHeader && !content.hasOwnProperty("ds:Provenence")) {
+        content["ds:Provenance"] = [];
+    };
+
+    if (ifHeader && !dataStoryData["ds:DataStory"].hasOwnProperty("ds:Provenance")) {
+        let tmpDS = dataStoryData;
+        tmpDS["ds:DataStory"]["ds:Provenance"] = {};
+        setDataStoryData(tmpDS);
+    }
+
+    if (ifHeader) {
+        comments = dataStoryData["ds:DataStory"]["ds:Comments"];
+        provenanceList = dataStoryData["ds:DataStory"]["ds:Provenance"];
+    } else {
+        comments = content["ds:Comments"];
+        provenanceList = content["ds:Provenance"];
+    }
 
     function switchElements(value, direction = 'up') {
         const sourceIndex = orderArray.indexOf(value);
@@ -209,7 +236,7 @@ function StoryBlock({
                     )}
                     {ifFrame && (<StoryBlockFrame title={h2Title} href={frameHref}/>)}
 
-                    {commentMode && !editMode && <CommentsElement content={content}/>}
+                    {commentMode && !editMode && <CommentsElement comments={comments}/>}
 
                 </div>
             </div>

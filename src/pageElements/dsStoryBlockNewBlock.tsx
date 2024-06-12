@@ -51,9 +51,9 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": [{
+            "dct:title": {
                 "_text": ""
-            }],
+            },
             "_comment": ""
         },
         "ds:Provenance":{},
@@ -71,9 +71,9 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": [{
+            "dct:title": {
                 "_text": ""
-            }],
+            },
             "_comment": ""
         },
         "ds:Provenance":{},
@@ -89,14 +89,17 @@ function StoryBlockNew({prevId, dataStoryData, setCurrentEditBlock, setDataStory
         },
         "_comment": "",
         "ds:Metadata": {
-            "dct:title": [{
+            "dct:title": {
                 "_text": ""
-            }],
+            },
             "_comment": ""
         },
+        "_cdata": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT * WHERE {\n  ?sub ?pred ?obj .\n} LIMIT 15",
         "ds:Provenance":{},
         "ds:Comments": [],
-        "ds:Cues": {}
+        "ds:Cues": {
+            "ds:visualisation": {"_text": "table"}
+        }
     }
 
 

@@ -27,9 +27,9 @@ function MetadataStory({dsData, setDsData, changeStyle, reload}: { dsData: objec
         /*block = tmpBlock;*/
         let tmpData = dsData;
         tmpData["ds:DataStory"]["ds:Metadata"] = tmpBlock;
-        changeStyle();
-        reload();
         setDsData(tmpData);
+        reload();
+        changeStyle();
 
     }
 

@@ -100,7 +100,7 @@ function DsEditor({
             setStyle("panel_edit fixedBottom editorDown");
             setEditorStatus(true);
         }
-
+        reload();
 
     };
 
@@ -461,9 +461,9 @@ function DsEditor({
                             navigate("/")
                         }}>Close story
                         </button>
-                        {editMode && hasId && <button type="button" onClick={changeStyle} className="lowerMenuBtn">
+                        {/*{editMode && hasId && <button type="button" onClick={changeStyle} className="lowerMenuBtn">
                             {editorStatus ? (<>Edit</>) : (<>Preview</>)}
-                        </button>}
+                        </button>}*/}
 
                     </div>
 

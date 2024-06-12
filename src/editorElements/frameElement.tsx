@@ -9,6 +9,9 @@ function FrameElement({block, changeStyle}: { block: object, changeStyle: Functi
     const [preview, setPreview] = useState(false);
     const [editorStatus, setEditorStatus] = useState("data");
 
+    if (block["ds:Provenance"] === undefined) {
+        block["ds:Provenance"] = [];
+    }
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         //setHeaderValue(e.currentTarget.value);

@@ -10,9 +10,7 @@ function FieldElement({fieldname, fields, fieldStruc, changeValues}: {fieldname:
     } else {
         fieldValues.push("");
     }
-    console.log(fieldname);
-    console.log(fieldValues);
-    console.log(fields);
+
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         fieldValues[e.currentTarget.id] = e.currentTarget.value;
@@ -27,6 +25,7 @@ function FieldElement({fieldname, fields, fieldStruc, changeValues}: {fieldname:
 
     function addField() {
         fieldValues.push("");
+        console.log('OK');
         setRefresh(!refresh);
     }
 
@@ -37,7 +36,7 @@ function FieldElement({fieldname, fields, fieldStruc, changeValues}: {fieldname:
                 fieldValues.map((item, index) => {
                     const a_id =  index.toString();
                     if (index === 0) {
-                        return (<div key={index}><input type="text" id={a_id}   defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={addField}>+</button></div>);}
+                        return (<div key={index}><input type="text" id={a_id}  defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={addField}>+</button></div>);}
                     else {
                         return (<div key={index}><input type="text" id={a_id} defaultValue={item} size={40} onChange={handleChange} /><button className="authorBtn" onClick={() => {deleteField(index)}}>-</button></div>);
                     }

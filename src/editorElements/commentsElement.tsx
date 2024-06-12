@@ -1,9 +1,8 @@
 import React from "react";
 import {useState} from "react";
 
-function CommentsElement({content}: {content: object}) {
+function CommentsElement({comments}: {comments: object[]}) {
     const [editCommentMode, setEditCommentMode] = useState(false);
-    let comments = content["ds:Comments"]
     let commText = "";
     let newDate = Date();
 
@@ -13,7 +12,6 @@ function CommentsElement({content}: {content: object}) {
 
     const saveComment = () => {
         comments.push({"comment": {"_text": commText}, "dct:author": "Rob Zeeman", "dct:date": Date()});
-        console.log(comments);
         setEditCommentMode(false);
     }
 

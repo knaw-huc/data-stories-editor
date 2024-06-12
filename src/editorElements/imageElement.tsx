@@ -9,6 +9,10 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
     const [file, setFile] = useState<File>();
     const [editorStatus, setEditorStatus] = useState("data");
 
+    if (block["ds:Provenance"] === undefined) {
+        block["ds:Provenance"] = [];
+    }
+
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         //setHeaderValue(e.currentTarget.value);
         if (e.currentTarget.id === 'caption') {

@@ -110,7 +110,7 @@ function Story() {
 
                 {!loading ? (
                         <DsStoryBlock
-                            content={storyHeader}
+                            content={dataStoryData['ds:DataStory']['ds:Metadata']}
                             contentType="header"
                             dataStoryData={dataStoryData}
                             currentEditBlock={currentEditBlock}

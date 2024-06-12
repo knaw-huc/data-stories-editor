@@ -10,15 +10,19 @@ import {API_URL} from "../misc/functions";
 
 function SparqlElement({block, endpoint, store, changeStyle}: {block: object, endpoint: string, store: string, changeStyle: Function}) {
     const [editorStatus, setEditorStatus] = useState("data");
+    const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
     const hasEndpoint = endpoint !== 'no_endpoint';
     const hasQueryFile = block["_attributes"]["href"] !== undefined;
     const yasGeo = Geo;
     const yasChart = Chart;
-    let yasProps;
+    let yasProps = null;
+    localStorage.removeItem("yagui__config");
 
 
-    function handleChange() {
-        console.log("Hello");
+    function handleChange(e: React.FormEvent<HTMLInputElement>): void {
+        if (e.currentTarget.id === 'caption') {
+            setCaption(e.currentTarget.value);
+        }
     }
 
     function setBrowser(yasgui) {
@@ -44,18 +48,46 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
         if (block["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && block["ds:Cues"]["ds:visualisation"]["_text"] === 'geo') {
             tab.yasr.selectPlugin("Geo");
         }
+        if (block["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && block["ds:Cues"]["ds:visualisation"]["_text"] === 'gchart') {
+            tab.yasr.selectPlugin("Chart");
+            if (block["ds:Cues"]["wp4:data-output-config"] !== undefined) {
+                const chartOptions = JSON.parse(block["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
+                tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
+            }
+        }
+        if (block["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && block["ds:Cues"]["ds:visualisation"]["_text"] === 'table') {
+            tab.yasr.selectPlugin('table');
+        }
         tab.setQuery(query);
         tab.query();
     }
 
     function saveBlock() {
-        console.log(yasProps.getTab().yasr.selectedPlugin);
+        block["ds:Metadata"]["dct:title"] = {"_text": caption};
+        if (yasProps !== null) {
+            let tab = yasProps.getTab();
+            let viz = '';
+            block["_cdata"] = tab.getQuery();
+            switch (tab.yasr.selectedPlugin) {
+                case 'Geo':
+                    viz = 'geo';
+                    break;
+                case 'Chart':
+                    viz = 'gchart';
+                    break;
+                default:
+                    viz = 'table';
+            }
+            block["ds:Cues"]["ds:visualisation"] = {"_text": viz};
+            //localStorage.removeItem("yagui__config");
+        }
+
         changeStyle();
     }
 
     function yasMerin() {
         if (hasEndpoint) {
-            localStorage.removeItem("yagui__config");
+            //localStorage.removeItem("yagui__config");
             const list = document.getElementById("yasgui_ed").getElementsByClassName("yasgui");
             Yasgui.Yasr.registerPlugin("Geo", yasGeo);
             Yasgui.Yasr.registerPlugin("Chart", yasChart);
@@ -66,6 +98,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     requestConfig:
                         {endpoint: endpoint}
                 });
+                yasProps = yasgui;
                 setBrowser(yasgui);
             }
         }
@@ -85,15 +118,15 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
             <div>
                 {hasEndpoint ? (<div>
                         <div className="editorPanel">
-                            <button className="editorPanelBtn" onClick={() => {alert('Metadata editor forthcoming.')}}>Metadata</button>
-                            <button className="editorPanelBtn" onClick={() => {alert('Provenance editor forthcoming.')}}>Provenance</button>
+                            <button className="editorPanelBtn" onClick={() => {setEditorStatus("metadata")}}>Metadata</button>
+                            <button className="editorPanelBtn" onClick={() => {setEditorStatus("provenance")}}>Provenance</button>
                             <button className="editorPanelBtn" onClick={() => {saveBlock();}}>Save</button>
                             <button className="editorPanelBtn" onClick={() => {changeStyle();}}>Discard</button>
                         </div>
                     <h1>Edit query block</h1>
                     <h4>Header</h4>
                     <div className="editorWrapper">
-                    <input type="text" id="header" defaultValue={block["ds:Metadata"]["dct:title"]["_text"]}  size={200} />
+                    <input type="text" id="caption" defaultValue={caption}  size={200} onChange={handleChange}/>
                     </div>
                     <h4>Query file</h4>
                     {hasQueryFile ? (

@@ -12,25 +12,27 @@ export default function ProvenanceElement({provenanceBlock, setEditorStatus}: {p
     let fields = fillFields(provenanceBlock);
 
 
-
     const changeFields = (fieldName, list) => {
         fields[fieldName] = list;
     }
+
+
+
 
     return (
         <div>
             <h1>Provenance current block</h1>
             <div style={{margin: 20}}>
                 {provKeys.map((key) => {
-                    if (provenanceBlock[key] === undefined)
-                    {
-                    return (
-                        <FieldElement fieldname={key} fields={[]} fieldStruc={provenanceFields} changeValues={changeFields}/>
-                    )} else {
+                    //if (provenanceBlock[key] === undefined)
+                    //{
+                    //return (
+                        //<FieldElement fieldname={key} fields={[]} fieldStruc={provenanceFields} changeValues={changeFields}/>
+                    //)} else {
                         return (
                         <FieldElement fieldname={key} fields={fields} fieldStruc={provenanceFields} changeValues={changeFields}/>
                         )
-                    }
+                    //}
                 })}
             </div>
             <div>
