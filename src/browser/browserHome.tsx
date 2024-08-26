@@ -4,6 +4,7 @@ import {useState, useEffect} from "react";
 import {IResultList} from "../misc/interfaces";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
+import icon_settings from '../assets/img/icons/icon-settings.svg';
 import {API_URL} from "../misc/functions";
 
 function BrowserHome() {
@@ -67,7 +68,7 @@ function BrowserHome() {
         <div className="dsRepository">
             <div className="btnPanel">
                 <div className="panelButton" onClick={() => createDataStory()}>+ New</div>
-                <div className="panelButton" onClick={() => {
+                {/*<div className="panelButton" onClick={() => {
                     if (activeStore === "") {
                         alert("No data story selected!");
                     } else {
@@ -82,7 +83,7 @@ function BrowserHome() {
                         delete_datastory();
                     }
                 }}><img className="panelIcon" src={icon_delete}/> Delete
-                </div>
+                </div>*/}
             </div>
             {loading ? (
                 <div>Data stories loading...</div>
@@ -96,6 +97,9 @@ function BrowserHome() {
                             <div className="dsResultCell">Group</div>
                             <div className="dsResultCell">Created</div>
                             <div className="dsResultCell">Modified</div>
+                            <div className="dsPicResultCell"> </div>
+                            <div className="dsPicResultCell"> </div>
+                            <div className="dsPicResultCell"> </div>
                         </div>
                         {data.structure.map((item, index: number) => {
                             return (
@@ -111,6 +115,9 @@ function BrowserHome() {
                                     <div className="dsResultCell">{item.groep}</div>
                                     <div className="dsResultCell">{item.created}</div>
                                     <div className="dsResultCell">{item.modified}</div>
+                                    <div title="Edit datastory" className="dsPicResultCell"><img className="panelIcon" src={icon_edit}/></div>
+                                    <div title="Delete datastory" className="dsPicResultCell" onClick={() => {alert(activeStore)}}><img className="panelIcon" src={icon_delete}/></div>
+                                    <div title="Settings" className="dsPicResultCell" onClick={() => {alert(activeStore)}}><img className="panelIcon" src={icon_settings}/></div>
                                 </div>
                             )
                         })}

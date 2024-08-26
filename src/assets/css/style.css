@@ -61,6 +61,13 @@ min-width: 200px;
 border-bottom: 1px solid #999999;
 }
 
+.dsPicResultCell{
+display: table-cell;
+padding: 4px 8px 4px 0 ;
+min-width: 30px;
+border-bottom: 1px solid #999999;
+}
+
 nav{
 font-family: "Roboto", sans-serif;
 font-weight: bold;

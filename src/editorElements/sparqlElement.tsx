@@ -18,6 +18,10 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     let yasProps = null;
     localStorage.removeItem("yagui__config");
 
+    if (block["ds:Cues"] === undefined) {
+        block["ds:Cues"] = {};
+    }
+
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         if (e.currentTarget.id === 'caption') {
