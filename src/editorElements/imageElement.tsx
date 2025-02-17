@@ -6,12 +6,13 @@ import {API_URL} from "../misc/functions";
 function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: object, changeStyle: Function, setCurrentEditBlock: Function, uuid: string }) {
     const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
     const [url, setUrl] = useState<string>(block["_attributes"]["href"]);
+    const [provenance, setProvenance] = useState(block["ds:Provenance"]);
     const [file, setFile] = useState<File>();
     const [editorStatus, setEditorStatus] = useState("data");
 
-    if (block["ds:Provenance"] === undefined) {
+    /*if (block["ds:Provenance"] === undefined) {
         block["ds:Provenance"] = [];
-    }
+    }*/
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         //setHeaderValue(e.currentTarget.value);
@@ -81,7 +82,7 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
                     <button onClick={() => {changeStyle()}}>Dismiss</button>
                 </div>
             </div></div>}
-                {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
+                {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setP={setProvenance} setEditorStatus={setEditorStatus}/>}
                 {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )

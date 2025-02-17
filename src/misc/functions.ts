@@ -154,3 +154,20 @@ export function fillFields(block) {
     }
     return retObj;
 }
+
+export function textFields(block) {
+    let retObj = [];
+    for (let key in block) {
+        retObj[key] = wrapText(block[key]);
+    }
+    return retObj;
+}
+
+function wrapText(arr) {
+    let retObj = [];
+    for (let key in arr) {
+        retObj.push({"_text": arr[key]});
+    }
+    return retObj;
+}
+

@@ -75,6 +75,10 @@ font-size: smaller;
 margin-right: 200px;
 }
 
+.isLinkElement{
+cursor: pointer;
+}
+
 .dsBrandName{
 font-family: "Roboto", sans-serif;
 font-weight: bold;

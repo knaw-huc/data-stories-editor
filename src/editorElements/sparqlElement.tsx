@@ -11,6 +11,7 @@ import {API_URL} from "../misc/functions";
 function SparqlElement({block, endpoint, store, changeStyle}: {block: object, endpoint: string, store: string, changeStyle: Function}) {
     const [editorStatus, setEditorStatus] = useState("data");
     const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
+    const [provenance, setProvenance] = useState(block["ds:Provenance"]);
     const hasEndpoint = endpoint !== 'no_endpoint';
     const hasQueryFile = block["_attributes"]["href"] !== undefined;
     const yasGeo = Geo;
@@ -18,9 +19,9 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     let yasProps = null;
     localStorage.removeItem("yagui__config");
 
-    if (block["ds:Cues"] === undefined) {
+    /*if (block["ds:Cues"] === undefined) {
         block["ds:Cues"] = {};
-    }
+    }*/
 
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
@@ -148,7 +149,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     <h4>Query</h4>
                     <div id="yasgui_ed" /></div>) : (<div>No endpoint defined!</div>)}
             </div></div>}
-            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setP={setProvenance} setEditorStatus={setEditorStatus}/>}
             {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )

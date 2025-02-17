@@ -63,8 +63,10 @@ function DsEditor({
     const [selectProvType, setSelectProvType] = useState<string>("");
     const [textFieldProveVal, setTextFieldProveVal] = useState<string>("");
     const [mimeType, setMimeType] = useState("");
+    const [provenance, setProvenance] = useState<Object>({});
     const [block, setBlock] = useState<Object>({});
     const [writing, setWriting] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     //const blockIndex = findBlockById(currentEditBlock["block_id"]);
 
@@ -113,6 +115,7 @@ function DsEditor({
             let textFieldhrefImp = ''
             let textFieldCaptionImg = ''
             let mime = ''
+            let blockProv = [];
             let editableBlock = {}
 
             const allBlocks = dataStoryData['ds:DataStory']['ds:Story']['ds:Block']
@@ -120,6 +123,11 @@ function DsEditor({
             // get header data
             if (allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata'] !== undefined) {
                 headingFieldContent = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Metadata']['dct:title']._text
+            }
+
+            //Get provenance data
+            if (allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Provenance'] !== undefined) {
+                blockProv = allBlocks[findBlockById(currentEditBlock['block_id'])]['ds:Provenance']
             }
 
             // get content data
@@ -156,6 +164,7 @@ function DsEditor({
             setTextFieldImgHref(textFieldhrefImp)
             setTextFieldImgCaption(textFieldCaptionImg)
             setMimeType(mime);
+            setProvenance(blockProv);
             setBlock(editableBlock);
         } else {
             if (currentEditBlock['block_id'] === 'metadata') {
@@ -179,13 +188,15 @@ function DsEditor({
                             'mime': 'image/*',
                             'xml:id': obj['_attributes']['xml:id']
                         },
-                        'ds:Metadata': {'dct:title': {'_text': textFieldHeader}}
+                        'ds:Metadata': {'dct:title': {'_text': textFieldHeader}},
+                        'ds:Provenance': provenance
                     };
                 } else {
                     mutatedObj = {
                         ...obj,
                         "_text": textFieldContent,
-                        'ds:Metadata': {'dct:title': {'_text': textFieldHeader}}
+                        'ds:Metadata': {'dct:title': {'_text': textFieldHeader}},
+                        'ds:Provenance': provenance
                     };
                 }
 
@@ -441,7 +452,7 @@ function DsEditor({
                                 Edit story
                             </button>
                         </>}
-                        {!editMode && !commentMode && <>
+                        {!editMode && !commentMode && loggedIn && <>
                             <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setStyle("panel_edit fixedBottom editorDown");

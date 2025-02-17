@@ -10,7 +10,7 @@ function PageHeader() {
                         <div className="hcBrandLogo">
                             <img src={logo} className="logo"/>
                         </div>
-                        <div className="hcHeaderText">
+                        <div className="hcHeaderText isLinkElement">
                             CLARIAH Data Stories Editor
                         </div>
                     </div>

@@ -1,22 +1,28 @@
 import React from "react";
 import {useState} from "react";
-import {provenanceFields, fillFields} from '../misc/functions';
+import {provenanceFields, fillFields, textFields} from '../misc/functions';
 import FieldGroupElement from "./fieldGroupElement";
 import FieldElement from "./fieldElement";
 
 
-export default function ProvenanceElement({provenanceBlock, setEditorStatus}: {provenanceBlock: object, setEditorStatus: Function}) {
-    const [provValues, setProvValues] = useState([]);
-    const [refresh, setRefresh] = useState(true);
+export default function ProvenanceElement({provenanceBlock, setP, setEditorStatus}: {provenanceBlock: object, setP: Function, setEditorStatus: Function}) {
+    const [provValues, setProvValues] = useState(provenanceBlock);
+    //const [refresh, setRefresh] = useState(true);
     const provKeys = Object.keys(provenanceFields);
-    let fields = fillFields(provenanceBlock);
+    const [fields, setFields] = useState(fillFields(provenanceBlock));
 
 
     const changeFields = (fieldName, list) => {
-        fields[fieldName] = list;
+        let tmpFields = fields;
+        tmpFields[fieldName] = list;
+        setFields(tmpFields);
     }
 
-
+    function saveProv() {
+        const prov = textFields(fields);
+        setP(prov);
+        setEditorStatus("data");
+    }
 
 
     return (
@@ -36,7 +42,7 @@ export default function ProvenanceElement({provenanceBlock, setEditorStatus}: {p
                 })}
             </div>
             <div>
-                <button className="editorPanelBtn" onClick={() => {setEditorStatus("data")}}>Save</button>
+                <button className="editorPanelBtn" onClick={() => {saveProv()}}>Save</button>
                 <button className="editorPanelBtn" onClick={() => {setEditorStatus("data")}}>Dismiss</button>
             </div>
         </div>

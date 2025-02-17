@@ -6,12 +6,13 @@ import MetadataElement from "./metaDataElement";
 function FrameElement({block, changeStyle}: { block: object, changeStyle: Function }) {
     const [caption, setCaption] = useState<string>(block["ds:Metadata"]["dct:title"]["_text"]);
     const [url, setUrl] = useState<string>(block["_attributes"]["href"]);
+    const [provenance, setProvenance] = useState(block["ds:Provenance"]);
     const [preview, setPreview] = useState(false);
     const [editorStatus, setEditorStatus] = useState("data");
 
-    if (block["ds:Provenance"] === undefined) {
+   /* if (block["ds:Provenance"] === undefined) {
         block["ds:Provenance"] = [];
-    }
+    }*/
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
         //setHeaderValue(e.currentTarget.value);
@@ -75,7 +76,7 @@ function FrameElement({block, changeStyle}: { block: object, changeStyle: Functi
                     </div>
                 </div>
             </div>}
-            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setP={setProvenance} setEditorStatus={setEditorStatus}/>}
             {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )

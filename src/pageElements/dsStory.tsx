@@ -26,7 +26,6 @@ function Story() {
 
     //console.log('currentDataStory', currentDataStory);
 
-
     const [dataStoryData, setDataStoryData] = useState({
         "_declaration": {},
         "_instruction": {},

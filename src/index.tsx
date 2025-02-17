@@ -5,6 +5,7 @@ import App from './App';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Story from "./pageElements/dsStory";
 import BrowserHome from "./browser/browserHome";
+import StorySettings from "./storySettings/storySettings";
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -18,7 +19,9 @@ root.render(
               <Route path="story" element={<Story/>}>
                   <Route path=":store" element={<Story/>}/>
               </Route>
-
+              <Route path="settings" element={<StorySettings/>}>
+                  <Route path=":store" element={<StorySettings/>}/>
+              </Route>
           </Route>
       </Routes>
   </BrowserRouter>

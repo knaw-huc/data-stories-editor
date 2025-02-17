@@ -12,6 +12,7 @@ function BrowserHome() {
     const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(-1);
     const [activeStore, setActiveStore] = useState("");
+    const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
 
     async function fetchData() {
@@ -29,9 +30,9 @@ function BrowserHome() {
         }
     }
 
-    async function delete_datastory() {
+    async function delete_datastory(uuid) {
         if (window.confirm("Delete datastory?") === true) {
-            const response = await fetch(API_URL + 'delete?ds=' + activeStore);
+            const response = await fetch(API_URL + 'delete?ds=' + uuid);
             const json = await response.json();
             if (json.status === "OK") {
                 setLoading(true);
@@ -67,7 +68,7 @@ function BrowserHome() {
     return (
         <div className="dsRepository">
             <div className="btnPanel">
-                <div className="panelButton" onClick={() => createDataStory()}>+ New</div>
+                {loggedIn && <div className="panelButton" onClick={() => createDataStory()}>+ New</div>}
                 {/*<div className="panelButton" onClick={() => {
                     if (activeStore === "") {
                         alert("No data story selected!");
@@ -97,9 +98,9 @@ function BrowserHome() {
                             <div className="dsResultCell">Group</div>
                             <div className="dsResultCell">Created</div>
                             <div className="dsResultCell">Modified</div>
+                            {loggedIn && <><div className="dsPicResultCell"> </div>
                             <div className="dsPicResultCell"> </div>
-                            <div className="dsPicResultCell"> </div>
-                            <div className="dsPicResultCell"> </div>
+                            <div className="dsPicResultCell"> </div></>}
                         </div>
                         {data.structure.map((item, index: number) => {
                             return (
@@ -115,9 +116,15 @@ function BrowserHome() {
                                     <div className="dsResultCell">{item.groep}</div>
                                     <div className="dsResultCell">{item.created}</div>
                                     <div className="dsResultCell">{item.modified}</div>
-                                    <div title="Edit datastory" className="dsPicResultCell"><img className="panelIcon" src={icon_edit}/></div>
-                                    <div title="Delete datastory" className="dsPicResultCell" onClick={() => {alert(activeStore)}}><img className="panelIcon" src={icon_delete}/></div>
-                                    <div title="Settings" className="dsPicResultCell" onClick={() => {alert(activeStore)}}><img className="panelIcon" src={icon_settings}/></div>
+                                    {loggedIn && <div title="Edit datastory" className="dsPicResultCell" onClick={() => {
+                                        setActiveStore(item.uuid);
+                                        navigate("story/" + item.uuid);
+                                    }}><img className="panelIcon" src={icon_edit}/></div>}
+                                    {loggedIn && <div title="Delete datastory" className="dsPicResultCell" onClick={() => {delete_datastory(item.uuid)}}><img className="panelIcon" src={icon_delete}/></div>}
+                                    {loggedIn && <div title="Settings" className="dsPicResultCell" onClick={() => {
+                                        setActiveStore(item.uuid);
+                                        navigate("settings/" + item.uuid);
+                                    }}><img className="panelIcon" src={icon_settings}/></div>}
                                 </div>
                             )
                         })}

@@ -7,6 +7,7 @@ import MetadataElement from "./metaDataElement";
 
 function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Function}) {
     const [value, setValue] = React.useState(block["_text"]);
+    const [provenance, setProvenance] = React.useState(block["ds:Provenance"]);
     const [headerValue, setHeaderValue] = React.useState(block["ds:Metadata"]["dct:title"]["_text"]);
     const [editorStatus, setEditorStatus] = useState("data");
 
@@ -14,7 +15,16 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
     function saveBlock() {
         block["_text"] = value;
         block["ds:Metadata"]["dct:title"]["_text"] = headerValue;
+        block["ds:Provenance"] = provenance;
+        console.log(block);
         changeStyle();
+    }
+
+    const sp = (provStruc) =>
+    {
+        setProvenance(provStruc);
+        console.log(provStruc);
+        console.log(provenance);
     }
 
     function init() {
@@ -51,7 +61,7 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
                 <button onClick={saveBlock}>Save block</button>
                     <button onClick={() => {changeStyle()}}>Dismiss</button>
                 </div></div>}
-            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={provenance} setP={sp} setEditorStatus={setEditorStatus}/>}
             {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
         </div>
     )
