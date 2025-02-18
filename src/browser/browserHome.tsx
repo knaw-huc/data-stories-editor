@@ -12,13 +12,16 @@ function BrowserHome() {
     const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(-1);
     const [activeStore, setActiveStore] = useState("");
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
     const navigate = useNavigate();
 
     async function fetchData() {
         const response = await fetch(API_URL + "get_data_stories");
         const json = await response.json();
         setData(json);
+        if (json.auth.logged_in === 'yes') {
+            document.getElementById("login_status").innerText = json.auth.user;
+        }
         setLoading(false);
     }
 

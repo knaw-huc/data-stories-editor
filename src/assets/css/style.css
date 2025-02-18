@@ -162,3 +162,23 @@ width: 800px;
 font-size: 14px;
 line-height: 20px;
 }
+
+.settingsBlock{
+margin: 40px 80px;
+background-color: #eeeeee;
+width: 840px;
+padding: 10px 16px;
+border: 1px solid #aaaaaa;
+}
+
+.settingsItem{
+margin-top: 20px;
+}
+
+.settingItemHeader{
+font-weight: bold;
+}
+
+.settingsBtnBar{
+margin: 8px 0;
+}

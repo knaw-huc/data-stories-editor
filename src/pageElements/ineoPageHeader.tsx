@@ -13,7 +13,7 @@ function PageHeader() {
                 <div className="dsBrandName isLinkElement" onClick={() => {nav("/")}}>Data Stories</div>
             </div>
             <div>
-                <nav>
+                <nav id="login_status">
                     Login
                 </nav>
             </div>
