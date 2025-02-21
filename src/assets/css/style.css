@@ -172,7 +172,9 @@ border: 1px solid #aaaaaa;
 }
 
 .settingsItem{
-margin-top: 20px;
+margin: 20px 10px;
+padding-bottom: 8px;
+border-bottom: 1px solid #cccccc;
 }
 
 .settingItemHeader{
@@ -181,4 +183,30 @@ font-weight: bold;
 
 .settingsBtnBar{
 margin: 8px 0;
+}
+
+.addShareBtn{
+cursor: pointer;
+}
+
+.sharedWithRow{
+font-size: smaller;
+}
+
+.sharedWithRow div{
+display:inline-block;
+margin-right: 10px;
+}
+
+.shareName{
+width: 500px;
+}
+
+.shareRights{
+width: 150px;
+}
+
+.shareButton{
+font-weight: bold;
+color: #0a3069;
 }
