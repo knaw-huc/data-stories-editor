@@ -16,8 +16,10 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     const hasQueryFile = block["_attributes"]["href"] !== undefined;
     const yasGeo = Geo;
     const yasChart = Chart;
+    const blockID = 'yasgui_' + block["_attributes"]["xml:id"];
     let yasProps = null;
     localStorage.removeItem("yagui__config");
+
 
     /*if (block["ds:Cues"] === undefined) {
         block["ds:Cues"] = {};
@@ -85,14 +87,14 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
             }
             block["ds:Cues"]["ds:visualisation"] = {"_text": viz};
             //localStorage.removeItem("yagui__config");
+            document.getElementById(blockID).innerHTML= '';
         }
-
         changeStyle();
     }
 
     function yasMerin() {
         if (hasEndpoint) {
-            //localStorage.removeItem("yagui__config");
+            localStorage.removeItem("yagui__config");
             const list = document.getElementById("yasgui_ed").getElementsByClassName("yasgui");
             Yasgui.Yasr.registerPlugin("Geo", yasGeo);
             Yasgui.Yasr.registerPlugin("Chart", yasChart);

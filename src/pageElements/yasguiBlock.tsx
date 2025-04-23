@@ -21,6 +21,7 @@ export default function YasguiBlock({
     const yas_id: string = "yasgui_" + content['_attributes']["xml:id"];
     const yasGeo = Geo;
     const yasChart = Chart;
+    const [yas, setYas] = useState(null);
     let yasBuffer = null;
 
     function setBrowser(yasgui) {
@@ -60,18 +61,18 @@ export default function YasguiBlock({
 
     function yasMerin() {
         if (endpoint !== "no_endpoint") {
+            localStorage.removeItem("yagui__config");
             const list = document.getElementById(yas_id).getElementsByClassName("yasgui");
             Yasgui.Yasr.registerPlugin("Geo", yasGeo);
             Yasgui.Yasr.registerPlugin("Chart", yasChart);
             Yasgui.Yasr.plugins.table.defaults.compact = true;
             Yasgui.Yasr.plugins.table.defaults.pageSize = 6;
             if (list.length === 0) {
-            //document.getElementById(yas_id).innerHTML = '';
             const yasgui = new Yasgui(document.getElementById(yas_id) as HTMLElement, {
                     requestConfig:
                         {endpoint: endpoint}
                 });
-
+                setYas(yasgui);
                 setBrowser(yasgui);
             }
         }
