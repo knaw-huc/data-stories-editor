@@ -30,6 +30,11 @@ font-weight: bold !important;
 z-index: 99 !important;
  }
 
+ #yasgui_ed {
+  background-color: #ffffff;
+  border: 4px;
+ }
+
  .graphBtn{
   font-weight: bold;
   text-align: right;
