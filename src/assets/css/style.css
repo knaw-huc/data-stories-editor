@@ -141,6 +141,7 @@ top: 110px;
 display: inline-block;
 margin-right: 10px;
 width: 120px;
+cursor: pointer;
 }
 
 #yasgui_ed, #yasgui_ed > * {
@@ -209,4 +210,8 @@ width: 150px;
 .shareButton{
 font-weight: bold;
 color: #0a3069;
+}
+
+.rightsList{
+list-style-type: none;
 }

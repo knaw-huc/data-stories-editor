@@ -12,7 +12,7 @@ function BrowserHome() {
     const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(-1);
     const [activeStore, setActiveStore] = useState("");
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
 
     async function fetchData() {
@@ -20,7 +20,8 @@ function BrowserHome() {
         const json = await response.json();
         setData(json);
         if (json.auth.logged_in === 'yes') {
-            document.getElementById("login_status").innerText = json.auth.user;
+            document.getElementById("login_status").innerText = "Rob Zeeman";
+            setLoggedIn(true);
         }
         setLoading(false);
     }

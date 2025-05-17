@@ -23,14 +23,16 @@ function Story() {
     const [storyOrder, setStoryOrder] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [commentMode, setCommentMode] = useState(false);
+    const [userLoggedIn, setUserLoggedin] = useState(true);
 
     //console.log('currentDataStory', currentDataStory);
 
-    const [dataStoryData, setDataStoryData] = useState({
-        "_declaration": {},
-        "_instruction": {},
-        "ds:DataStory": {}
-    });
+    const [dataStoryData, setDataStoryData] = useState(
+        {
+            "_declaration": {},
+            "_instruction": {},
+            "ds:DataStory": {}
+        });
 
     //console.log(dataStoryData);
 
@@ -42,8 +44,11 @@ function Story() {
     async function fetch_data() {
         const response = await fetch(API_URL + 'get_item?ds=' + store);
         const json = await response.json();
-        setDataStoryData(json);
-        setDataElements(json);
+        setDataStoryData(json["datastory"]);
+        setDataElements(json["datastory"]);
+        if (json["status"]["logged_in"] === "yes") {
+            setUserLoggedin(true);
+        }
         setLoading(false);
     }
 
@@ -178,6 +183,7 @@ function Story() {
                 commentMode={commentMode}
                 setCommentMode={setCommentMode}
                 reload={reload}
+                userLoggedIn={userLoggedIn}
             />
 
         </>

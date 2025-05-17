@@ -2,6 +2,8 @@ import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {SettingsLoaderFunction} from "./settingsLoader";
+import UserRights from "../editorElements/userRights";
+
 import {API_URL} from "../misc/functions";
 
 function StorySettings() {
@@ -11,12 +13,15 @@ function StorySettings() {
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState("D");
     const [title, setTitle] = useState("");
+    const [rights, setRights] = useState([]);
+
 
     async function get_settings(store) {
         const response = await fetch(API_URL + '/settings/?ds=' + store);
         const data = await response.json();
         setStatus(data.status);
         setTitle(data.title);
+        setRights(data.rights);
         setLoading(false);
     }
 
@@ -55,15 +60,11 @@ function StorySettings() {
                 </div>
                 <div className="settingsItem">
                     <div className="settingItemHeader">Sharing <span className="addShareBtn">+</span></div>
-                    <div className="sharedWithRow">
-                        <div className="shareName">menzo.windhouwer@di.huc.knaw.nl</div>
-                        <div className="shareRights">Full control</div>
-                        <div className="shareButton">edit</div>
-                        <div className="shareButton">delete</div>
-                    </div>
-                    <div></div>
+                    {rights.map((item, index) => {
+                        return (<UserRights item={item} key={index}/>);
+                    })}
                 </div>
-                <div className="settingsBtnBar"><button className="editorPanelBtn" onClick={() => navigate("/")}>Close</button></div>
+                <div className="settingsBtnBar"><button className="editorPanelBtn"  onClick={() => navigate("/")}>Close</button></div>
             </div>
         </div>
     </>);

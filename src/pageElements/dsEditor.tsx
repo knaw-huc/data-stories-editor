@@ -28,7 +28,8 @@ function DsEditor({
                       setEditMode,
                       commentMode,
                       setCommentMode,
-                      reload
+                      reload,
+                      userLoggedIn
                   }: {
     uuid: string
     currentEditBlock: object,
@@ -43,7 +44,8 @@ function DsEditor({
     setEditMode: Function,
     commentMode: boolean,
     setCommentMode: Function,
-    reload: Function
+    reload: Function,
+    userLoggedIn: Boolean
 }) {
 
 
@@ -66,7 +68,7 @@ function DsEditor({
     const [provenance, setProvenance] = useState<Object>({});
     const [block, setBlock] = useState<Object>({});
     const [writing, setWriting] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(userLoggedIn);
 
     //const blockIndex = findBlockById(currentEditBlock["block_id"]);
 
