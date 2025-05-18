@@ -5,6 +5,7 @@ import {SettingsLoaderFunction} from "./settingsLoader";
 import UserRights from "../editorElements/userRights";
 
 import {API_URL} from "../misc/functions";
+import NewUser from "../editorElements/newUser";
 
 function StorySettings() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ function StorySettings() {
     const [status, setStatus] = useState("D");
     const [title, setTitle] = useState("");
     const [rights, setRights] = useState([]);
+    const [newUser, setNewUser] = useState(false);
 
 
     async function get_settings(store) {
@@ -40,6 +42,11 @@ function StorySettings() {
         navigate("/");
     }
 
+    const reload = () => {
+        setLoading(true);
+        setNewUser(false);
+    }
+
     useEffect(() => {
         const data = get_settings(store);
         setLoading(false);
@@ -59,11 +66,12 @@ function StorySettings() {
                     <div className="settingsBtnBar"><button className="editorPanelBtn" onClick={() => {save()}}>Save</button></div>
                 </div>
                 <div className="settingsItem">
-                    <div className="settingItemHeader">Sharing <span className="addShareBtn">+</span></div>
+                    <div className="settingItemHeader">Sharing <span className="addShareBtn" onClick={() => {setNewUser(true)}}>+</span></div>
                     {rights.map((item, index) => {
-                        return (<UserRights item={item} key={index}/>);
+                        return (<UserRights item={item} key={index} uuid={store}/>);
                     })}
                 </div>
+                {newUser && <NewUser reload={reload} uuid={store}/>}
                 <div className="settingsBtnBar"><button className="editorPanelBtn"  onClick={() => navigate("/")}>Close</button></div>
             </div>
         </div>

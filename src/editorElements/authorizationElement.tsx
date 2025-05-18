@@ -7,6 +7,7 @@ export default function AuthorizationElement({setEditRights, rights}: {setEditRi
         "Read story", "Write story", "Delete story", "Comment on story", "Change story settings"
     ];
     const values = ["R", "W", "D", "C", "S"];
+    let ro = true;
 
     const isItemChecked = (i) => {
         if (rights[i] === "-") {
@@ -24,9 +25,15 @@ export default function AuthorizationElement({setEditRights, rights}: {setEditRi
         <div className="sharedWithRow">
             <div>
                 {userRights.map((item, index) => {
+                    if (values[index] === 'R') {
+                        ro = true
+                    } else {
+                        ro = false;
+                    }
                     return (<li className="rightsList">
                         <input style={{display: "inline"}}
                             type="checkbox"
+                            disabled={ro}
                             id={`custom-checkbox-${index}`}
                             value={values[index]}
                             checked={isItemChecked(index)}
