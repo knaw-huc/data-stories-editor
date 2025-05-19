@@ -29,7 +29,7 @@ function StorySettings() {
 
     async function save() {
         const jsonStruc = {"id": store, "status": status}
-        console.log(jsonStruc);
+        //console.log(jsonStruc);
         const result = await fetch(API_URL + '/set_settings', {
             method: 'POST',
             headers: {
@@ -68,7 +68,7 @@ function StorySettings() {
                 <div className="settingsItem">
                     <div className="settingItemHeader">Sharing <span className="addShareBtn" onClick={() => {setNewUser(true)}}>+</span></div>
                     {rights.map((item, index) => {
-                        return (<UserRights item={item} key={index} uuid={store}/>);
+                        return (<UserRights reload={reload} item={item} key={index} uuid={store}/>);
                     })}
                 </div>
                 {newUser && <NewUser reload={reload} uuid={store}/>}

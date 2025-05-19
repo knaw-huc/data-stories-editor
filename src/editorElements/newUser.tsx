@@ -31,6 +31,7 @@ export default function NewUser({reload, uuid}: {reload: Function, uuid: string}
             Loading users...
         </div>) : (
             <div>
+                <div className="sharedWithRow">Add rights for user</div>
             <select onChange={e => setUserEppn(e.currentTarget.value)}>
                 {users.map((item, index) => {
                     return (<option value={item["eppn"]}>{item["email"]}</option>)

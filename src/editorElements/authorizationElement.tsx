@@ -1,8 +1,10 @@
 import React, {useState} from "react";
+import RightsCheckBoxElement from "./rightsCheckBoxElement";
+import {API_URL} from "../misc/functions";
 
-export default function AuthorizationElement({setEditRights, rights}: {setEditRights: Function, rights: string}) {
+export default function AuthorizationElement({uuid, eppn, setEditRights, rights, reload}: {uuid: string, eppn: string, setEditRights: Function, rights: string, reload: Function}) {
     const [userRights, setUserRights] = useState(rights.split(""));
-    const [refresh, setRefresh] = useState(false);
+    //const [refresh, setRefresh] = useState(false);
     const labels = [
         "Read story", "Write story", "Delete story", "Comment on story", "Change story settings"
     ];
@@ -10,40 +12,58 @@ export default function AuthorizationElement({setEditRights, rights}: {setEditRi
     let ro = true;
 
     const isItemChecked = (i) => {
-        if (rights[i] === "-") {
+        if (userRights[i] === "-") {
             return false;
         } else {
             return true;
         }
     }
 
-    function handleOnChange(index) {
-
+    const saveRights = (uuid, eppn, rightStr) => {
+        const data = {
+            uuid: uuid,
+            eppn: eppn,
+            rights: rightStr
+        }
+        sendData(data);
     }
+
+    async function sendData(data) {
+        const result = await fetch(API_URL + '/save_user_rights', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const res = await result.json()
+        setEditRights(false);
+        reload()
+    }
+
+
+
 
     return (
         <div className="sharedWithRow">
-            <div>
+            <div style={{display: "block"}}>
                 {userRights.map((item, index) => {
                     if (values[index] === 'R') {
                         ro = true
                     } else {
                         ro = false;
                     }
-                    return (<li className="rightsList">
-                        <input style={{display: "inline"}}
-                            type="checkbox"
-                            disabled={ro}
-                            id={`custom-checkbox-${index}`}
-                            value={values[index]}
-                            checked={isItemChecked(index)}
-                            onChange={() => handleOnChange(index)}
-                        />
-                        <label style={{display: "inline"}}>{labels[index]}</label>
-                    </li>)}
+                    return (
+                        <div style={{display: "block"}}>
+                            <RightsCheckBoxElement index={index} ro={ro} value={values[index]} isChecked={isItemChecked(index)} label={labels[index]} rights={userRights} setUserRights={setUserRights}/>
+                        </div>)}
                 )}
             </div>
-            <button style={{margin: "20px 30px"}} onClick={() => setEditRights(false)}>Save</button>
+            <div className="settingsBtnBar">
+                <button  className="editorPanelBtn"  onClick={() => {saveRights(uuid, eppn, userRights.toString().replaceAll(",", ""))}}>Save</button>
+                <button className="editorPanelBtn" onClick={() => setEditRights(false)}>Discard</button>
+            </div>
         </div>
     )
 }
