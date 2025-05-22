@@ -4,6 +4,7 @@ export interface IStoryItem {
     store: string,
     owner: string,
     groep: string,
+    rights: string
     created: string,
     modified: string,
     status: string,

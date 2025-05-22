@@ -84,10 +84,14 @@ font-family: "Roboto", sans-serif;
 font-weight: bold;
 }
 
-.panelIcon{
+.panelIcon, .panelIconDisabled {
 display: inline-block;
 width: 12px;
 height: 12px;
+}
+
+.panelIconDisabled{
+opacity: 0.2;
 }
 
 .editorWrapper {

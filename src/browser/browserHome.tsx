@@ -21,7 +21,7 @@ function BrowserHome() {
         const json = await response.json();
         setData(json);
         if (json.auth.logged_in === 'yes') {
-            document.getElementById("login_status").innerText = "Rob Zeeman";
+            document.getElementById("login_status").innerText = json.auth.user;
             setLoggedIn(true);
         }
         setLoading(false);
@@ -100,13 +100,15 @@ function BrowserHome() {
                             <div className="dsResultCell">Title</div>
                             <div className="dsResultCell">Status</div>
                             <div className="dsResultCell">Owner</div>
-                            <div className="dsResultCell">Group</div>
+                            {/*<div className="dsResultCell">Group</div>*/}
                             <div className="dsResultCell">Created</div>
                             <div className="dsResultCell">Modified</div>
-                            <div className="dsPicResultCell"> </div>
-                            {loggedIn && <><div className="dsPicResultCell"> </div>
-                            <div className="dsPicResultCell"> </div>
-                            <div className="dsPicResultCell"> </div></>}
+                            <div className="dsPicResultCell"></div>
+                            {loggedIn && <>
+                                <div className="dsPicResultCell"></div>
+                                <div className="dsPicResultCell"></div>
+                                <div className="dsPicResultCell"></div>
+                            </>}
                         </div>
                         {data.structure.map((item, index: number) => {
                             return (
@@ -119,41 +121,62 @@ function BrowserHome() {
                                     <div className="dsResultCell">{item.title}</div>
                                     <div className="dsResultCell">{getStatus(item.status)}</div>
                                     <div className="dsResultCell">{item.owner}</div>
-                                    <div className="dsResultCell">{item.groep}</div>
+                                   {/* <div className="dsResultCell">{item.groep}</div>*/}
                                     <div className="dsResultCell">{item.created}</div>
                                     <div className="dsResultCell">{item.modified}</div>
-                                    <div title="View datastory" className="dsPicResultCell"><img className="panelIcon" src={icon_view}/></div>
-                                    {loggedIn && <div title="Edit datastory" className="dsPicResultCell" onClick={() => {
-                                        setActiveStore(item.uuid);
-                                        navigate("story/" + item.uuid);
-                                    }}><img className="panelIcon" src={icon_edit}/></div>}
-                                    {loggedIn && <div title="Delete datastory" className="dsPicResultCell" onClick={() => {delete_datastory(item.uuid)}}><img className="panelIcon" src={icon_delete}/></div>}
-                                    {loggedIn && <div title="Settings" className="dsPicResultCell" onClick={() => {
+                                    <div title="View datastory" className="dsPicResultCell"><img className="panelIcon"
+                                                                                                 src={icon_view}/></div>
+                                    {loggedIn &&
+                                    <>
+                                        {item.rights[1] === 'W' ? (
+                                            <div title="Edit datastory" className="dsPicResultCell" onClick={() => {
+                                                setActiveStore(item.uuid);
+                                                navigate("story/" + item.uuid);
+                                            }}><img className="panelIcon" src={icon_edit}/></div>) : (
+                                            <div title="Edit datastory" className="dsPicResultCell"><img
+                                                className="panelIconDisabled" src={icon_edit}/></div>
+                                        )}</>}
+                                    {loggedIn &&
+                                    <>{item.rights[2] === 'D' ? (
+                                        <div title="Delete datastory" className="dsPicResultCell" onClick={() => {
+                                            delete_datastory(item.uuid)
+                                        }}><img className="panelIcon" src={icon_delete}/></div>) : (
+                                        <div className="dsPicResultCell"><img className="panelIconDisabled"
+                                                                              src={icon_delete}/></div>)}</>}
+                                    {loggedIn && <>{item.rights[4] === 'S' ? (<div title="Settings" className="dsPicResultCell" onClick={() => {
                                         setActiveStore(item.uuid);
                                         navigate("settings/" + item.uuid);
-                                    }}><img className="panelIcon" src={icon_settings}/></div>}
+                                    }}><img className="panelIcon" src={icon_settings}/></div>) : (
+                                        <div title="Settings" className="dsPicResultCell"><img className="panelIconDisabled" src={icon_settings}/></div>
+                                    )}</>}
                                 </div>
                             )
                         })}
                     </div>
                     <div className="homeText"><h3>About this version</h3>
                         <div>
-                            This version of the Data Stories editor is not an official version, but a demonstration of the work in progress.
-                            The viewer mode of the editor is nearly completed, but editing a complete data story is nog yet possible.
+                            This version of the Data Stories editor is not an official version, but a demonstration of
+                            the work in progress.
+                            The viewer mode of the editor is nearly completed, but editing a complete data story is nog
+                            yet possible.
                         </div>
                         <div>
-                            Editing texts and adding images and external media is possible, but the SPARQL editor is still in progress. That's also the case for the metadata and provenance editors.<br/>
+                            Editing texts and adding images and external media is possible, but the SPARQL editor is
+                            still in progress. That's also the case for the metadata and provenance editors.<br/>
                             Global metadata are editable, but limited, due to an overhaul of the metadata editor.
                         </div>
                         <div>
-                            The release of the first test version is expected in the first week of May. That version will contain the main part of the projected functionality, like:
+                            The release of the first test version is expected in the first week of May. That version
+                            will contain the main part of the projected functionality, like:
                             <ul>
                                 <li>The SPARQL editor</li>
                                 <li>Metadata and provenance editors</li>
                                 <li>Authorisation</li>
                                 <li>Comments</li>
                             </ul>
-                            <div>Besides these features we are working on bugfixing, user documentation and improving usability.</div>
+                            <div>Besides these features we are working on bugfixing, user documentation and improving
+                                usability.
+                            </div>
 
                         </div>
                     </div>
