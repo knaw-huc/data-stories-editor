@@ -17,7 +17,7 @@ root.render(
           <Route path="/" element={<App/>}>
               <Route index element={<BrowserHome/>}/>
               <Route path="story" element={<Story/>}>
-                  <Route path=":store" element={<Story/>}/>
+                  <Route path=":status/:store" element={<Story/>}/>
               </Route>
               <Route path="settings" element={<StorySettings/>}>
                   <Route path=":store" element={<StorySettings/>}/>

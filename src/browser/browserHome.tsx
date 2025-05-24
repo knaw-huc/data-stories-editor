@@ -124,14 +124,17 @@ function BrowserHome() {
                                    {/* <div className="dsResultCell">{item.groep}</div>*/}
                                     <div className="dsResultCell">{item.created}</div>
                                     <div className="dsResultCell">{item.modified}</div>
-                                    <div title="View datastory" className="dsPicResultCell"><img className="panelIcon"
+                                    <div title="View datastory" className="dsPicResultCell" onClick={() => {
+                                        setActiveStore(item.uuid);
+                                        navigate("story/view/" + item.uuid);
+                                    }}><img className="panelIcon"
                                                                                                  src={icon_view}/></div>
                                     {loggedIn &&
                                     <>
                                         {item.rights[1] === 'W' ? (
                                             <div title="Edit datastory" className="dsPicResultCell" onClick={() => {
                                                 setActiveStore(item.uuid);
-                                                navigate("story/" + item.uuid);
+                                                navigate("story/edit/" + item.uuid);
                                             }}><img className="panelIcon" src={icon_edit}/></div>) : (
                                             <div title="Edit datastory" className="dsPicResultCell"><img
                                                 className="panelIconDisabled" src={icon_edit}/></div>

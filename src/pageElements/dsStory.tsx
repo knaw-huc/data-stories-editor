@@ -5,13 +5,16 @@ import DsStoryBlock from "./dsStoryBlock";
 import DsEditor from "./dsEditor";
 import YasguiBlock from "./yasguiBlock";
 import {API_URL} from "../misc/functions";
-
-
+import {VIEW} from "../misc/functions";
+import {EDIT} from "../misc/functions";
+import {COMMENT} from "../misc/functions";
+import {hasRight} from "../misc/functions";
 
 function Story() {
     const navigate = useNavigate();
     const params = useParams();
     const store = params.store as string;
+    const storyStatus = params.status as string;
     const [storyHeader, setStoryHeader] = useState(Object);
     const [loading, setLoading] = useState(true);
     const [currentEditBlock, setCurrentEditBlock] = useState({"block_id": ""});
@@ -23,7 +26,9 @@ function Story() {
     const [storyOrder, setStoryOrder] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [commentMode, setCommentMode] = useState(false);
-    const [userLoggedIn, setUserLoggedin] = useState(true);
+    const [userLoggedIn, setUserLoggedin] = useState(false);
+    const [canEdit, setCanEdit] = useState(false);
+    const [canComment, setCanComment] = useState(false);
 
     //console.log('currentDataStory', currentDataStory);
 
@@ -48,10 +53,26 @@ function Story() {
         setDataElements(json["datastory"]);
         if (json["status"]["logged_in"] === "yes") {
             setUserLoggedin(true);
+            if (hasRight(json["status"]["rights"], EDIT)) {
+                setCanEdit(true);
+                if (checkStoryStatus(storyStatus)) {
+                    setEditMode(true);
+                }
+            }
+            if (hasRight(json["status"]["rights"], COMMENT)) {
+                setCanComment(true);
+            }
         }
         setLoading(false);
     }
 
+    function checkStoryStatus(str) {
+        if (str === "edit") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     function checkDataStoryData(data) {
@@ -103,7 +124,6 @@ function Story() {
         }
         return out;
     }
-
 
     return (
         <>
@@ -184,6 +204,8 @@ function Story() {
                 setCommentMode={setCommentMode}
                 reload={reload}
                 userLoggedIn={userLoggedIn}
+                canEdit={canEdit}
+                canComment={canComment}
             />
 
         </>

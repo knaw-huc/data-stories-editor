@@ -29,7 +29,9 @@ function DsEditor({
                       commentMode,
                       setCommentMode,
                       reload,
-                      userLoggedIn
+                      userLoggedIn,
+                      canEdit,
+                      canComment
                   }: {
     uuid: string
     currentEditBlock: object,
@@ -45,9 +47,10 @@ function DsEditor({
     commentMode: boolean,
     setCommentMode: Function,
     reload: Function,
-    userLoggedIn: Boolean
+    userLoggedIn: Boolean,
+    canEdit: boolean,
+    canComment: boolean
 }) {
-
 
     let hasId = false
     if (currentEditBlock['block_id'] != '') {
@@ -413,14 +416,14 @@ function DsEditor({
                     <div
                         style={{display: 'flex', flexDirection: 'row'}}>
                         {writing && <div className="writeMsg">Writing data story...</div>}
-                        {editMode && <>
-                            <button className="lowerMenuBtn" onClick={() => {
+                        {editMode && <div>
+                            {canComment && <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setStyle("panel_edit fixedBottom editorDown");
                                 setCommentMode(true)
                             }}>
                                 Comments
-                            </button>
+                            </button>}
                             <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setCommentMode(false);
@@ -433,8 +436,8 @@ function DsEditor({
                                 saveStory()
                             }}>Save story
                             </button>
-                        </>}
-                        {commentMode && <>
+                        </div>}
+                        {commentMode && <div>
                             <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setCommentMode(false);
@@ -443,40 +446,39 @@ function DsEditor({
                             }}>
                                 View story
                             </button>
-                            <button className="lowerMenuBtn" onClick={() => {
-                                saveStory()
-                            }}>Save story
-                            </button>
-                            <button className="lowerMenuBtn" onClick={() => {
-                                setEditMode(true);
-                                setCommentMode(false);
-                            }}>
-                                Edit story
-                            </button>
-                        </>}
-                        {!editMode && !commentMode && loggedIn && <>
-                            <button className="lowerMenuBtn" onClick={() => {
+                            {canEdit ? ( <div>
+                                <button className="lowerMenuBtn" onClick={() => {
+                                    saveStory()
+                                }}>Save story
+                                </button>
+                                <button className="lowerMenuBtn" onClick={() => {
+                                    setEditMode(true);
+                                    setCommentMode(false);
+                                }}>
+                                    Edit story
+                                </button>
+                            </div>) : (<button className="lowerMenuBtn">Faaahk!</button>)}
+                        </div>}
+                        {!editMode && !commentMode && loggedIn && <div>
+                            {canComment && <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setStyle("panel_edit fixedBottom editorDown");
                                 setCommentMode(true)
                             }}>
                                 Comments
-                            </button>
-                            <button className="lowerMenuBtn" onClick={() => {
+                            </button>}
+                            {canEdit && <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(true);
                                 setCommentMode(false);
                             }}>
                                 Edit story
-                            </button>
-                        </>}
+                            </button>}
+                        </div>}
 
                         <button className="lowerMenuBtn" onClick={() => {
                             navigate("/")
                         }}>Close story
                         </button>
-                        {/*{editMode && hasId && <button type="button" onClick={changeStyle} className="lowerMenuBtn">
-                            {editorStatus ? (<>Edit</>) : (<>Preview</>)}
-                        </button>}*/}
 
                     </div>
 
@@ -488,7 +490,8 @@ function DsEditor({
                     {!block.hasOwnProperty("_attributes") && mimeType !== 'metadata' &&
                     <div><strong>No block selected</strong></div>}
                     {mimeType === "metadata" &&
-                    <MetadataStory dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle} reload={reload}/>}
+                    <MetadataStory dsData={dataStoryData} setDsData={setDataStoryData} changeStyle={changeStyle}
+                                   reload={reload}/>}
                     {mimeType === "image/*" &&
                     <ImageElement block={block} changeStyle={changeStyle} setCurrentEditBlock={setCurrentEditBlock}
                                   uuid={uuid}/>}

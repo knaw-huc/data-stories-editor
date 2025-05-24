@@ -1,6 +1,12 @@
 export const API_URL = 'http://localhost:5000/';
 //export const API_URL = 'https://storyservice.sd.di.huc.knaw.nl/';
 
+export const VIEW = 0;
+export const EDIT = 1;
+export const DELETE = 2;
+export const COMMENT = 3;
+export const SETTINGS = 4;
+
 export const mdFields =
     {
         "dct:abstract": {"class": "abstract", "label": "Abstract"},
@@ -169,5 +175,13 @@ function wrapText(arr) {
         retObj.push({"_text": arr[key]});
     }
     return retObj;
+}
+
+export function hasRight(rights, index) {
+    if (rights[index] !== "-") {
+        return true;
+    } else {
+        return false;
+    }
 }
 
