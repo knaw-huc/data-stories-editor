@@ -26,7 +26,7 @@ function Story() {
     const [storyOrder, setStoryOrder] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [commentMode, setCommentMode] = useState(false);
-    const [userLoggedIn, setUserLoggedin] = useState(false);
+    const [userLoggedIn, setUserLoggedin] = useState(true);
     const [canEdit, setCanEdit] = useState(false);
     const [canComment, setCanComment] = useState(false);
 

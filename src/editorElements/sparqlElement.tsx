@@ -60,6 +60,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
             if (block["ds:Cues"]["wp4:data-output-config"] !== undefined) {
                 const chartOptions = JSON.parse(block["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
                 tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
+                tab.yasr.plugins.Chart.defaults.chartOptions = chartOptions;
             }
         }
         if (block["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && block["ds:Cues"]["ds:visualisation"]["_text"] === 'table') {

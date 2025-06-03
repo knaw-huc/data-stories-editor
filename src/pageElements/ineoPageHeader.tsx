@@ -15,7 +15,7 @@ function PageHeader() {
         <div className="topHeader">
             <div className="topHeader__brand">
                 <img src={logo} alt=""/>
-                <div className="dsBrandName isLinkElement" onClick={() => {nav("/")}}>Data Stories</div>
+                <div className="dsBrandName isLinkElement" onClick={() => {nav("/")}}>Data Stories (<span style={{fontSize: 'smaller'}}> beta version</span>)</div>
             </div>
             <div>
                 <nav id="login_status"><div style={{"cursor": "pointer"}} onClick={() => {login()}}>

@@ -50,6 +50,7 @@ export default function YasguiBlock({
             if (content["ds:Cues"]["wp4:data-output-config"] !== undefined) {
                 const chartOptions = JSON.parse(content["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
                 tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
+                tab.yasr.plugins.Chart.defaults.defs = chartOptions.chartConfig.options;
             }
         }
         if (content["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && content["ds:Cues"]["ds:visualisation"]["_text"] === 'table') {

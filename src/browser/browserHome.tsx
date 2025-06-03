@@ -49,7 +49,7 @@ function BrowserHome() {
         const response = await fetch(API_URL + 'create_new');
         const json = await response.json();
         if (json.datastory_id !== undefined) {
-            navigate('story/' + json.datastory_id);
+            navigate(0);
         } else {
             alert("ERROR: No new data story created!");
         }

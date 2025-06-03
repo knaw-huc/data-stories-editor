@@ -71,7 +71,7 @@ function DsEditor({
     const [provenance, setProvenance] = useState<Object>({});
     const [block, setBlock] = useState<Object>({});
     const [writing, setWriting] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(userLoggedIn);
+    //const [loggedIn, setLoggedIn] = useState(userLoggedIn);
 
     //const blockIndex = findBlockById(currentEditBlock["block_id"]);
 
@@ -416,7 +416,7 @@ function DsEditor({
                     <div
                         style={{display: 'flex', flexDirection: 'row'}}>
                         {writing && <div className="writeMsg">Writing data story...</div>}
-                        {editMode && <div>
+                        {editMode && <>
                             {canComment && <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setStyle("panel_edit fixedBottom editorDown");
@@ -436,8 +436,8 @@ function DsEditor({
                                 saveStory()
                             }}>Save story
                             </button>
-                        </div>}
-                        {commentMode && <div>
+                        </>}
+                        {commentMode && <>
                             <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setCommentMode(false);
@@ -446,7 +446,7 @@ function DsEditor({
                             }}>
                                 View story
                             </button>
-                            {canEdit ? ( <div>
+                            {canEdit && <>
                                 <button className="lowerMenuBtn" onClick={() => {
                                     saveStory()
                                 }}>Save story
@@ -457,9 +457,9 @@ function DsEditor({
                                 }}>
                                     Edit story
                                 </button>
-                            </div>) : (<button className="lowerMenuBtn">Faaahk!</button>)}
-                        </div>}
-                        {!editMode && !commentMode && loggedIn && <div>
+                            </>}
+                        </>}
+                        {!editMode && !commentMode && <>
                             {canComment && <button className="lowerMenuBtn" onClick={() => {
                                 setEditMode(false);
                                 setStyle("panel_edit fixedBottom editorDown");
@@ -473,7 +473,7 @@ function DsEditor({
                             }}>
                                 Edit story
                             </button>}
-                        </div>}
+                        </>}
 
                         <button className="lowerMenuBtn" onClick={() => {
                             navigate("/")
