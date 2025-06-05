@@ -219,3 +219,11 @@ color: #0a3069;
 .rightsList{
 list-style-type: none;
 }
+
+#announcement{
+display: block;
+font-weight: bold;
+width: 100%;
+text-align: center;
+padding-top:40px;
+}

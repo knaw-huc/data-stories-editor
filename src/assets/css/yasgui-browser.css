@@ -188,3 +188,16 @@ z-index: 99 !important;
  cursor: pointer;
 }
 
+#chartDefsBuffer{
+ display: none;
+}
+
+#edErrorArea{
+ font-weight: bold;
+ color: #bb0000;
+ font-size: smaller;
+}
+ #prevHolder{
+  width: 500px;
+ }
+

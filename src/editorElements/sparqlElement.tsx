@@ -19,6 +19,10 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     const blockID = 'yasgui_' + block["_attributes"]["xml:id"];
     let yasProps = null;
     localStorage.removeItem("yagui__config");
+    const reloadGraph = function () {
+
+        yasMerin();
+    }
 
 
     /*if (block["ds:Cues"] === undefined) {
@@ -60,7 +64,13 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
             if (block["ds:Cues"]["wp4:data-output-config"] !== undefined) {
                 const chartOptions = JSON.parse(block["ds:Cues"]["wp4:data-output-config"]["_cdata"]);
                 tab.yasr.plugins.Chart.defaults.typeChart = chartOptions.chartConfig.chartType;
-                tab.yasr.plugins.Chart.defaults.chartOptions = chartOptions;
+                if (document.getElementById("chartDefsBuffer").innerText !== "") {
+                    let opt = JSON.parse(document.getElementById("chartDefsBuffer").innerText);
+                    tab.yasr.plugins.Chart.defaults.defs = opt.chartConfig.options;
+                } else {
+                    tab.yasr.plugins.Chart.defaults.defs = chartOptions.chartConfig.options;
+                }
+                tab.yasr.plugins.Chart.defaults.reload = reloadGraph;
             }
         }
         if (block["ds:Cues"]?.["ds:visualisation"]?.["_text"] !== undefined && block["ds:Cues"]["ds:visualisation"]["_text"] === 'table') {
@@ -82,6 +92,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     break;
                 case 'Chart':
                     viz = 'gchart';
+                    block["ds:Cues"]["wp4:data-output-config"]["_cdata"] = document.getElementById("chartDefsBuffer").innerText;
                     break;
                 default:
                     viz = 'table';
@@ -96,6 +107,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     function yasMerin() {
         if (hasEndpoint) {
             localStorage.removeItem("yagui__config");
+            document.getElementById("yasgui_ed").innerHTML = '';
             const list = document.getElementById("yasgui_ed").getElementsByClassName("yasgui");
             Yasgui.Yasr.registerPlugin("Geo", yasGeo);
             Yasgui.Yasr.registerPlugin("Chart", yasChart);
@@ -135,8 +147,10 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     <h4>Header</h4>
                     <div className="editorWrapper">
                     <input type="text" id="caption" defaultValue={caption}  size={200} onChange={handleChange}/>
+
                     </div>
-                    <h4>Query file</h4>
+                    <div id="chartDefsBuffer"></div>
+                    {/*<h4>Query file</h4>
                     {hasQueryFile ? (
                         <div>
                             <div>{block["_attributes"]["href"]}</div><br/>
@@ -147,7 +161,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                         <div>No query file</div><br/>
                         <button>Add</button>
                         </div>
-                    )}
+                    )}*/}
 
                     <h4>Query</h4>
                     <div id="yasgui_ed" /></div>) : (<div>No endpoint defined!</div>)}

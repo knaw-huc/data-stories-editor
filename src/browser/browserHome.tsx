@@ -93,6 +93,7 @@ function BrowserHome() {
             </div>
             {loading ? (
                 <div>Data stories loading...</div>
+                //<div id={"announcement"}>CLARIAH Data Stories Editor will be available from June 11th.</div>
             ) : (
                 <div>
                     <div className="dsResultTable">
