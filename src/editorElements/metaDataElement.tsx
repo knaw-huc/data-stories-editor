@@ -1,13 +1,13 @@
 import React from "react";
-import {mdFields} from "../misc/functions";
+import {fillFields, mdFields} from "../misc/functions";
 import FieldElement from "./fieldElement";
 import FieldGroupElement from "./fieldGroupElement";
 import AreaFieldElement from "./areaFieldElement";
 import UriFieldElement from "./uriFieldElement";
 import OtherMetadata from "./otherMetadata";
 
-export default function MetadataElement({setEditorStatus}: {setEditorStatus: Function}) {
-    let fields = [];
+export default function MetadataElement({setEditorStatus, metadata}: {setEditorStatus: Function, metadata: object}) {
+    let fields = fillFields(metadata);
     let block = [];
 
     const changeFields = (fieldName, list) => {

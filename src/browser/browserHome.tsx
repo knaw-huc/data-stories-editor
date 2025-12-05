@@ -5,7 +5,7 @@ import {IResultList} from "../misc/interfaces";
 import icon_edit from '../assets/img/icons/icon-edit.svg';
 import icon_delete from '../assets/img/icons/icon-delete.svg';
 import icon_settings from '../assets/img/icons/icon-settings.svg';
-import icon_view from '../assets/img/icons/icon-search.svg';
+import icon_view from '../assets/img/icons/documents-svgrepo-com.svg';
 import {API_URL} from "../misc/functions";
 
 function BrowserHome() {
@@ -117,9 +117,9 @@ function BrowserHome() {
                                      key={index} onClick={() => setActiveStore(item.uuid)}
                                      onDoubleClick={() => {
                                          setActiveStore(item.uuid);
-                                         navigate("story/" + activeStore);
+                                         navigate("story/view/" + activeStore);
                                      }}>
-                                    <div className="dsResultCell">{item.title}</div>
+                                    <div className="dsResultCell dsTitleCell">{item.title}</div>
                                     <div className="dsResultCell">{getStatus(item.status)}</div>
                                     <div className="dsResultCell">{item.owner}</div>
                                    {/* <div className="dsResultCell">{item.groep}</div>*/}

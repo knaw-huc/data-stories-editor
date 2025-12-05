@@ -83,7 +83,7 @@ function ImageElement({block, changeStyle, setCurrentEditBlock, uuid}: { block: 
                 </div>
             </div></div>}
                 {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setP={setProvenance} setEditorStatus={setEditorStatus}/>}
-                {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
+                {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus} metadata={block["ds:Metadata"]}/>}
         </div>
     )
 }

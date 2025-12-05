@@ -20,7 +20,6 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
     let yasProps = null;
     localStorage.removeItem("yagui__config");
     const reloadGraph = function () {
-
         yasMerin();
     }
 
@@ -167,7 +166,7 @@ function SparqlElement({block, endpoint, store, changeStyle}: {block: object, en
                     <div id="yasgui_ed" /></div>) : (<div>No endpoint defined!</div>)}
             </div></div>}
             {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setP={setProvenance} setEditorStatus={setEditorStatus}/>}
-            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus} metadata={block["ds:Metadata"]}/>}
         </div>
     )
 }

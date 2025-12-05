@@ -75,13 +75,6 @@ function Story() {
     }
 
 
-    function checkDataStoryData(data) {
-        return new Promise((resolve, reject) => {
-            setDataStoryData(data)
-            resolve(data);
-        })
-    }
-
 
 
     function setDataElements(data) {

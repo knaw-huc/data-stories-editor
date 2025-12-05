@@ -77,7 +77,7 @@ function FrameElement({block, changeStyle}: { block: object, changeStyle: Functi
                 </div>
             </div>}
             {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={block["ds:Provenance"]} setP={setProvenance} setEditorStatus={setEditorStatus}/>}
-            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus} metadata={block["ds:Metadata"]}/>}
         </div>
     )
 }

@@ -16,7 +16,6 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
         block["_text"] = value;
         block["ds:Metadata"]["dct:title"]["_text"] = headerValue;
         block["ds:Provenance"] = provenance;
-        console.log(block);
         changeStyle();
     }
 
@@ -62,7 +61,7 @@ function MarkdownElement({block, changeStyle}: {block: object, changeStyle: Func
                     <button onClick={() => {changeStyle()}}>Dismiss</button>
                 </div></div>}
             {editorStatus === "provenance" && <ProvenanceElement provenanceBlock={provenance} setP={sp} setEditorStatus={setEditorStatus}/>}
-            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus}/>}
+            {editorStatus === "metadata" && <MetadataElement setEditorStatus={setEditorStatus} metadata={block["ds:Metadata"]}/>}
         </div>
     )
 }
